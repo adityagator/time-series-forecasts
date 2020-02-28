@@ -4,6 +4,7 @@ from statsmodels.tsa.arima_model import ARMA
 from statsmodels.tsa.arima_model import ARIMA
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
+
 def auto_reg(data):
     model = AR(data)
     model_fit = model.fit()
@@ -38,11 +39,6 @@ def sarima(data):
     # make prediction
     yhat = model_fit.predict(len(data), len(data))
     print(yhat)
-
-# data = [x + random() for x in range(1, 100)]
-#data = [random() for x in range(1, 100)]
-#auto_reg(data)
-
 
 
 

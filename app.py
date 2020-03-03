@@ -58,10 +58,6 @@ def weighted_average(series, weights):
         result += series.iloc[-n-1] * weights[n]
     return result
 
-
-
-
-
 def arima(data):
     model = ARIMA(data, order=(1, 1, 0))
     model_fit = model.fit(disp=False)
@@ -97,13 +93,20 @@ def sarima(data):
     yhat = model_fit.predict(len(data), len(data))
     return(yhat)
 
+def ses(data):
+    model = SimpleExpSmoothing(data)
+    model_fit = model.fit()
+    # make prediction
+    yhat = model_fit.predict(len(data), len(data))
+    return(yhat)
 
+def hwes(data):
 
-
-
-
-
-
+    model = ExponentialSmoothing(data)
+    model_fit = model.fit()
+    # make prediction
+    yhat = model_fit.predict(len(data), len(data))
+    return yhat
 
 
 data = 'input.csv'
@@ -198,8 +201,42 @@ for key,value in data.items():
     print('Predicted values for last 4 months : ', predicted_sarima)
     print('Mean Squared Error: ', mse_sarima)
     print()
+
+    #SES Method
+    train_ses = train
+    test_ses = test
+    predicted_ses=[]
+    for i in range(0,len(test_ses)):
+        yhat_ses = float(sarima(train_ses))
+        train_ses.append(float(yhat_ses))
+        predicted_ses.append(float(yhat_ses))
+    
+    mse_ses = mean_squared_error(test_ses, predicted_ses)
+    
+    print('SARIMA Method :')
+    print('Predicted values for last 4 months : ', predicted_ses)
+    print('Mean Squared Error: ', mse_ses)
+    print()
+
+    #HWES Method
+    train_hwes = train
+    test_hwes = test
+    predicted_hwes=[]
+    for i in range(0,len(test_hwes)):
+        yhat_hwes = float(sarima(train_hwes))
+        train_hwes.append(float(yhat_hwes))
+        predicted_hwes.append(float(yhat_hwes))
+    
+    mse_hwes = mean_squared_error(test_hwes, predicted_hwes)
+    
+    print('SARIMA Method :')
+    print('Predicted values for last 4 months : ', predicted_hwes)
+    print('Mean Squared Error: ', mse_hwes)
+    print()
     
     print('____________________________')
+
+
   
     
     

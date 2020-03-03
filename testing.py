@@ -206,6 +206,24 @@ for key,value in data.items():
     print()
     
     
+    #SES Method
+    train_ses = train
+    test_ses = test
+    predicted_ses=[]
+    for i in range(0,len(test_ses)):
+        yhat_ses = float(sarima(train_ses))
+        train_ses.append(float(yhat_ses))
+        predicted_ses.append(float(yhat_ses))
+    
+    mse_ses = mean_squared_error(test_ses, predicted_ses)
+    
+    print('SES Method :')
+    print('Predicted values for last 4 months : ', predicted_ses)
+    print('Mean Squared Error: ', mse_ses)
+    print()
+    
+
+    
     
     
     

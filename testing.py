@@ -48,6 +48,12 @@ def formatRawData(raw_file):
 def mean_absolute_percentage_error(y_true, y_pred): 
     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
+def moving_average(series, n):
+    """
+        Calculate average of last n observations
+    """
+    return np.average(series[-n:])
+
 def weighted_average(series, weights):
     """
         Calculate weighter average on series
@@ -198,6 +204,14 @@ for key,value in data.items():
     print('Predicted values for last 4 months : ', predicted_sarima)
     print('Mean Squared Error: ', mse_sarima)
     print()
+    
+    
+    
+    
+    
+    
+    
+    
     
     print('____________________________')
   

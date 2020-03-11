@@ -1,19 +1,27 @@
 import csv
-import pandas as pd
+# import pandas as pd
 import warnings                                  # `do not disturbe` mode
+
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
+
 warnings.filterwarnings('ignore')
 
+# from statsmodels.tsa.holtwinters.ExponentialSmoothing
 from statsmodels.tsa.ar_model import AR
 from random import random
 from statsmodels.tsa.arima_model import ARMA
 from statsmodels.tsa.arima_model import ARIMA
 from statsmodels.tsa.statespace.sarimax import SARIMAX
+import math
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import TimeSeriesSplit
+import HoltWintersClass
 
 
 import numpy as np                               # vectors and matrices
-import pandas as pd                              # tables and data manipulations
+# import pandas as pd                              # tables and data manipulations
 import matplotlib.pyplot as plt                  # plots
-import seaborn as sns                            # more plots
+# import seaborn as sns                            # more plots
 
 from dateutil.relativedelta import relativedelta # working with dates with style
 from scipy.optimize import minimize              # for function minimization
@@ -45,13 +53,10 @@ def formatRawData(raw_file):
     return(dict_data)
 
 
-def mean_absolute_percentage_error(y_true, y_pred): 
+def mean_absolute_percentage_error2(y_true, y_pred):
     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
 def weighted_average(series, weights):
-    """
-        Calculate weighter average on series
-    """
     result = 0.0
     weights.reverse()
     for n in range(len(weights)):
@@ -101,15 +106,83 @@ def ses(data):
     return(yhat)
 
 def hwes(data):
-
     model = ExponentialSmoothing(data)
     model_fit = model.fit()
     # make prediction
     yhat = model_fit.predict(len(data), len(data))
     return yhat
 
+def rmse(predictions, targets):
+    return np.sqrt(((predictions - targets) ** 2).mean())
 
-data = 'input.csv'
+def mean_absolute_percentage_error(y_true, y_pred):
+    y_true, y_pred = np.array(y_true), np.array(y_pred)
+    return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+
+
+def timeseriesCVscore(params, series, loss_function=mean_squared_error, slen=12):
+    """
+        Returns error on CV
+
+        params - vector of parameters for optimization
+        series - dataset with timeseries
+        slen - season length for Holt-Winters model
+    """
+    # errors array
+    errors = []
+
+    print('alpha beta gamma: ', params)
+
+    values = [828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576, 648, 936, 720, 144, 1008, 360, 432, 1080,
+              756, 360, 324, 1656]
+    alpha, beta, gamma = params
+
+    # set the number of folds for cross-validation
+    tscv = TimeSeriesSplit(n_splits=5)
+
+    # print('tscv: ', tscv.split(values))
+    # iterating over folds, train model on each, forecast and calculate error
+
+    new_model = HoltWintersClass.HoltWintersClass(series=[828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576,
+                                                          648, 936, 720, 144, 1008, 360, 432, 1080], slen=slen,
+                                                  alpha=alpha, beta=beta, gamma=gamma, n_preds=len(test))
+    new_model.triple_exponential_smoothing()
+
+    predictions = new_model.result[-len(test):]
+    print('predictions')
+    print(predictions)
+    actual = [756, 360, 324, 1656]
+    print('actual')
+    print(actual)
+    error = loss_function(predictions, actual)
+    errors.append(error)
+
+    print("rmse optimized hwes: ", np.mean(np.array(errors)))
+
+    # for train, test in tscv.split(values):
+        # print('training data')
+        # print(train)
+        # print('test')
+        # print(test)
+        # new_model = HoltWintersClass.HoltWintersClass(series=[828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576,
+        #                                                       648, 936, 720, 144, 1008, 360, 432, 1080], slen=slen,
+        #                                               alpha=alpha, beta=beta, gamma=gamma, n_preds=len(test))
+        # new_model.triple_exponential_smoothing()
+        #
+        # predictions = new_model.result[-len(test):]
+        # print('predictions')
+        # print(predictions)
+        # actual = [756, 360, 324, 1656]
+        # print('actual')
+        # print(actual)
+        # error = loss_function(predictions, actual)
+        # errors.append(error)
+        #
+        # print("rmse optimized hwes: ", np.mean(np.array(errors)))
+
+    return np.mean(np.array(errors))
+
+data = 'inputRealData.csv'
 data = formatRawData(data)
 
 for key,value in data.items():
@@ -120,24 +193,38 @@ for key,value in data.items():
     print('key: ',key)
     print('values: ',value)
     print()
+
+    #random forest Algorithm
+    # rf = RandomForestClassifier()
+    # params_rf = {‘n_estimators’: [500, 1000, 1500]}
+    # rf_gs = GridSearchCV(rf, params_rf, cv=5)
+    # rf_gs.fit(X_train, y_train)
+
+
     
     #ARIMA Algorithm
     train_arima = train
     test_arima = test
     predicted_arima=[]
-    for i in range(0,len(test_arima)):
+    for i in range(0,len(test)):
         yhat_arima = float(arima(train_arima))
         train_arima.append(float(yhat_arima))
+
         predicted_arima.append(float(yhat_arima))
-    
-    mse_arima = mean_squared_error(test_arima, predicted_arima)
-    
+    print("test_arima")
+    print(test_arima)
+    print("pred_arima")
+    print(predicted_arima)
+    rmse_arima = math.sqrt(mean_squared_error(test_arima, predicted_arima))
+    mape_arima = mean_absolute_percentage_error(test_arima, predicted_arima)
+
     print('ARIMA:')
     print('Predicted values for last 4 months : ', predicted_arima)
-    print('Mean Squared Error: ', mse_arima)
+    print('Mean Squared Error: ', rmse_arima)
+    print('MAPE: ', mape_arima)
     print()
-    
-    
+
+
     #Moving Average
     train_ma = train
     test_ma = test
@@ -146,14 +233,14 @@ for key,value in data.items():
         yhat_ma = float(moving_average(train_ma))
         train_ma.append(float(yhat_ma))
         predicted_ma.append(float(yhat_ma))
-    
+
     mse_ma = mean_squared_error(test_ma, predicted_ma)
-    
+
     print('Moving Average:')
     print('Predicted values for last 4 months : ', predicted_ma)
     print('Mean Squared Error: ', mse_ma)
     print()
-    
+
     #Auto Reg
     train_autoreg = train
     test_autoreg = test
@@ -162,14 +249,14 @@ for key,value in data.items():
         yhat_autoreg = float(auto_reg(train_autoreg))
         train_autoreg.append(float(yhat_autoreg))
         predicted_autoreg.append(float(yhat_autoreg))
-    
+
     mse_autoreg = mean_squared_error(test_autoreg, predicted_autoreg)
-    
+
     print('Auto Regression:')
     print('Predicted values for last 4 months : ', predicted_autoreg)
     print('Mean Squared Error: ', mse_autoreg)
     print()
-    
+
      #ARMA Method
     train_arma = train
     test_arma = test
@@ -178,14 +265,14 @@ for key,value in data.items():
         yhat_arma = float(arma_method(train_arma))
         train_arma.append(float(yhat_arma))
         predicted_arma.append(float(yhat_arma))
-    
+
     mse_arma = mean_squared_error(test_arma, predicted_arma)
-    
+
     print('ARMA Method :')
     print('Predicted values for last 4 months : ', predicted_arma)
     print('Mean Squared Error: ', mse_arma)
     print()
-    
+
      #SARIMA Method
     train_sarima = train
     test_sarima = test
@@ -194,12 +281,13 @@ for key,value in data.items():
         yhat_sarima = float(sarima(train_sarima))
         train_sarima.append(float(yhat_sarima))
         predicted_sarima.append(float(yhat_sarima))
-    
+
     mse_sarima = mean_squared_error(test_sarima, predicted_sarima)
-    
+    mape_sarima = mean_absolute_percentage_error(test_sarima, predicted_sarima)
     print('SARIMA Method :')
     print('Predicted values for last 4 months : ', predicted_sarima)
     print('Mean Squared Error: ', mse_sarima)
+    print('MAPE:', mape_sarima)
     print()
 
     #SES Method
@@ -210,12 +298,13 @@ for key,value in data.items():
         yhat_ses = float(sarima(train_ses))
         train_ses.append(float(yhat_ses))
         predicted_ses.append(float(yhat_ses))
-    
+
     mse_ses = mean_squared_error(test_ses, predicted_ses)
-    
-    print('SARIMA Method :')
+    mape_ses = mean_absolute_percentage_error(test_ses, predicted_ses)
+    print('SES Method :')
     print('Predicted values for last 4 months : ', predicted_ses)
     print('Mean Squared Error: ', mse_ses)
+    print('MAPE: ', mape_ses)
     print()
 
     #HWES Method
@@ -226,14 +315,43 @@ for key,value in data.items():
         yhat_hwes = float(sarima(train_hwes))
         train_hwes.append(float(yhat_hwes))
         predicted_hwes.append(float(yhat_hwes))
-    
+
     mse_hwes = mean_squared_error(test_hwes, predicted_hwes)
-    
-    print('SARIMA Method :')
+
+    print('HWES Method :')
     print('Predicted values for last 4 months : ', predicted_hwes)
     print('Mean Squared Error: ', mse_hwes)
     print()
-    
+
+    #Holt-Winters method
+    #hard code input for testing
+    print('optimised HWES Method :')
+    data = [828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576, 648, 936, 720, 144, 1008, 360, 432, 1080, 756, 360, 324, 1656]
+    # data = ads.Ads[:-20]  # leave some data for testing
+
+    # initializing model parameters alpha, beta and gamma
+    x = [0.1, 0.1, 0.1]
+
+    # Minimizing the loss function
+    opt = minimize(timeseriesCVscore, x0=x,
+                   args=(data, mean_squared_log_error),
+                   method="TNC", bounds=((0, 1), (0, 1), (0, 1))
+                   )
+
+    # Take optimal values...
+    alpha_final, beta_final, gamma_final = opt.x
+    print('final values: ', alpha_final, beta_final, gamma_final)
+
+    # ...and train the model with them, forecasting for the next 50 hours
+    model = HoltWintersClass.HoltWintersClass(data, slen=12, alpha=alpha_final, beta=beta_final, gamma=gamma_final,
+                                              n_preds=4, scaling_factor=2)
+    model.triple_exponential_smoothing()
+
+
+    # print('Predicted values for last 4 months : ', predicted_hwes)
+    # print('Mean Squared Error: ', mse_hwes)
+    print()
+
     print('____________________________')
 
 

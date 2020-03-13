@@ -24,7 +24,7 @@ def format_raw_data(raw_file):
 
     return dict_data
 
-data = 'inputRealData.csv'
+data = 'input/inputRealData.csv'
 data = format_raw_data(data)
 
 for key,value in data.items():

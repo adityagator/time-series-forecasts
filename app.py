@@ -157,7 +157,7 @@ for key,value in data.items():
     print('Predicted values for last 4 months : ', predicted_hwes)
     print('Mean Squared Error: ', mse_hwes)
     print()
-
+    
     #Holt-Winters method
     #hard code input for testing
     print('optimised HWES Method :')
@@ -188,6 +188,19 @@ for key,value in data.items():
     print()
 
     print('____________________________')
+
+    #Recurrent Neural Network - LSTM
+    test_rnn = value[-4:]
+    
+    yhat = lstm.lstm.rnn(value, 4)
+    print('Recurrent Neural Network (LSTM):')
+    print('Actual values: ',test_rnn)
+    print('Predictted values: ',yhat)  
+    rmse_rnn = math.sqrt(mean_squared_error(test_rnn, yhat))
+    print('Root Mean Squared Error: ', rmse_rnn)
+    print('____________________________')
+
+    
 
 
   

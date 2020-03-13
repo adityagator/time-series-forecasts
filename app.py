@@ -6,7 +6,7 @@ import math
 import HoltWintersClass
 from scipy.optimize import minimize              # for function minimization
 from sklearn.metrics import mean_squared_error, mean_squared_log_error
-
+import lstm
 
 def format_raw_data(raw_file):
     
@@ -55,8 +55,8 @@ for key,value in data.items():
 
     print('ARIMA:')
     print('Predicted values for last 4 months : ', predicted_arima)
-    print('Mean Squared Error: ', rmse_arima)
-    print('MAPE: ', mape_arima)
+    print('Mean Squared Error: %.3f' % rmse_arima)
+    print('MAPE: %.3f' % mape_arima)
     print()
 
 
@@ -69,11 +69,11 @@ for key,value in data.items():
         train_ma.append(float(yhat_ma))
         predicted_ma.append(float(yhat_ma))
 
-    mse_ma = mean_squared_error(test_ma, predicted_ma)
+    rmse_ma = math.sqrt(mean_squared_error(test_ma, predicted_ma))
 
     print('Moving Average:')
     print('Predicted values for last 4 months : ', predicted_ma)
-    print('Mean Squared Error: ', mse_ma)
+    print('Mean Squared Error: %.3f' % rmse_ma)
     print()
 
     #Auto Reg
@@ -85,11 +85,11 @@ for key,value in data.items():
         train_autoreg.append(float(yhat_autoreg))
         predicted_autoreg.append(float(yhat_autoreg))
 
-    mse_autoreg = mean_squared_error(test_autoreg, predicted_autoreg)
+    rmse_autoreg = math.sqrt(mean_squared_error(test_autoreg, predicted_autoreg))
 
     print('Auto Regression:')
     print('Predicted values for last 4 months : ', predicted_autoreg)
-    print('Mean Squared Error: ', mse_autoreg)
+    print('Mean Squared Error: %.3f' %rmse_autoreg)
     print()
 
      #ARMA Method
@@ -101,11 +101,11 @@ for key,value in data.items():
         train_arma.append(float(yhat_arma))
         predicted_arma.append(float(yhat_arma))
 
-    mse_arma = mean_squared_error(test_arma, predicted_arma)
+    rmse_arma = math.sqrt(mean_squared_error(test_arma, predicted_arma))
 
     print('ARMA Method :')
     print('Predicted values for last 4 months : ', predicted_arma)
-    print('Mean Squared Error: ', mse_arma)
+    print('Mean Squared Error: %.3f' %rmse_arma)
     print()
 
      #SARIMA Method
@@ -117,12 +117,12 @@ for key,value in data.items():
         train_sarima.append(float(yhat_sarima))
         predicted_sarima.append(float(yhat_sarima))
 
-    mse_sarima = mean_squared_error(test_sarima, predicted_sarima)
+    rmse_sarima = math.sqrt(mean_squared_error(test_sarima, predicted_sarima))
     mape_sarima = algo_obj.mean_absolute_percentage_error(test_sarima, predicted_sarima)
     print('SARIMA Method :')
     print('Predicted values for last 4 months : ', predicted_sarima)
-    print('Mean Squared Error: ', mse_sarima)
-    print('MAPE:', mape_sarima)
+    print('Mean Squared Error: %.3f' %rmse_sarima)
+    print('MAPE:%.3f' %mape_sarima)
     print()
 
     #SES Method
@@ -134,12 +134,12 @@ for key,value in data.items():
         train_ses.append(float(yhat_ses))
         predicted_ses.append(float(yhat_ses))
 
-    mse_ses = mean_squared_error(test_ses, predicted_ses)
+    rmse_ses = math.sqrt(mean_squared_error(test_ses, predicted_ses))
     mape_ses = algo_obj.mean_absolute_percentage_error(test_ses, predicted_ses)
     print('SES Method :')
     print('Predicted values for last 4 months : ', predicted_ses)
-    print('Mean Squared Error: ', mse_ses)
-    print('MAPE: ', mape_ses)
+    print('Mean Squared Error: %.3f' %rmse_ses)
+    print('MAPE: %.3f' %mape_ses)
     print()
 
     #HWES Method
@@ -151,13 +151,13 @@ for key,value in data.items():
         train_hwes.append(float(yhat_hwes))
         predicted_hwes.append(float(yhat_hwes))
 
-    mse_hwes = mean_squared_error(test_hwes, predicted_hwes)
+    rmse_hwes = math.sqrt(mean_squared_error(test_hwes, predicted_hwes))
 
     print('HWES Method :')
     print('Predicted values for last 4 months : ', predicted_hwes)
-    print('Mean Squared Error: ', mse_hwes)
+    print('Mean Squared Error: %.3f' %rmse_hwes)
     print()
-    
+    '''
     #Holt-Winters method
     #hard code input for testing
     print('optimised HWES Method :')
@@ -188,16 +188,16 @@ for key,value in data.items():
     print()
 
     print('____________________________')
-
+    '''
     #Recurrent Neural Network - LSTM
-    test_rnn = value[-4:]
+    test_rnn = value[-6:]
     
-    yhat = lstm.lstm.rnn(value, 4)
+    yhat = lstm.lstm.rnn(value, 6)
     print('Recurrent Neural Network (LSTM):')
     print('Actual values: ',test_rnn)
     print('Predictted values: ',yhat)  
     rmse_rnn = math.sqrt(mean_squared_error(test_rnn, yhat))
-    print('Root Mean Squared Error: ', rmse_rnn)
+    print('RMSE: %.3f' %rmse_rnn)
     print('____________________________')
 
     

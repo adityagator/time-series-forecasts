@@ -1,6 +1,10 @@
 import csv
+import math
 import warnings  # `do not disturbe` mode
 import Algorithms
+import FeedForwardNeuralNetwork
+import lstm
+
 warnings.filterwarnings('ignore')
 import HoltWintersClass
 import FileOperations
@@ -93,15 +97,28 @@ class Main:
         file.write_file(output_dict)
 
         # Recurrent Neural Network - LSTM
-        # test_rnn = value[-constants.TESTING_MONTHS:]
-        #
-        # yhat = lstm.rnn(value, constants.TESTING_MONTHS)
-        # print('Recurrent Neural Network (LSTM):')
-        # print('Actual values: ', test_rnn)
-        # print('Predicted values: ', yhat)
-        # rmse_rnn = math.sqrt(mean_squared_error(test_rnn, yhat))
-        # print('RMSE: %.3f' % rmse_rnn)
-        # print('____________________________')
+        test_rnn = value[-constants.TESTING_MONTHS:]
+
+        yhat = lstm.rnn(value, constants.TESTING_MONTHS)
+        print('Recurrent Neural Network (LSTM):')
+        print('Actual values: ', test_rnn)
+        print('Predicted values: ', yhat)
+        rmse_rnn = math.sqrt(mean_squared_error(test_rnn, yhat))
+        print('RMSE: %.3f' % rmse_rnn)
+        print('____________________________')
+
+        # Feed forward neural network
+        test_size = value[-6:]
+
+        yhat = FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn(value, 6)
+        print('Feed Forward Neural Network:')
+        print('Actual values: ', test_size)
+        print('Predicted values: ', yhat)
+        rmse_fnn = math.sqrt(mean_squared_error(test_size, yhat))
+        mape_fnn = algo_obj.mean_absolute_percentage_error(test_size, yhat)
+        print('RMSE: %.3f' % rmse_fnn)
+        print('MAPE: ', mape_fnn)
+        print('____________________________')
 
         # #Holt-Winters method
         # #hard code input for testing

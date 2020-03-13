@@ -15,7 +15,6 @@ import numpy
 
 
 class lstm:
-    
 
     # date-time parsing function for loading the dataset
     def parser(x):
@@ -108,7 +107,7 @@ class lstm:
         scaler, train_scaled, test_scaled = lstm.scale(train, test)
  
         # fit the model
-        lstm_model = lstm.fit_lstm(train_scaled, 1, 1000, 4 )
+        lstm_model = lstm.fit_lstm(train_scaled, 1, 100, 10)
         # forecast the entire training dataset to build up state for forecasting
         train_reshaped = train_scaled[:, 0].reshape(len(train_scaled), 1, 1)
         lstm_model.predict(train_reshaped, batch_size=1)

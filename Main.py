@@ -7,7 +7,7 @@ import FileOperations
 import Constants
 import sys
 from scipy.optimize import minimize              # for function minimization
-from sklearn.metrics import mean_squared_error, mean_squared_log_error
+from sklearn.metrics import mean_squared_error, mean_squared_log_error, mean_absolute_error
 # import LstmClass
 
 
@@ -49,7 +49,7 @@ class Main:
         rmse_ar, mape_ar = algo_obj.auto_reg_calculate()
         if (rmse_ar < min_rmse):
             min_rmse = rmse_ar
-            min_algo = "AUTO REGRESSION"
+            min_algo = "AR"
             min_mape = mape_ar
         print("rmse is :", rmse_ar, " ", mape_ar, " ", "AR")
 
@@ -83,7 +83,7 @@ class Main:
             min_rmse = rmse
             min_algo = "HWES"
             min_mape = mape
-        print("rmse is :", rmse_ses, " ", mape_ses, " ", "SES")
+        print("rmse is :", rmse, " ", mape, " ", "HWES")
         predicted_output = algo_obj.getPredictedValues(min_algo)
         print("")
         print("")

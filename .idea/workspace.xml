@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f75fd952-72fe-4669-970b-dc0050eb01e8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/FileOperations.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/input/oneRowInput.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputRealData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/input/inputRealData.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/testing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Algorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Algorithms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/inputRealData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/input/inputRealData.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/output.csv" beforeDir="false" afterPath="$PROJECT_DIR$/output/output.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,19 +45,22 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.testing">
-    <configuration name="FileOperations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.Main">
+    <configuration name="Algorithms" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="time_series" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FileOperations.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Algorithms.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -84,7 +88,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="time_series" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -93,7 +97,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -127,6 +131,9 @@
       <module name="time_series" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -143,10 +150,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.testing" />
-        <item itemvalue="Python.testing" />
-        <item itemvalue="Python.testing" />
-        <item itemvalue="Python.testing" />
+        <item itemvalue="Python.Main" />
+        <item itemvalue="Python.Main" />
+        <item itemvalue="Python.Main" />
+        <item itemvalue="Python.Algorithms" />
         <item itemvalue="Python.testing" />
       </list>
     </recent_temporary>
@@ -169,30 +176,30 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="100" y="100" width="1240" height="700" key="DiffContextDialog/0.0.1440.900@0.0.1440.900" timestamp="1584050985885" />
-    <state width="1419" height="303" key="GridCell.Tab.0.bottom" timestamp="1584070930497">
+    <state width="1419" height="245" key="GridCell.Tab.0.bottom" timestamp="1584104624330">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1419" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900/-213.-1057.1920.1057@0.0.1440.900" timestamp="1582342992620" />
     <state width="1419" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900/-213.-1080.1920.1080@0.0.1440.900" timestamp="1582355243237" />
-    <state width="1419" height="303" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584070930497" />
-    <state width="1419" height="303" key="GridCell.Tab.0.center" timestamp="1584070930496">
+    <state width="1419" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584104624330" />
+    <state width="1419" height="245" key="GridCell.Tab.0.center" timestamp="1584104624328">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1419" height="245" key="GridCell.Tab.0.center/0.0.1440.900/-213.-1057.1920.1057@0.0.1440.900" timestamp="1582342992619" />
     <state width="1419" height="245" key="GridCell.Tab.0.center/0.0.1440.900/-213.-1080.1920.1080@0.0.1440.900" timestamp="1582355243236" />
-    <state width="1419" height="303" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1584070930496" />
-    <state width="1419" height="303" key="GridCell.Tab.0.left" timestamp="1584070930495">
+    <state width="1419" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1584104624328" />
+    <state width="1419" height="245" key="GridCell.Tab.0.left" timestamp="1584104624328">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1419" height="245" key="GridCell.Tab.0.left/0.0.1440.900/-213.-1057.1920.1057@0.0.1440.900" timestamp="1582342992618" />
     <state width="1419" height="245" key="GridCell.Tab.0.left/0.0.1440.900/-213.-1080.1920.1080@0.0.1440.900" timestamp="1582355243235" />
-    <state width="1419" height="303" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1584070930495" />
-    <state width="1419" height="303" key="GridCell.Tab.0.right" timestamp="1584070930497">
+    <state width="1419" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1584104624328" />
+    <state width="1419" height="245" key="GridCell.Tab.0.right" timestamp="1584104624329">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1419" height="245" key="GridCell.Tab.0.right/0.0.1440.900/-213.-1057.1920.1057@0.0.1440.900" timestamp="1582342992620" />
     <state width="1419" height="245" key="GridCell.Tab.0.right/0.0.1440.900/-213.-1080.1920.1080@0.0.1440.900" timestamp="1582355243236" />
-    <state width="1419" height="303" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1584070930497" />
+    <state width="1419" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1584104624329" />
     <state width="1419" height="303" key="GridCell.Tab.1.bottom" timestamp="1584070930500">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -209,12 +216,12 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1419" height="303" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1584070930499" />
-    <state x="397" y="282" key="com.intellij.ide.util.TipDialog" timestamp="1584032458470">
+    <state x="397" y="282" key="com.intellij.ide.util.TipDialog" timestamp="1584099250802">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="397" y="282" key="com.intellij.ide.util.TipDialog/0.0.1440.900/-213.-1080.1920.1080@-213.-1080.1920.1080" timestamp="1584032458470" />
     <state x="397" y="282" key="com.intellij.ide.util.TipDialog/0.0.1440.900/-213.-1080.1920.1080@0.0.1440.900" timestamp="1582787823590" />
-    <state x="397" y="282" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1583883295228" />
+    <state x="397" y="282" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1584099250802" />
     <state x="351" y="144" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584049944237">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -234,7 +241,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Algorithms.py</url>
-          <line>80</line>
+          <line>171</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -256,6 +263,11 @@
           <url>file://$PROJECT_DIR$/FileOperations.py</url>
           <line>10</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Algorithms.py</url>
+          <line>10</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

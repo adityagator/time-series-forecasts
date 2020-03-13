@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f75fd952-72fe-4669-970b-dc0050eb01e8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/HoltWintersClass.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,6 +43,9 @@
       <module name="time_series" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -61,9 +64,6 @@
       <module name="time_series" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -71,7 +71,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithms.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -141,38 +141,94 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="100" y="100" width="1240" height="700" key="DiffContextDialog" timestamp="1583919798090">
+    <state x="100" y="100" width="1240" height="700" key="DiffContextDialog" timestamp="1584050985885">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="100" y="100" width="1240" height="700" key="DiffContextDialog/0.0.1440.900@0.0.1440.900" timestamp="1583919798090" />
-    <state width="1419" height="245" key="GridCell.Tab.0.bottom" timestamp="1582355243237">
+    <state x="100" y="100" width="1240" height="700" key="DiffContextDialog/0.0.1440.900@0.0.1440.900" timestamp="1584050985885" />
+    <state width="1419" height="303" key="GridCell.Tab.0.bottom" timestamp="1584061067590">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1419" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900/-213.-1057.1920.1057@0.0.1440.900" timestamp="1582342992620" />
     <state width="1419" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900/-213.-1080.1920.1080@0.0.1440.900" timestamp="1582355243237" />
-    <state width="1419" height="245" key="GridCell.Tab.0.center" timestamp="1582355243236">
+    <state width="1419" height="303" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584061067590" />
+    <state width="1419" height="303" key="GridCell.Tab.0.center" timestamp="1584061067588">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1419" height="245" key="GridCell.Tab.0.center/0.0.1440.900/-213.-1057.1920.1057@0.0.1440.900" timestamp="1582342992619" />
     <state width="1419" height="245" key="GridCell.Tab.0.center/0.0.1440.900/-213.-1080.1920.1080@0.0.1440.900" timestamp="1582355243236" />
-    <state width="1419" height="245" key="GridCell.Tab.0.left" timestamp="1582355243235">
+    <state width="1419" height="303" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1584061067588" />
+    <state width="1419" height="303" key="GridCell.Tab.0.left" timestamp="1584061067587">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1419" height="245" key="GridCell.Tab.0.left/0.0.1440.900/-213.-1057.1920.1057@0.0.1440.900" timestamp="1582342992618" />
     <state width="1419" height="245" key="GridCell.Tab.0.left/0.0.1440.900/-213.-1080.1920.1080@0.0.1440.900" timestamp="1582355243235" />
-    <state width="1419" height="245" key="GridCell.Tab.0.right" timestamp="1582355243236">
+    <state width="1419" height="303" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1584061067587" />
+    <state width="1419" height="303" key="GridCell.Tab.0.right" timestamp="1584061067589">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="1419" height="245" key="GridCell.Tab.0.right/0.0.1440.900/-213.-1057.1920.1057@0.0.1440.900" timestamp="1582342992620" />
     <state width="1419" height="245" key="GridCell.Tab.0.right/0.0.1440.900/-213.-1080.1920.1080@0.0.1440.900" timestamp="1582355243236" />
-    <state x="397" y="282" key="com.intellij.ide.util.TipDialog" timestamp="1583883295228">
+    <state width="1419" height="303" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1584061067589" />
+    <state width="1419" height="303" key="GridCell.Tab.1.bottom" timestamp="1584061067592">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1419" height="303" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584061067592" />
+    <state width="1419" height="303" key="GridCell.Tab.1.center" timestamp="1584061067591">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1419" height="303" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1584061067591" />
+    <state width="1419" height="303" key="GridCell.Tab.1.left" timestamp="1584061067591">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1419" height="303" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1584061067591" />
+    <state width="1419" height="303" key="GridCell.Tab.1.right" timestamp="1584061067592">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1419" height="303" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1584061067592" />
+    <state x="397" y="282" key="com.intellij.ide.util.TipDialog" timestamp="1584032458470">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="397" y="282" key="com.intellij.ide.util.TipDialog/0.0.1440.900/-213.-1080.1920.1080@-213.-1080.1920.1080" timestamp="1584032458470" />
     <state x="397" y="282" key="com.intellij.ide.util.TipDialog/0.0.1440.900/-213.-1080.1920.1080@0.0.1440.900" timestamp="1582787823590" />
     <state x="397" y="282" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1583883295228" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1583885427807">
+    <state x="351" y="144" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584049944237">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state x="351" y="144" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1440.900@0.0.1440.900" timestamp="1584049944237" />
+    <state x="503" y="374" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1583930886108">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="503" y="374" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900/-213.-1080.1920.1080@0.0.1440.900" timestamp="1583930886108" />
+    <state x="300" y="-845" width="894" height="812" key="search.everywhere.popup" timestamp="1584032616959">
+      <screen x="-213" y="-1080" width="1920" height="1080" />
+    </state>
+    <state x="300" y="-845" width="894" height="812" key="search.everywhere.popup/0.0.1440.900/-213.-1080.1920.1080@-213.-1080.1920.1080" timestamp="1584032616959" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1583885427807" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/algorithms.py</url>
+          <line>115</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app.py</url>
+          <line>172</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app.py</url>
+          <line>178</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app.py</url>
+          <line>169</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -88,36 +88,49 @@ class Main:
             min_algo = "HWES"
             min_mape = mape
         print("rmse is :", rmse, " ", mape, " ", "HWES")
-        predicted_output = algo_obj.getPredictedValues(min_algo)
+        
+        #RNN
+        rmse, mape, pred = algo_obj.rnn_calculate(value)
+        if (rmse < min_rmse):
+            min_rmse = rmse
+            min_algo = "RNN"
+            min_mape = mape
+        print("rmse is :", rmse, " ", mape, " ", "RNN")
+        
+        predicted_output = algo_obj.getPredictedValues(min_algo, pred)
         print("")
         print("")
         print("final pred")
         print(predicted_output)
+        
+         # Recurrent Neural Network - LSTM
+        # test_rnn = value[-constants.TESTING_MONTHS:]
+
+        # yhat, one_year_yhats = lstm.lstm.rnn(value, constants.TESTING_MONTHS)
+        # print('Recurrent Neural Network (LSTM):')
+        # print('Actual values: ', test_rnn)
+        # print('Predicted values: ', yhat)
+        # print('One year Values: ',one_year_yhats)
+        # rmse_rnn = math.sqrt(mean_squared_error(test_rnn, yhat))
+        # print('RMSE: %.3f' % rmse_rnn)
+        # print('____________________________')
+        
+        
+        
+        predicted_output = algo_obj.getPredictedValues(min_algo, pred)
+        print("")
+        print("")
+        print("final pred")
+        print(predicted_output)
+        
+        
         output_dict[key] = [min_algo, min_rmse, min_mape, predicted_output]
         file.write_file(output_dict)
 
-        # Recurrent Neural Network - LSTM
-        test_rnn = value[-constants.TESTING_MONTHS:]
-
-        yhat = lstm.rnn(value, constants.TESTING_MONTHS)
-        print('Recurrent Neural Network (LSTM):')
-        print('Actual values: ', test_rnn)
-        print('Predicted values: ', yhat)
-        rmse_rnn = math.sqrt(mean_squared_error(test_rnn, yhat))
-        print('RMSE: %.3f' % rmse_rnn)
-        print('____________________________')
+       
 
         # Feed forward neural network
-        test_size = value[-6:]
-
-        yhat = FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn(value, 6)
-        print('Feed Forward Neural Network:')
-        print('Actual values: ', test_size)
-        print('Predicted values: ', yhat)
-        rmse_fnn = math.sqrt(mean_squared_error(test_size, yhat))
-        mape_fnn = algo_obj.mean_absolute_percentage_error(test_size, yhat)
-        print('RMSE: %.3f' % rmse_fnn)
-        print('MAPE: ', mape_fnn)
+        
         print('____________________________')
 
         # #Holt-Winters method

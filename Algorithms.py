@@ -11,7 +11,8 @@ import Constants
 import math
 from scipy import linalg
 from sklearn.metrics import mean_squared_error, mean_squared_log_error, mean_absolute_error
-
+import lstm
+month_rnn=[]
 class Algorithms:
 
     def __init__(self, data, test):
@@ -281,8 +282,33 @@ class Algorithms:
         rmse, mape = self.rmse_mape(predicted)
         print('Predicted values for last 4 months : HWES', predicted)
         return rmse, mape
+    
+    
+    def rnn_calculate(self, value):
+       # test_rnn = value[-constants.TESTING_MONTHS:]
+            
+        yhat, month_rnn = lstm.lstm.rnn(value, self.constants.TESTING_MONTHS)
+        print('Recurrent Neural Network (LSTM):')
+        print('Actual values: ', self.test)
+        print('Predicted values: ', yhat)
+        rmse, mape = self.rmse_mape(yhat)
+        #print('RMSE: %.3f' % rmse)
+        return rmse, mape, month_rnn
+    
+    def fnn_calculate(self, value):
+        #test_size = value[-6:]
 
-    def getPredictedValues(self, min_algo):
+        yhat = FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn(value, constants.TESTING_MONTHS)
+        print('Feed Forward Neural Network:')
+        print('Actual values: ', self.test)
+        print('Predicted values: ', yhat)
+        rmse_fnn = math.sqrt(mean_squared_error(test_size, yhat))
+        mape_fnn = algo_obj.mean_absolute_percentage_error(test_size, yhat)
+        print('RMSE: %.3f' % rmse_fnn)
+        print('MAPE: ', mape_fnn)
+        return rmse_fnn, mape_fnn
+
+    def getPredictedValues(self, min_algo, month_rnn):
         print(min_algo)
         predicted = {
             "ARIMA": self.arima(self.constants.NUMBER_OF_PREDICTIONS),
@@ -291,7 +317,9 @@ class Algorithms:
             "ARMA": self.arma_method(self.constants.NUMBER_OF_PREDICTIONS),
             "SARIMA": self.sarima(self.constants.NUMBER_OF_PREDICTIONS),
             "SES": self.ses(self.constants.NUMBER_OF_PREDICTIONS),
-            "HWES": self.hwes(self.constants.NUMBER_OF_PREDICTIONS)
+            "HWES": self.hwes(self.constants.NUMBER_OF_PREDICTIONS),
+            "RNN": month_rnn,
+            "FNN": []
         }
         return predicted.get(min_algo, "Failure")
 

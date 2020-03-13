@@ -123,10 +123,21 @@ class lstm:
             # invert differencing
             yhat = lstm.inverse_difference(raw_values, yhat, len(test_scaled)+1-i)
             # store forecast
-            predictions.append(yhat)
+            predictions.append(max(0,yhat))
             expected = raw_values[len(train) + i + 1]
             #print('Month=%d, Predicted=%f, Expected=%f' % (i+1, yhat, expected))
- 
+        one_year_predictions=[]
+        for i in range(0,12):
+            X, y = supervised_values[i, 0:-1], supervised_values[i, -1]
+            yhat = lstm.forecast_lstm(lstm_model, 1, X)
+            # invert scaling
+            yhat = lstm.invert_scale(scaler, X, yhat)
+            # invert differencing
+            yhat = lstm.inverse_difference(raw_values, yhat, len(test_scaled)+1-i)
+            # store forecast
+            one_year_predictions.append(max(0,yhat))
+            
+            
         # report performance
         #rmse = sqrt(mean_squared_error(raw_values[-4:], predictions))
         #print('Test RMSE: %.3f' % rmse)
@@ -135,4 +146,4 @@ class lstm:
         #pyplot.plot(raw_values[-4:])
         #pyplot.plot(predictions)
         #pyplot.show()
-        return predictions
+        return predictions, one_year_predictions

@@ -7,15 +7,23 @@ from statsmodels.tsa.arima_model import ARMA
 from statsmodels.tsa.holtwinters import SimpleExpSmoothing, ExponentialSmoothing
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 import HoltWintersClass
+import Constants
+import math
 
 
 class Algorithms:
 
-    def __init__(self, data):
+    def __init__(self, data, test):
         self.data = data
+        self.test = test
+        self.constants = Constants.Constants()
 
-    def mean_absolute_percentage_error(self, y_true, y_pred):
-        return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+    # def mean_absolute_percentage_error(self, y_true, y_pred):
+    #     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+
+    def rmse_mape(self, predicted):
+        return math.sqrt(mean_squared_error(self.test, predicted)), np.mean(np.abs((self.test - predicted)
+                                                                                   / self.test)) * 100
 
     def weighted_average(self, series, weights):
         result = 0.0
@@ -24,61 +32,54 @@ class Algorithms:
             result += series.iloc[-n-1] * weights[n]
         return result
 
-    def arima(self):
+    def arima(self, num_preds):
         model = ARIMA(self.data, order=(1, 1, 0))
         model_fit = model.fit(disp=False)
         # make prediction
-        yhat = model_fit.predict(len(self.data), len(self.data), typ='levels')
-        return float(yhat)
+        yhat = model_fit.predict(len(self.data), len(self.data) + num_preds, typ='levels')
+        return yhat
 
-    def moving_average(self):
+    def moving_average(self, num_preds):
         model = ARMA(self.data, order=(0, 1))
         model_fit = model.fit(disp=False)
         # make prediction
-        yhat = model_fit.predict(len(self.data), len(self.data))
+        yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
         return yhat
 
-    def auto_reg(self):
+    def auto_reg(self, num_preds):
         model = AR(self.data)
         model_fit = model.fit()
         # make prediction
-        yhat = model_fit.predict(len(self.data), len(self.data))
+        yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
         return yhat
 
-    def arma_method(self):
+    def arma_method(self, num_preds):
         model = ARMA(self.data, order=(1, 0))
         model_fit = model.fit(disp=False)
         # make prediction
-        yhat = model_fit.predict(len(self.data), len(self.data))
+        yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
         return yhat
 
-    def sarima(self):
+    def sarima(self, num_preds):
         model = SARIMAX(self.data, order=(1, 1, 1), seasonal_order=(2, 2, 2, 2))
         model_fit = model.fit(disp=False)
         # make prediction
-        yhat = model_fit.predict(len(self.data), len(self.data))
+        yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
         return yhat
 
-    def ses(self):
+    def ses(self, num_preds):
         model = SimpleExpSmoothing(self.data)
         model_fit = model.fit()
         # make prediction
-        yhat = model_fit.predict(len(self.data), len(self.data))
+        yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
         return yhat
 
-    def hwes(self):
+    def hwes(self, num_preds):
         model = ExponentialSmoothing(self.data)
         model_fit = model.fit()
         # make prediction
-        yhat = model_fit.predict(len(self.data), len(self.data))
+        yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
         return yhat
-
-    def rmse(self, predictions, targets):
-        return np.sqrt(((predictions - targets) ** 2).mean())
-
-    def mean_absolute_percentage_error(self, y_true, y_pred):
-        y_true, y_pred = np.array(y_true), np.array(y_pred)
-        return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
     def holt_winters_function(self, params=[0.1, 0.1, 0.1],
                               series=[828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576, 648, 936, 720, 144,
@@ -139,4 +140,57 @@ class Algorithms:
         # print("rmse optimized hwes: ", np.mean(np.array(errors)))
 
         return np.mean(np.array(errors))
+
+    def arima_calculate(self):
+        predicted = self.arima(self.constants.TESTING_MONTHS - 1)
+        rmse, mape = self.rmse_mape(predicted)
+        print('Predicted values for last 4 months : ', predicted)
+        return rmse, mape
+
+    def moving_average_calculate(self):
+        predicted = self.moving_average(self.constants.TESTING_MONTHS - 1)
+        rmse, mape = self.rmse_mape(predicted)
+        print('Predicted values for last 4 months : ', predicted)
+        return rmse, mape
+
+    def auto_reg_calculate(self):
+        predicted = self.auto_reg(self.constants.TESTING_MONTHS - 1)
+        rmse, mape = self.rmse_mape(predicted)
+        print('Predicted values for last 4 months : ', predicted)
+        return rmse, mape
+
+    def arma_calculate(self):
+        predicted = self.arma_method(self.constants.TESTING_MONTHS - 1)
+        rmse, mape = self.rmse_mape(predicted)
+        print('Predicted values for last 4 months : ', predicted)
+        return rmse, mape
+
+    def sarima_calculate(self):
+        predicted = self.sarima(self.constants.TESTING_MONTHS - 1)
+        rmse, mape = self.rmse_mape(predicted)
+        print('Predicted values for last 4 months SARIMA: ', predicted)
+        return rmse, mape
+
+    def ses_calculate(self):
+        predicted = self.ses(self.constants.TESTING_MONTHS - 1)
+        rmse, mape = self.rmse_mape(predicted)
+        print('Predicted values for last 4 months SES: ', predicted)
+        return rmse, mape
+
+    def hwes_calculate(self):
+        predicted = self.hwes(self.constants.TESTING_MONTHS - 1)
+        rmse, mape = self.rmse_mape(predicted)
+        print('Predicted values for last 4 months : ', predicted)
+        return rmse, mape
+
+    def getPredictedValues(self, min_algo):
+        predicted = {
+            "ARIMA": self.arima(self.constants.NUMBER_OF_PREDICTIONS),
+            "MOVING AVERAGE": self.moving_average(self.constants.NUMBER_OF_PREDICTIONS),
+            "AR": self.auto_reg(self.constants.NUMBER_OF_PREDICTIONS),
+            "ARMA": self.arma_method(self.constants.NUMBER_OF_PREDICTIONS),
+            "SARIMA": self.sarima(self.constants.NUMBER_OF_PREDICTIONS),
+            "SES": self.ses(self.constants.NUMBER_OF_PREDICTIONS)
+        }
+        return predicted.get(min_algo, "Failure")
 

@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class HoltWintersClass:
     """
     Holt-Winters model with the anomalies detection using Brutlag method

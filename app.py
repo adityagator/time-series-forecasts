@@ -1,6 +1,6 @@
 import csv
 import warnings  # `do not disturbe` mode
-import algorithms
+import Algorithms
 warnings.filterwarnings('ignore')
 import math
 import HoltWintersClass
@@ -31,6 +31,7 @@ for key,value in data.items():
     train = value[0:20]
     test = value[20:]
     predicted=[]
+    algo_obj = Algorithms.Algorithms(train)
     print()
     print('key: ',key)
     print('values: ',value)
@@ -41,7 +42,7 @@ for key,value in data.items():
     test_arima = test
     predicted_arima=[]
     for i in range(0,len(test)):
-        yhat_arima = float(algorithms.arima(train_arima))
+        yhat_arima = float(algo_obj.arima())
         train_arima.append(float(yhat_arima))
 
         predicted_arima.append(float(yhat_arima))
@@ -50,7 +51,7 @@ for key,value in data.items():
     print("pred_arima")
     print(predicted_arima)
     rmse_arima = math.sqrt(mean_squared_error(test_arima, predicted_arima))
-    mape_arima = algorithms.mean_absolute_percentage_error(test_arima, predicted_arima)
+    mape_arima = algo_obj.mean_absolute_percentage_error(test_arima, predicted_arima)
 
     print('ARIMA:')
     print('Predicted values for last 4 months : ', predicted_arima)
@@ -64,7 +65,7 @@ for key,value in data.items():
     test_ma = test
     predicted_ma=[]
     for i in range(0,len(test_ma)):
-        yhat_ma = float(algorithms.moving_average(train_ma))
+        yhat_ma = float(algo_obj.moving_average())
         train_ma.append(float(yhat_ma))
         predicted_ma.append(float(yhat_ma))
 
@@ -80,7 +81,7 @@ for key,value in data.items():
     test_autoreg = test
     predicted_autoreg=[]
     for i in range(0,len(test_autoreg)):
-        yhat_autoreg = float(algorithms.auto_reg(train_autoreg))
+        yhat_autoreg = float(algo_obj.auto_reg())
         train_autoreg.append(float(yhat_autoreg))
         predicted_autoreg.append(float(yhat_autoreg))
 
@@ -96,7 +97,7 @@ for key,value in data.items():
     test_arma = test
     predicted_arma=[]
     for i in range(0,len(test_arma)):
-        yhat_arma = float(algorithms.arma_method(train_arma))
+        yhat_arma = float(algo_obj.arma_method())
         train_arma.append(float(yhat_arma))
         predicted_arma.append(float(yhat_arma))
 
@@ -112,12 +113,12 @@ for key,value in data.items():
     test_sarima = test
     predicted_sarima=[]
     for i in range(0,len(test_sarima)):
-        yhat_sarima = float(algorithms.sarima(train_sarima))
+        yhat_sarima = float(algo_obj.sarima())
         train_sarima.append(float(yhat_sarima))
         predicted_sarima.append(float(yhat_sarima))
 
     mse_sarima = mean_squared_error(test_sarima, predicted_sarima)
-    mape_sarima = algorithms.mean_absolute_percentage_error(test_sarima, predicted_sarima)
+    mape_sarima = algo_obj.mean_absolute_percentage_error(test_sarima, predicted_sarima)
     print('SARIMA Method :')
     print('Predicted values for last 4 months : ', predicted_sarima)
     print('Mean Squared Error: ', mse_sarima)
@@ -129,12 +130,12 @@ for key,value in data.items():
     test_ses = test
     predicted_ses=[]
     for i in range(0,len(test_ses)):
-        yhat_ses = float(algorithms.ses(train_ses))
+        yhat_ses = float(algo_obj.ses())
         train_ses.append(float(yhat_ses))
         predicted_ses.append(float(yhat_ses))
 
     mse_ses = mean_squared_error(test_ses, predicted_ses)
-    mape_ses = algorithms.mean_absolute_percentage_error(test_ses, predicted_ses)
+    mape_ses = algo_obj.mean_absolute_percentage_error(test_ses, predicted_ses)
     print('SES Method :')
     print('Predicted values for last 4 months : ', predicted_ses)
     print('Mean Squared Error: ', mse_ses)
@@ -146,7 +147,7 @@ for key,value in data.items():
     test_hwes = test
     predicted_hwes=[]
     for i in range(0,len(test_hwes)):
-        yhat_hwes = float(algorithms.hwes(train_hwes))
+        yhat_hwes = float(algo_obj.hwes())
         train_hwes.append(float(yhat_hwes))
         predicted_hwes.append(float(yhat_hwes))
 
@@ -170,7 +171,7 @@ for key,value in data.items():
     log_error = mean_squared_log_error([756, 360, 324, 1656], [1262.3403637583606, 1330.2384660692694, 606.1044120473597, 529.9378740380566])
 
     # Minimizing the loss function
-    opt = minimize(algorithms.holt_winters_function, x0=x,
+    opt = minimize(algo_obj.holt_winters_function, x0=x,
                    args=(data, mean_squared_log_error),
                    method="TNC", bounds=((0, 1), (0, 1), (0, 1))
                    )

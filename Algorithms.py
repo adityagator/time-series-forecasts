@@ -12,10 +12,12 @@ import math
 from scipy import linalg
 from sklearn.metrics import mean_squared_error, mean_squared_log_error, mean_absolute_error
 import lstm
+import numpy
 month_rnn=[]
 class Algorithms:
 
-    def __init__(self, data, test):
+    def __init__(self, total, data, test):
+        self.total = total
         self.data = data
         self.test = test
         self.constants = Constants.Constants()
@@ -23,6 +25,18 @@ class Algorithms:
     # def mean_absolute_percentage_error(self, y_true, y_pred):
     #     y_true, y_pred = check_arrays(y_true, y_pred)
     #     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+
+    # create a differenced series
+    def difference(self, dataset, interval=1):
+        diff = list()
+        for i in range(interval, len(dataset)):
+            value = dataset[i] - dataset[i - interval]
+            diff.append(value)
+        return numpy.array(diff)
+
+    # invert differenced value
+    def inverse_difference(self, history, yhat, interval=1):
+        return yhat + history[-interval]
 
     def mean_absolute_percentage_error(self, y_true, y_pred):
         y_true, y_pred = np.array(y_true), np.array(y_pred)
@@ -33,6 +47,261 @@ class Algorithms:
         return math.sqrt(mean_squared_error(self.test, predicted)), self.mean_absolute_percentage_error(self.test,
                                                                                                         predicted)
 # np.mean(np.abs((self.test - predicted) / self.test)) * 100
+    #working
+    def arima_calculate(self):
+        differenced = self.difference(self.data, 12)
+        model = ARIMA(differenced, order=(7, 0, 1))
+        model_fit = model.fit(disp=0)
+        start_index = len(differenced)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.data]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(inverted)
+            print('Day %d: %f' % (day, inverted))
+            history.append(inverted)
+            day += 1
+        for i in range(0, len(pred)):
+            if(pred[i] < 0):
+                pred[i] = 0
+        return self.rmse_mape(pred)
+
+    def arima_final(self):
+        differenced = self.difference(self.total, 12)
+        model = ARIMA(differenced, order=(7, 0, 1))
+        model_fit = model.fit(disp=0)
+        start_index = len(differenced)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.total]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(inverted)
+            print('Day %d: %f' % (day, inverted))
+            history.append(inverted)
+            day += 1
+        for i in range(0, len(pred)):
+            if(pred[i] < 0):
+                pred[i] = 0
+        return pred
+
+    def sarima_calculate(self):
+        # differenced = self.difference(self.data, 12)
+        model = SARIMAX(self.data, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
+        model_fit = model.fit(disp=0)
+        start_index = len(self.data)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.data]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            # inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(yhat)
+            print('Day %d: %f' % (day, yhat))
+            history.append(yhat)
+            day += 1
+        for i in range(0, len(pred)):
+            if pred[i] < 0:
+                pred[i] = 0
+        return self.rmse_mape(pred)
+
+    def sarima_final(self):
+        # differenced = self.difference(self.data, 12)
+        model = SARIMAX(self.total, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
+        model_fit = model.fit(disp=0)
+        start_index = len(self.total)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.data]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            # inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(yhat)
+            print('Day %d: %f' % (day, yhat))
+            history.append(yhat)
+            day += 1
+        for i in range(0, len(pred)):
+            if pred[i] < 0:
+                pred[i] = 0
+        return pred
+
+    def ar_calculate(self):
+        differenced = self.difference(self.data, 12)
+        model = AR(differenced)
+        model_fit = model.fit(disp=0)
+        start_index = len(differenced)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.data]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(inverted)
+            print('Day %d: %f' % (day, inverted))
+            history.append(inverted)
+            day += 1
+        for i in range(0, len(pred)):
+            if pred[i] < 0:
+                pred[i] = 0
+        return self.rmse_mape(pred)
+
+    def ar_final(self):
+        differenced = self.difference(self.total, 12)
+        model = AR(differenced)
+        model_fit = model.fit(disp=0)
+        start_index = len(differenced)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.total]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(inverted)
+            print('Day %d: %f' % (day, inverted))
+            history.append(inverted)
+            day += 1
+        for i in range(0, len(pred)):
+            if (pred[i] < 0):
+                pred[i] = 0
+        return pred
+
+    def arma_calculate(self):
+        differenced = self.difference(self.data, 12)
+        model = ARMA(differenced, order=[1,0])
+        model_fit = model.fit(disp=0)
+        start_index = len(differenced)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.data]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(inverted)
+            print('Day %d: %f' % (day, inverted))
+            history.append(inverted)
+            day += 1
+        for i in range(0, len(pred)):
+            if pred[i] < 0:
+                pred[i] = 0
+        return self.rmse_mape(pred)
+
+    def arma_final(self):
+        differenced = self.difference(self.total, 12)
+        model = ARMA(differenced, order=[1, 0])
+        model_fit = model.fit(disp=0)
+        start_index = len(differenced)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.total]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(inverted)
+            print('Day %d: %f' % (day, inverted))
+            history.append(inverted)
+            day += 1
+        for i in range(0, len(pred)):
+            if (pred[i] < 0):
+                pred[i] = 0
+        return pred
+
+    def ses_calculate(self):
+        # differenced = self.difference(self.data, 12)
+        model = SimpleExpSmoothing(self.data)
+        model_fit = model.fit()
+        # model_fit = model.fit(smoothing_level=.5)
+        start_index = len(self.data)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.data]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            # inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(yhat)
+            print('Day %d: %f' % (day, yhat))
+            history.append(yhat)
+            day += 1
+        for i in range(0, len(pred)):
+            if pred[i] < 0:
+                pred[i] = 0
+        return self.rmse_mape(pred)
+
+    def ses_final(self):
+        # differenced = self.difference(self.data, 12)
+        model = SimpleExpSmoothing(self.total)
+        model_fit = model.fit()
+        start_index = len(self.total)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.data]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            # inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(yhat)
+            print('Day %d: %f' % (day, yhat))
+            history.append(yhat)
+            day += 1
+        for i in range(0, len(pred)):
+            if pred[i] < 0:
+                pred[i] = 0
+        return pred
+
+    def hwes_calculate(self):
+        # differenced = self.difference(self.data, 12)
+        model = ExponentialSmoothing(self.data)
+        # model_fit = model.fit()
+        model_fit = model.fit(smoothing_level=.3, smoothing_slope=.05)
+        start_index = len(self.data)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.data]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            # inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(yhat)
+            print('Day %d: %f' % (day, yhat))
+            history.append(yhat)
+            day += 1
+        for i in range(0, len(pred)):
+            if pred[i] < 0:
+                pred[i] = 0
+        return self.rmse_mape(pred)
+
+    def hwes_final(self):
+        # differenced = self.difference(self.data, 12)
+        model = ExponentialSmoothing(self.total)
+        model_fit = model.fit()
+        start_index = len(self.total)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.data]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            # inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(yhat)
+            print('Day %d: %f' % (day, yhat))
+            history.append(yhat)
+            day += 1
+        for i in range(0, len(pred)):
+            if pred[i] < 0:
+                pred[i] = 0
+        return pred
+
 
     def weighted_average(self, series, weights):
         result = 0.0
@@ -41,143 +310,12 @@ class Algorithms:
             result += series.iloc[-n-1] * weights[n]
         return result
 
-    def arima(self, num_preds):
-        train = self.data
-        test = []
-        for i in range(0, num_preds):
-            model = ARIMA(train, order=(1, 1, 0))
-            model_fit = model.fit(disp=False)
-            # make prediction
-            yhat = float(model_fit.predict(len(train), len(train), typ='levels'))
-            print(yhat)
-            test.append(yhat)
-            train.append(yhat)
-        return test
-
-    # def arima(self, num_preds):
-    #     model = ARIMA(self.data, order=(1, 1, 0))
-    #     model_fit = model.fit(disp=False)
-    #     # make prediction
-    #     yhat = model_fit.predict(len(self.data), len(self.data) + num_preds, typ='levels')
-    #     return yhat
-
-    def arima_calculate(self):
-        # for i in range()
-        predicted = self.arima(self.constants.TESTING_MONTHS)
-        rmse, mape = self.rmse_mape(predicted)
-        print('Predicted values for last 4 months : ', predicted)
-        return rmse, mape
-
-    # def moving_average(self, num_preds):
-    #     model = ARMA(self.data, order=(0, 1))
-    #     model_fit = model.fit(disp=False)
-    #     # make prediction
-    #     yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
-    #     return yhat
     def moving_average(self, num_preds):
         train = self.data
         test = []
         for i in range(0, num_preds):
             model = ARMA(train, order=(0, 1))
             model_fit = model.fit(disp=False)
-            # make prediction
-            yhat = float(model_fit.predict(len(train), len(train)))
-            # print(yhat)
-            test.append(yhat)
-            train.append(yhat)
-        return test
-
-    # def auto_reg(self, num_preds):
-    #     model = AR(self.data)
-    #     model_fit = model.fit()
-    #     # make prediction
-    #     yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
-    #     return yhat
-    def auto_reg(self, num_preds):
-        train = self.data
-        test = []
-        for i in range(0, num_preds):
-            model = AR(train)
-            model_fit = model.fit()
-            # make prediction
-            yhat = float(model_fit.predict(len(train), len(train)))
-            # print(yhat)
-            test.append(yhat)
-            train.append(yhat)
-        return test
-
-    # def arma_method(self, num_preds):
-    #     model = ARMA(self.data, order=(1, 0))
-    #     model_fit = model.fit(disp=False)
-    #     # make prediction
-    #     yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
-    #     return yhat
-
-    def arma_method(self, num_preds):
-        train = self.data
-        test = []
-        for i in range(0, num_preds):
-            model = ARMA(train, order=[1, 0])
-            model_fit = model.fit(disp=False)
-            # make prediction
-            yhat = float(model_fit.predict(len(train), len(train)))
-            # print(yhat)
-            test.append(yhat)
-            train.append(yhat)
-        return test
-
-    # def sarima(self, num_preds):
-    #     model = SARIMAX(self.data, order=(1, 1, 1), seasonal_order=(2, 2, 2, 2))
-    #     model_fit = model.fit(disp=False)
-    #     # make prediction
-    #     yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
-    #     return yhat
-    def sarima(self, num_preds):
-        train = self.data
-        test = []
-        for i in range(0, num_preds):
-            model = SARIMAX(train, order=(1, 1, 1), seasonal_order=(2, 2, 2, 2), initialization='approximate_diffuse')
-            model_fit = model.fit(disp=False)
-            # make prediction
-            yhat = float(model_fit.predict(len(train), len(train)))
-            # print(yhat)
-            test.append(yhat)
-            train.append(yhat)
-        return test
-
-
-    # def ses(self, num_preds):
-    #     model = SimpleExpSmoothing(self.data)
-    #     model_fit = model.fit()
-    #     # make prediction
-    #     yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
-    #     return yhat
-
-    def ses(self, num_preds):
-        train = self.data
-        test = []
-        for i in range(0, num_preds):
-            model = SimpleExpSmoothing(train)
-            model_fit = model.fit()
-            # make prediction
-            yhat = float(model_fit.predict(len(train), len(train)))
-            # print(yhat)
-            test.append(yhat)
-            train.append(yhat)
-        return test
-
-    # def hwes(self, num_preds):
-    #     model = ExponentialSmoothing(self.data)
-    #     model_fit = model.fit()
-    #     # make prediction
-    #     yhat = model_fit.predict(len(self.data), len(self.data) + num_preds)
-    #     return yhat
-    def hwes(self, num_preds):
-        train = self.data
-        test = []
-        for i in range(0, num_preds):
-            model = ExponentialSmoothing(train)
-            model_fit = model.fit()
             # make prediction
             yhat = float(model_fit.predict(len(train), len(train)))
             # print(yhat)
@@ -252,37 +390,6 @@ class Algorithms:
         rmse, mape = self.rmse_mape(predicted)
         print('Predicted values for last 4 months : ', predicted)
         return rmse, mape
-
-    def auto_reg_calculate(self):
-        predicted = self.auto_reg(self.constants.TESTING_MONTHS)
-        rmse, mape = self.rmse_mape(predicted)
-        print('Predicted values for last 4 months : ', predicted)
-        return rmse, mape
-
-    def arma_calculate(self):
-        predicted = self.arma_method(self.constants.TESTING_MONTHS)
-        rmse, mape = self.rmse_mape(predicted)
-        print('Predicted values for last 4 months : ', predicted)
-        return rmse, mape
-
-    def sarima_calculate(self):
-        predicted = self.sarima(self.constants.TESTING_MONTHS)
-        rmse, mape = self.rmse_mape(predicted)
-        print('Predicted values for last 4 months SARIMA: ', predicted)
-        return rmse, mape
-
-    def ses_calculate(self):
-        predicted = self.ses(self.constants.TESTING_MONTHS)
-        rmse, mape = self.rmse_mape(predicted)
-        print('Predicted values for last 4 months SES: ', predicted)
-        return rmse, mape
-
-    def hwes_calculate(self):
-        predicted = self.hwes(self.constants.TESTING_MONTHS)
-        rmse, mape = self.rmse_mape(predicted)
-        print('Predicted values for last 4 months : HWES', predicted)
-        return rmse, mape
-    
     
     def rnn_calculate(self, value):
        # test_rnn = value[-constants.TESTING_MONTHS:]
@@ -311,13 +418,13 @@ class Algorithms:
     def getPredictedValues(self, min_algo, month_rnn):
         print(min_algo)
         predicted = {
-            "ARIMA": self.arima(self.constants.NUMBER_OF_PREDICTIONS),
+            "ARIMA": self.arima_final(),
             "MOVING AVERAGE": self.moving_average(self.constants.NUMBER_OF_PREDICTIONS),
-            "AR": self.auto_reg(self.constants.NUMBER_OF_PREDICTIONS),
-            "ARMA": self.arma_method(self.constants.NUMBER_OF_PREDICTIONS),
-            "SARIMA": self.sarima(self.constants.NUMBER_OF_PREDICTIONS),
-            "SES": self.ses(self.constants.NUMBER_OF_PREDICTIONS),
-            "HWES": self.hwes(self.constants.NUMBER_OF_PREDICTIONS),
+            "AR": self.ar_final(),
+            "ARMA": self.arma_final(),
+            "SARIMA": self.sarima_final(),
+            "SES": self.ses_final(),
+            "HWES": self.hwes_final(),
             "RNN": month_rnn,
             "FNN": []
         }

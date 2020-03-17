@@ -27,7 +27,7 @@ class Main:
         min_rmse = sys.maxsize
         min_mape = sys.maxsize
         min_algo = ""
-        algo_obj = Algorithms.Algorithms(value[0:constants.TRAINING_MONTHS], value[constants.TRAINING_MONTHS:])
+        algo_obj = Algorithms.Algorithms(value, value[0:constants.TRAINING_MONTHS], value[constants.TRAINING_MONTHS:])
         print()
         print('key: ', key)
         print('values: ', value)
@@ -50,7 +50,7 @@ class Main:
         print("rmse is :", rmse_ma, " ", mape_ma, " ", "MA")
 
         # Auto Reg
-        rmse_ar, mape_ar = algo_obj.auto_reg_calculate()
+        rmse_ar, mape_ar = algo_obj.ar_calculate()
         if (rmse_ar < min_rmse):
             min_rmse = rmse_ar
             min_algo = "AR"
@@ -89,19 +89,19 @@ class Main:
             min_mape = mape
         print("rmse is :", rmse, " ", mape, " ", "HWES")
         
-        #RNN
-        rmse, mape, pred = algo_obj.rnn_calculate(value)
-        if (rmse < min_rmse):
-            min_rmse = rmse
-            min_algo = "RNN"
-            min_mape = mape
-        print("rmse is :", rmse, " ", mape, " ", "RNN")
-        
-        predicted_output = algo_obj.getPredictedValues(min_algo, pred)
-        print("")
-        print("")
-        print("final pred")
-        print(predicted_output)
+        # #RNN
+        # rmse, mape, pred = algo_obj.rnn_calculate(value)
+        # if (rmse < min_rmse):
+        #     min_rmse = rmse
+        #     min_algo = "RNN"
+        #     min_mape = mape
+        # print("rmse is :", rmse, " ", mape, " ", "RNN")
+        #
+        # predicted_output = algo_obj.getPredictedValues(min_algo, pred)
+        # print("")
+        # print("")
+        # print("final pred")
+        # print(predicted_output)
         
          # Recurrent Neural Network - LSTM
         # test_rnn = value[-constants.TESTING_MONTHS:]
@@ -116,10 +116,11 @@ class Main:
         # print('____________________________')
         
         
-        
+        pred = []
         predicted_output = algo_obj.getPredictedValues(min_algo, pred)
         print("")
         print("")
+        print("final algo: ", min_algo)
         print("final pred")
         print(predicted_output)
         

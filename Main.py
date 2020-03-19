@@ -1,17 +1,15 @@
-import csv
-import math
 import warnings  # `do not disturbe` mode
 import Algorithms
-import FeedForwardNeuralNetwork
-import lstm
+import warnings  # `do not disturbe` mode
+
+import Algorithms
 
 warnings.filterwarnings('ignore')
-import HoltWintersClass
 import FileOperations
 import Constants
 import sys
-from scipy.optimize import minimize              # for function minimization
-from sklearn.metrics import mean_squared_error, mean_squared_log_error, mean_absolute_error
+
+
 # import LstmClass
 
 
@@ -89,32 +87,27 @@ class Main:
             min_mape = mape
         print("rmse is :", rmse, " ", mape, " ", "HWES")
         
-        # #RNN
-        # rmse, mape, pred = algo_obj.rnn_calculate(value)
-        # if (rmse < min_rmse):
-        #     min_rmse = rmse
-        #     min_algo = "RNN"
-        #     min_mape = mape
-        # print("rmse is :", rmse, " ", mape, " ", "RNN")
-        #
+        #RNN
+        rmse, mape, pred = algo_obj.rnn_calculate(value)
+        if (rmse < min_rmse):
+            min_rmse = rmse
+            min_algo = "RNN"
+            min_mape = mape
+        print("rmse is :", rmse, " ", mape, " ", "RNN")
+
+        #FNN
+        rmse, mape = algo_obj.fnn_calculate(value)
+        if (rmse < min_rmse):
+            min_rmse = rmse
+            min_algo = "FNN"
+            min_mape = mape
+        print("rmse is :", rmse, " ", mape, " ", "FNN")
+        
         # predicted_output = algo_obj.getPredictedValues(min_algo, pred)
         # print("")
         # print("")
         # print("final pred")
         # print(predicted_output)
-        
-         # Recurrent Neural Network - LSTM
-        # test_rnn = value[-constants.TESTING_MONTHS:]
-
-        # yhat, one_year_yhats = lstm.lstm.rnn(value, constants.TESTING_MONTHS)
-        # print('Recurrent Neural Network (LSTM):')
-        # print('Actual values: ', test_rnn)
-        # print('Predicted values: ', yhat)
-        # print('One year Values: ',one_year_yhats)
-        # rmse_rnn = math.sqrt(mean_squared_error(test_rnn, yhat))
-        # print('RMSE: %.3f' % rmse_rnn)
-        # print('____________________________')
-        
         
         pred = []
         predicted_output = algo_obj.getPredictedValues(min_algo, pred)

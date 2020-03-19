@@ -1,8 +1,8 @@
 from pandas import np
-# from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import TimeSeriesSplit
 from statsmodels.tsa.ar_model import AR
-from statsmodels.tsa.arima_model import ARIMA
+from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.arima_model import ARMA
 from statsmodels.tsa.holtwinters import SimpleExpSmoothing, ExponentialSmoothing
 from statsmodels.tsa.statespace.sarimax import SARIMAX
@@ -12,6 +12,7 @@ import math
 from scipy import linalg
 from sklearn.metrics import mean_squared_error, mean_squared_log_error, mean_absolute_error
 import lstm
+import FeedForwardNeuralNetwork
 import numpy
 month_rnn=[]
 class Algorithms:
@@ -51,7 +52,7 @@ class Algorithms:
     def arima_calculate(self):
         differenced = self.difference(self.data, 12)
         model = ARIMA(differenced, order=(7, 0, 1))
-        model_fit = model.fit(disp=0)
+        model_fit = model.fit()
         start_index = len(differenced)
         end_index = start_index + 11
         forecast = model_fit.predict(start=start_index, end=end_index)
@@ -72,7 +73,7 @@ class Algorithms:
     def arima_final(self):
         differenced = self.difference(self.total, 12)
         model = ARIMA(differenced, order=(7, 0, 1))
-        model_fit = model.fit(disp=0)
+        model_fit = model.fit()
         start_index = len(differenced)
         end_index = start_index + 11
         forecast = model_fit.predict(start=start_index, end=end_index)
@@ -323,65 +324,65 @@ class Algorithms:
             train.append(yhat)
         return test
 
-    def holt_winters_function(self, params=[0.1, 0.1, 0.1],
-                              series=[828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576, 648, 936, 720, 144,
-                                      1008, 360, 432, 1080,
-                                      756, 360, 324, 1656], loss_function=mean_squared_error, slen=12):
-        errors = []
+    # def holt_winters_function(self, params=[0.1, 0.1, 0.1],
+    #                           series=[828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576, 648, 936, 720, 144,
+    #                                   1008, 360, 432, 1080,
+    #                                   756, 360, 324, 1656], loss_function=mean_squared_error, slen=12):
+    #     errors = []
 
-        print('alpha beta gamma: ', params)
+    #     print('alpha beta gamma: ', params)
 
-        values = [828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576, 648, 936, 720, 144, 1008, 360, 432,
-                  1080,
-                  756, 360, 324, 1656]
-        alpha, beta, gamma = params
+    #     values = [828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576, 648, 936, 720, 144, 1008, 360, 432,
+    #               1080,
+    #               756, 360, 324, 1656]
+    #     alpha, beta, gamma = params
 
-        # set the number of folds for cross-validation
-        tscv = TimeSeriesSplit(n_splits=5)
+    #     # set the number of folds for cross-validation
+    #     tscv = TimeSeriesSplit(n_splits=5)
 
-        # print('tscv: ', tscv.split(values))
-        # iterating over folds, train model on each, forecast and calculate error
+    #     # print('tscv: ', tscv.split(values))
+    #     # iterating over folds, train model on each, forecast and calculate error
 
-        new_model = HoltWintersClass.HoltWintersClass(
-            series=[828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576,
-                    648, 936, 720, 144, 1008, 360, 432, 1080], slen=slen,
-            alpha=alpha, beta=beta, gamma=gamma, n_preds=4)
-        new_model.triple_exponential_smoothing()
+    #     new_model = HoltWintersClass.HoltWintersClass(
+    #         series=[828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576,
+    #                 648, 936, 720, 144, 1008, 360, 432, 1080], slen=slen,
+    #         alpha=alpha, beta=beta, gamma=gamma, n_preds=4)
+    #     new_model.triple_exponential_smoothing()
 
-        predictions = new_model.result[-4:]
-        print('predictions')
-        print(predictions)
-        actual = [756, 360, 324, 1656]
-        print('actual')
-        print(actual)
-        mape = self.mean_absolute_percentage_error(actual, predictions)
-        error = loss_function(predictions, actual)
-        errors.append(error)
+    #     predictions = new_model.result[-4:]
+    #     print('predictions')
+    #     print(predictions)
+    #     actual = [756, 360, 324, 1656]
+    #     print('actual')
+    #     print(actual)
+    #     mape = self.mean_absolute_percentage_error(actual, predictions)
+    #     error = loss_function(predictions, actual)
+    #     errors.append(error)
 
-        print("rmse optimized hwes: ", np.mean(np.array(errors)))
+    #     print("rmse optimized hwes: ", np.mean(np.array(errors)))
 
-        # for train, test in tscv.split(values):
-        # print('training data')
-        # print(train)
-        # print('test')
-        # print(test)
-        # new_model = HoltWintersClass.HoltWintersClass(series=[828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576,
-        #                                                       648, 936, 720, 144, 1008, 360, 432, 1080], slen=slen,
-        #                                               alpha=alpha, beta=beta, gamma=gamma, n_preds=len(test))
-        # new_model.triple_exponential_smoothing()
-        #
-        # predictions = new_model.result[-len(test):]
-        # print('predictions')
-        # print(predictions)
-        # actual = [756, 360, 324, 1656]
-        # print('actual')
-        # print(actual)
-        # error = loss_function(predictions, actual)
-        # errors.append(error)
-        #
-        # print("rmse optimized hwes: ", np.mean(np.array(errors)))
+    #     # for train, test in tscv.split(values):
+    #     # print('training data')
+    #     # print(train)
+    #     # print('test')
+    #     # print(test)
+    #     # new_model = HoltWintersClass.HoltWintersClass(series=[828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576,
+    #     #                                                       648, 936, 720, 144, 1008, 360, 432, 1080], slen=slen,
+    #     #                                               alpha=alpha, beta=beta, gamma=gamma, n_preds=len(test))
+    #     # new_model.triple_exponential_smoothing()
+    #     #
+    #     # predictions = new_model.result[-len(test):]
+    #     # print('predictions')
+    #     # print(predictions)
+    #     # actual = [756, 360, 324, 1656]
+    #     # print('actual')
+    #     # print(actual)
+    #     # error = loss_function(predictions, actual)
+    #     # errors.append(error)
+    #     #
+    #     # print("rmse optimized hwes: ", np.mean(np.array(errors)))
 
-        return np.mean(np.array(errors))
+    #     return np.mean(np.array(errors))
 
 
 
@@ -401,19 +402,35 @@ class Algorithms:
         rmse, mape = self.rmse_mape(yhat)
         #print('RMSE: %.3f' % rmse)
         return rmse, mape, month_rnn
-    
-    def fnn_calculate(self, value):
-        #test_size = value[-6:]
 
-        yhat = FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn(value, constants.TESTING_MONTHS)
-        print('Feed Forward Neural Network:')
+    def fnn_calculate(self, value):
+       # test_rnn = value[-constants.TESTING_MONTHS:]
+            
+        yhat = FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn(value, self.constants.TESTING_MONTHS)
+        print('Feed Forward Neural Network (LSTM):')
         print('Actual values: ', self.test)
         print('Predicted values: ', yhat)
-        rmse_fnn = math.sqrt(mean_squared_error(test_size, yhat))
-        mape_fnn = algo_obj.mean_absolute_percentage_error(test_size, yhat)
-        print('RMSE: %.3f' % rmse_fnn)
-        print('MAPE: ', mape_fnn)
-        return rmse_fnn, mape_fnn
+        rmse, mape = self.rmse_mape(yhat)
+        #print('RMSE: %.3f' % rmse)
+        return rmse, mape
+
+    # def rnn_final(self):
+    #     yhat, month_rnn = lstm.lstm.rnn(self.data, 0)
+    #     return yhat
+    
+    
+    # def fnn_calculate(self, value):
+    #     #test_size = value[-6:]
+
+    #     yhat = FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn(value, constants.TESTING_MONTHS)
+    #     print('Feed Forward Neural Network:')
+    #     print('Actual values: ', self.test)
+    #     print('Predicted values: ', yhat)
+    #     rmse_fnn = math.sqrt(mean_squared_error(test_size, yhat))
+    #     mape_fnn = algo_obj.mean_absolute_percentage_error(test_size, yhat)
+    #     print('RMSE: %.3f' % rmse_fnn)
+    #     print('MAPE: ', mape_fnn)
+    #     return rmse_fnn, mape_fnn
 
     def getPredictedValues(self, min_algo, month_rnn):
         print(min_algo)
@@ -425,7 +442,7 @@ class Algorithms:
             "SARIMA": self.sarima_final(),
             "SES": self.ses_final(),
             "HWES": self.hwes_final(),
-            "RNN": month_rnn,
+            "RNN": [],
             "FNN": []
         }
         return predicted.get(min_algo, "Failure")

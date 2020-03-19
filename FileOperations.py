@@ -25,7 +25,10 @@ class FileOperations:
         for key in dict_data:
             nums = dict_data.get(key)
             for i in range(0, len(nums)):
-                nums[i] = int(nums[i])
+                if(nums[i] == ''):
+                    nums[i] = 0
+                else:
+                    nums[i] = int(nums[i])
 
         return dict_data
 

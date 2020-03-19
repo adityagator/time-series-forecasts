@@ -45,10 +45,13 @@ class Algorithms:
 
     def rmse_mape(self, predicted):
         print("true: ", self.test, " pred: ", predicted)
-        return math.sqrt(mean_squared_error(self.test, predicted)), self.mean_absolute_percentage_error(self.test,
-                                                                                                        predicted)
+        return round(math.sqrt(mean_squared_error(self.test, predicted)),2), round(self.mean_absolute_percentage_error(self.test,
+                                                                                                        predicted),2)
 # np.mean(np.abs((self.test - predicted) / self.test)) * 100
     #working
+
+    #def ma_calculate(self):
+
     def arima_calculate(self):
         differenced = self.difference(self.data, 12)
         model = ARIMA(differenced, order=(7, 0, 1))
@@ -61,9 +64,9 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(inverted)
+            pred.append(round(inverted, 2))
             print('Day %d: %f' % (day, inverted))
-            history.append(inverted)
+            history.append(round(inverted, 2))
             day += 1
         for i in range(0, len(pred)):
             if(pred[i] < 0):
@@ -82,9 +85,9 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(inverted)
+            pred.append(round(inverted, 2))
             print('Day %d: %f' % (day, inverted))
-            history.append(inverted)
+            history.append(round(inverted, 2))
             day += 1
         for i in range(0, len(pred)):
             if(pred[i] < 0):
@@ -103,9 +106,9 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             # inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(yhat)
+            pred.append(round(yhat,2))
             print('Day %d: %f' % (day, yhat))
-            history.append(yhat)
+            history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
             if pred[i] < 0:
@@ -119,14 +122,14 @@ class Algorithms:
         start_index = len(self.total)
         end_index = start_index + 11
         forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.data]
+        history = [x for x in self.total]
         day = 1
         pred = []
         for yhat in forecast:
             # inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(yhat)
+            pred.append(round(yhat,2))
             print('Day %d: %f' % (day, yhat))
-            history.append(yhat)
+            history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
             if pred[i] < 0:
@@ -145,9 +148,9 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(inverted)
-            print('Day %d: %f' % (day, inverted))
-            history.append(inverted)
+            pred.append(round(inverted, 2))
+            print('Day %d: %f' % (day, round(inverted, 2)))
+            history.append(round(inverted, 2))
             day += 1
         for i in range(0, len(pred)):
             if pred[i] < 0:
@@ -166,30 +169,51 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(inverted)
-            print('Day %d: %f' % (day, inverted))
-            history.append(inverted)
+            pred.append(round(inverted, 2))
+            print('Day %d: %f' % (day, round(inverted, 2)))
+            history.append(round(inverted, 2))
             day += 1
         for i in range(0, len(pred)):
             if (pred[i] < 0):
                 pred[i] = 0
         return pred
 
+    # def arma_calculate(self):
+    #     differenced = self.difference(self.data, 12)
+    #     model = ARMA(differenced, order=[1,0])
+    #     model_fit = model.fit(disp=0)
+    #     start_index = len(differenced)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.data]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         inverted = self.inverse_difference(history, yhat, 12)
+    #         pred.append(inverted)
+    #         print('Day %d: %f' % (day, inverted))
+    #         history.append(inverted)
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if pred[i] < 0:
+    #             pred[i] = 0
+    #     return self.rmse_mape(pred)
+
     def arma_calculate(self):
-        differenced = self.difference(self.data, 12)
-        model = ARMA(differenced, order=[1,0])
+        # differenced = self.difference(self.data, 12)
+        model = ARMA(self.data, order=[1,0])
         model_fit = model.fit(disp=0)
-        start_index = len(differenced)
+        start_index = len(self.data)
         end_index = start_index + 11
         forecast = model_fit.predict(start=start_index, end=end_index)
         history = [x for x in self.data]
         day = 1
         pred = []
         for yhat in forecast:
-            inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(inverted)
-            print('Day %d: %f' % (day, inverted))
-            history.append(inverted)
+            # inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(round(yhat, 2))
+            print('Day %d: %f' % (day, round(yhat,2)))
+            history.append(round(yhat, 2))
             day += 1
         for i in range(0, len(pred)):
             if pred[i] < 0:
@@ -197,23 +221,23 @@ class Algorithms:
         return self.rmse_mape(pred)
 
     def arma_final(self):
-        differenced = self.difference(self.total, 12)
-        model = ARMA(differenced, order=[1, 0])
+         # differenced = self.difference(self.data, 12)
+        model = ARMA(self.total, order=[1,0])
         model_fit = model.fit(disp=0)
-        start_index = len(differenced)
+        start_index = len(self.total)
         end_index = start_index + 11
         forecast = model_fit.predict(start=start_index, end=end_index)
         history = [x for x in self.total]
         day = 1
         pred = []
         for yhat in forecast:
-            inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(inverted)
-            print('Day %d: %f' % (day, inverted))
-            history.append(inverted)
+            # inverted = self.inverse_difference(history, yhat, 12)
+            pred.append(round(yhat,2))
+            print('Day %d: %f' % (day, round(yhat,2)))
+            history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
-            if (pred[i] < 0):
+            if pred[i] < 0:
                 pred[i] = 0
         return pred
 
@@ -230,9 +254,9 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             # inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(yhat)
-            print('Day %d: %f' % (day, yhat))
-            history.append(yhat)
+            pred.append(round(yhat,2))
+            print('Day %d: %f' % (day, round(yhat,2)))
+            history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
             if pred[i] < 0:
@@ -251,9 +275,9 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             # inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(yhat)
-            print('Day %d: %f' % (day, yhat))
-            history.append(yhat)
+            pred.append(round(yhat,2))
+            print('Day %d: %f' % (day, round(yhat,2)))
+            history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
             if pred[i] < 0:
@@ -273,9 +297,9 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             # inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(yhat)
-            print('Day %d: %f' % (day, yhat))
-            history.append(yhat)
+            pred.append(round(yhat,2))
+            print('Day %d: %f' % (day, round(yhat,2)))
+            history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
             if pred[i] < 0:
@@ -296,7 +320,7 @@ class Algorithms:
             # inverted = self.inverse_difference(history, yhat, 12)
             pred.append(yhat)
             print('Day %d: %f' % (day, yhat))
-            history.append(yhat)
+            history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
             if pred[i] < 0:
@@ -320,8 +344,8 @@ class Algorithms:
             # make prediction
             yhat = float(model_fit.predict(len(train), len(train)))
             # print(yhat)
-            test.append(yhat)
-            train.append(yhat)
+            test.append(round(yhat,2))
+            train.append(round(yhat,2))
         return test
 
     # def holt_winters_function(self, params=[0.1, 0.1, 0.1],
@@ -390,7 +414,7 @@ class Algorithms:
         predicted = self.moving_average(self.constants.TESTING_MONTHS)
         rmse, mape = self.rmse_mape(predicted)
         print('Predicted values for last 4 months : ', predicted)
-        return rmse, mape
+        return round(rmse,2), round(mape,2)
     
     def rnn_calculate(self, value):
        # test_rnn = value[-constants.TESTING_MONTHS:]
@@ -401,18 +425,18 @@ class Algorithms:
         print('Predicted values: ', yhat)
         rmse, mape = self.rmse_mape(yhat)
         #print('RMSE: %.3f' % rmse)
-        return rmse, mape, month_rnn
+        return round(rmse,2), round(mape,2), month_rnn
 
     def fnn_calculate(self, value):
        # test_rnn = value[-constants.TESTING_MONTHS:]
             
         yhat = FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn(value, self.constants.TESTING_MONTHS)
-        print('Feed Forward Neural Network (LSTM):')
+        print('Feed Forward Neural Network:')
         print('Actual values: ', self.test)
         print('Predicted values: ', yhat)
         rmse, mape = self.rmse_mape(yhat)
         #print('RMSE: %.3f' % rmse)
-        return rmse, mape
+        return round(rmse,2), round(mape,2)
 
     # def rnn_final(self):
     #     yhat, month_rnn = lstm.lstm.rnn(self.data, 0)
@@ -443,7 +467,7 @@ class Algorithms:
             "SES": self.ses_final(),
             "HWES": self.hwes_final(),
             "RNN": [],
-            "FNN": []
+            "FNN": FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn_next_year(self.total)
         }
         return predicted.get(min_algo, "Failure")
 

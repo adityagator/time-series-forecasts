@@ -86,7 +86,7 @@ class FeedForwardNeuralNetwork:
     		# fit model and make forecast for history
     		yhat = FeedForwardNeuralNetwork.model_predict(model, history, cfg)
     		# store forecast in list of predictions
-    		predictions.append(yhat)
+    		predictions.append(numpy.round(yhat,2))
     		# add actual observation to history for the next loop
     		history.append(test[i])
     	# estimate prediction error
@@ -128,6 +128,7 @@ class FeedForwardNeuralNetwork:
         rmse, prediction_list = FeedForwardNeuralNetwork.walk_forward_validation(data, n_test, config)
         l = numpy.array(prediction_list).tolist()
         flat_list = [item for sublist in l for item in sublist]
+        flat_list = [float(numpy.round(x)) for x in flat_list]
         #print('Feed Forward Neural Net')
         #print('Actual Values: ', data[-n_test:])
         #print('Predicted values: ',flat_list)
@@ -135,4 +136,30 @@ class FeedForwardNeuralNetwork:
         #print('MAPE: %.3f' %mape_ffn)
         #print('RMSE: %.3f' %rmse)
         return flat_list
+
+    def fnn_next_year(total_data):
+        train_data = total_data
+        config = [10,10,25,1]
+        print("Next Year Pred using FNN")
+
+        predictions = list()
+        test = [None]*12
+        model = FeedForwardNeuralNetwork.model_fit(train_data, config)
+        # seed history with training dataset
+        history = [x for x in train_data]
+        # step over each time-step in the test set
+        for i in range(len(test)):
+            # fit model and make forecast for history
+            yhat = FeedForwardNeuralNetwork.model_predict(model, history, config)
+            # store forecast in list of predictions
+            predictions.append(numpy.round(yhat,2))
+            # add actual observation to history for the next loop
+            history.append(numpy.round(yhat,2))
+
+        l = numpy.array(predictions).tolist()
+        flat_list = [item for sublist in l for item in sublist]
+        
+        return flat_list
+
+
 

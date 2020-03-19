@@ -30,7 +30,7 @@ class Main:
         print('key: ', key)
         print('values: ', value)
         print()
-
+           
         # ARIMA Algorithm
         rmse_arima, mape_arima = algo_obj.arima_calculate()
         if(rmse_arima < min_rmse):
@@ -94,7 +94,7 @@ class Main:
             min_algo = "RNN"
             min_mape = mape
         print("rmse is :", rmse, " ", mape, " ", "RNN")
-
+        
         #FNN
         rmse, mape = algo_obj.fnn_calculate(value)
         if (rmse < min_rmse):
@@ -125,7 +125,6 @@ class Main:
 
         # Feed forward neural network
         
-        print('____________________________')
 
         # #Holt-Winters method
         # #hard code input for testing

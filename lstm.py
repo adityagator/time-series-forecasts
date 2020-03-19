@@ -127,6 +127,7 @@ class lstm:
             expected = raw_values[len(train) + i + 1]
             #print('Month=%d, Predicted=%f, Expected=%f' % (i+1, yhat, expected))
         one_year_predictions=[]
+        predictions = [float(numpy.round(x)) for x in predictions]
         for i in range(0,12):
             X, y = supervised_values[i, 0:-1], supervised_values[i, -1]
             yhat = lstm.forecast_lstm(lstm_model, 1, X)
@@ -137,7 +138,7 @@ class lstm:
             # store forecast
             one_year_predictions.append(max(0,yhat))
 
-
+        one_year_predictions = [float(numpy.round(x)) for x in one_year_predictions]
         # report performance
         #rmse = sqrt(mean_squared_error(raw_values[-4:], predictions))
         #print('Test RMSE: %.3f' % rmse)

@@ -147,4 +147,10 @@ class lstm:
         #pyplot.plot(raw_values[-4:])
         #pyplot.plot(predictions)
         #pyplot.show()
+        print("")
+        print("")
+        print("RNN pred: final:")
+        print(predictions)
+        print("")
+        print("")
         return predictions, one_year_predictions

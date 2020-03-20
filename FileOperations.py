@@ -28,7 +28,7 @@ class FileOperations:
                 if(nums[i] == ''):
                     nums[i] = 0
                 else:
-                    nums[i] = int(nums[i])
+                    nums[i] = float(nums[i])
 
         return dict_data
 

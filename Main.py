@@ -88,7 +88,7 @@ class Main:
         print("rmse is :", rmse, " ", mape, " ", "HWES")
         
         #RNN
-        rmse, mape, pred = algo_obj.rnn_calculate(value)
+        rmse, mape, pred_rnn = algo_obj.rnn_calculate(value)
         if (rmse < min_rmse):
             min_rmse = rmse
             min_algo = "RNN"
@@ -110,7 +110,7 @@ class Main:
         # print(predicted_output)
         
         pred = []
-        predicted_output = algo_obj.getPredictedValues(min_algo, pred)
+        predicted_output = algo_obj.getPredictedValues(min_algo, pred_rnn)
         print("")
         print("")
         print("final algo: ", min_algo)

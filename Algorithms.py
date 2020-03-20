@@ -466,7 +466,7 @@ class Algorithms:
             "SARIMA": self.sarima_final(),
             "SES": self.ses_final(),
             "HWES": self.hwes_final(),
-            "RNN": [],
+            "RNN": month_rnn,
             "FNN": FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn_next_year(self.total)
         }
         return predicted.get(min_algo, "Failure")

@@ -1,9 +1,15 @@
 from django.db import models
+from multiselectfield import MultiSelectField
 
 # Create your models here.
 class InputData(models.Model):
-    algorithms = models.TextField()
-    # algorithms = models.ChoiceField()
+    # algorithms = models.TextField()
+    ALGO_CHOICES = (
+        ('AR', 'Auto Regression'),
+        ('ARIMA', 'ARIMA'),
+    )
+    # algorithms = models.CharField(max_length = 100, choices = ALGO_CHOICES)
+    algorithms = MultiSelectField(choices = ALGO_CHOICES)
     cluster = models.BooleanField(default=True)
     log = models.BooleanField(default=False)
     graph = models.BooleanField(default=True)

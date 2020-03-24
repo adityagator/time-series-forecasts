@@ -19,11 +19,13 @@ from pages.views import home_view
 from pages.views import about_view
 from pages.views import help_view
 from data.views import input_create_view
+from data.views import processing_view
 
 urlpatterns = [
     path('', home_view, name='home'),
     path('about/', about_view, name='about'),
     path('help/', help_view, name='help'),
     path('create/', input_create_view),
+    path('processing/', processing_view),
     path('admin/', admin.site.urls),
 ]

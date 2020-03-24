@@ -15,6 +15,7 @@ class InputData(models.Model):
     graph = models.BooleanField(default=True)
     deepLearning = models.BooleanField(default=False)
     file = models.FileField(upload_to="input/")
+    # isProcessed = models.BooleanField(default=False)
 
 class OutputData(models.Model):
     forecast_file = models.FileField()

@@ -25,7 +25,8 @@ SECRET_KEY = 'hq_u07u43p2zf0_0-**qg1l#t&i%o&$8g2#%^lbz_ucp)3*uvy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-MEDIA_ROOT = "/Users/adityabharadwaj/Dev/time-forecast-app/files"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'files/')
+MEDIA_URL = '/output/'
 
 ALLOWED_HOSTS = []
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'data',
     'pages',
     'multiselectfield',
+    'processing',
 ]
 
 MIDDLEWARE = [

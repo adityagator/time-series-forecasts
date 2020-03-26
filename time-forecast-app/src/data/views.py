@@ -1,33 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .forms import InputDataForm
 from .models import InputData
+from .models import OutputData
 from django.http import HttpResponseRedirect
-
+from processing.process import Process
 
 def input_create_view(request):
     form = InputDataForm(request.POST, request.FILES)
-    print("This is the form")
-    print(form)
     if form.is_valid():
-        form.save()
-        # form = InputDataForm()
-        return HttpResponseRedirect('/processing')
-        # input_list = InputData.objects.all()
-        # contextp = {
-        #     'input_list' : input_list
-        # }
-        # return render(request, "input/processing.html", contextp)
+        input_data = form.save()
+        link_with_id = '/process/' + str(input_data.id)
+        return HttpResponseRedirect(link_with_id)
     context = {
         'form' : form
     }
     return render(request, "input/input_create.html", context)
 
-def processing_view(request):
-    input_list = InputData.objects.all()
-    
-    # print(in)
+def output_detail_view(request, id):
+    input = InputData.objects.get(id=id)
+    # Process.run(input)
+    # output_data = OutputData.objects.create(input=input, forecast_file=input.file)
+    output_data = get_object_or_404(OutputData, input=input)
     context = {
-        "input_list" : input_list
+        "output_data" : output_data
     }
-    
-    return render(request, "input/processing.html", context)
+    return render(request, "output/output_detail.html", context)
+

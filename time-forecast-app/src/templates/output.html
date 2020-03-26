@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Output file</h1>
+
+<a href={{ output.get_forecast_file() }} download>
+    Download Forecast File
+    <!-- <img src="/images/myw3schoolsimage.jpg" alt="W3Schools"> -->
+  </a>
+<p>{{ test }}</p>
+{% endblock %}

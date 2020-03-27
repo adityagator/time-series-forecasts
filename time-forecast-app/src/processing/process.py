@@ -10,6 +10,8 @@ import sys
 from scipy.optimize import minimize
 from sklearn.metrics import mean_squared_log_error, mean_squared_error
 from processing.holt_winters import HoltWintersClass
+import warnings
+warnings.filterwarnings("ignore")
 
 class Process():
     def run(input):
@@ -39,7 +41,7 @@ class Process():
 
             # Moving Average
             if "MA" in input.algorithms:
-                rmse_ma, mape_ma = algo_obj.moving_average_calculate()
+                rmse_ma, mape_ma = algo_obj.ma_calculate()
                 if(rmse_ma < min_rmse):
                     min_rmse = rmse_ma
                     min_algo = "MOVING AVERAGE"

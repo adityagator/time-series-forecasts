@@ -11,6 +11,8 @@ from pandas import np
 import math
 from sklearn.model_selection import TimeSeriesSplit
 from processing.holt_winters import HoltWintersClass
+import warnings
+warnings.filterwarnings("ignore")
 # from processing.fnn import FeedForwardNeuralNetwork
 
 class Algorithms:
@@ -210,6 +212,45 @@ class Algorithms:
             if pred[i] < 0:
                 pred[i] = 0
         return pred
+
+    # Moving Average
+    def ma_calculate(self):
+        model = ARMA(self.data, order=[0,1])
+        model_fit = model.fit(disp=0)
+        start_index = len(self.data)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.data]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            pred.append(round(yhat, 2))
+            print('Day %d: %f' % (day, round(yhat,2)))
+            history.append(round(yhat, 2))
+            day += 1
+        for i in range(0, len(pred)):
+            if pred[i] < 0:
+                pred[i] = 0
+        return self.rmse_mape(pred)
+    
+    def ma_final(self):
+        model = ARMA(self.total, order=[0,1])
+        model_fit = model.fit(disp=0)
+        start_index = len(self.total)
+        end_index = start_index + 11
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        history = [x for x in self.total]
+        day = 1
+        pred = []
+        for yhat in forecast:
+            pred.append(round(yhat,2))
+            print('Day %d: %f' % (day, round(yhat,2)))
+            history.append(round(yhat,2))
+            day += 1
+        for i in range(0, len(pred)):
+            if pred[i] < 0:
+                pred[i] = 0
+        return pred
     
     def ses_calculate(self):
         model = SimpleExpSmoothing(self.data)
@@ -250,29 +291,29 @@ class Algorithms:
                 pred[i] = 0
         return pred
     
-    def weighted_average(self, series, weights):
-        result = 0.0
-        weights.reverse()
-        for n in range(len(weights)):
-            result += series.iloc[-n-1] * weights[n]
-        return result
+    # def weighted_average(self, series, weights):
+    #     result = 0.0
+    #     weights.reverse()
+    #     for n in range(len(weights)):
+    #         result += series.iloc[-n-1] * weights[n]
+    #     return result
 
-    def moving_average(self, num_preds):
-        train = self.data
-        test = []
-        for i in range(0, num_preds):
-            model = ARMA(train, order=(0, 1))
-            model_fit = model.fit(disp=False)
-            yhat = float(model_fit.predict(len(train), len(train)))
-            test.append(round(yhat,2))
-            train.append(round(yhat,2))
-        return test
+    # def moving_average(self, num_preds):
+    #     train = self.data
+    #     test = []
+    #     for i in range(0, num_preds):
+    #         model = ARMA(train, order=(0, 1))
+    #         model_fit = model.fit(disp=False)
+    #         yhat = float(model_fit.predict(len(train), len(train)))
+    #         test.append(round(yhat,2))
+    #         train.append(round(yhat,2))
+    #     return test
 
-    def moving_average_calculate(self):
-        predicted = self.moving_average(Constants.TESTING_MONTHS)
-        rmse, mape = self.rmse_mape(predicted)
-        print('Predicted values for last 4 months : ', predicted)
-        return round(rmse,2), round(mape,2)
+    # def moving_average_calculate(self):
+    #     predicted = self.moving_average(Constants.TESTING_MONTHS)
+    #     rmse, mape = self.rmse_mape(predicted)
+    #     print('Predicted values for last 4 months : ', predicted)
+    #     return round(rmse,2), round(mape,2)
     
     def rnn_calculate(self, value):
         yhat, month_rnn = lstm.lstm.rnn(value, Constants.TESTING_MONTHS)
@@ -296,7 +337,7 @@ class Algorithms:
         series = self.total
         errors = []
 
-        print('alpha beta gamma: ', params)
+        # print('alpha beta gamma: ', params)
 
         values = self.total
         alpha, beta, gamma = params
@@ -313,39 +354,12 @@ class Algorithms:
         new_model.triple_exponential_smoothing()
 
         predictions = new_model.result[-12:]
-        print('predictions')
-        print(predictions)
         actual = self.test
-        print('actual')
-        print(actual)
         mape = self.mean_absolute_percentage_error(predictions)
         error = loss_function(predictions, actual)
         errors.append(error)
         rmse_hwes = self.rmse(predictions)
-        # print("rmse optimized hwes: ", np.mean(np.array(errors)))
-        print("rmse optimized hwes: ", rmse_hwes)
-        # for train, test in tscv.split(values):
-        # print('training data')
-        # print(train)
-        # print('test')
-        # print(test)
-        # new_model = HoltWintersClass.HoltWintersClass(series=[828, 324, 648, 720, 468, 612, 828, 1008, 1296, 1368, 648, 576,
-        #                                                       648, 936, 720, 144, 1008, 360, 432, 1080], slen=slen,
-        #                                               alpha=alpha, beta=beta, gamma=gamma, n_preds=len(test))
-        # new_model.triple_exponential_smoothing()
-        #
-        # predictions = new_model.result[-len(test):]
-        # print('predictions')
-        # print(predictions)
-        # actual = [756, 360, 324, 1656]
-        # print('actual')
-        # print(actual)
-        # error = loss_function(predictions, actual)
-        # errors.append(error)
-        #
-        # print("rmse optimized hwes: ", np.mean(np.array(errors)))
-
-        # return np.mean(np.array(errors))
+    
         return rmse_hwes
 
     def hwes_final(self, params):
@@ -363,7 +377,7 @@ class Algorithms:
         if min_algo == "ARIMA":
             return self.arima_final()
         elif min_algo == "MOVING AVERAGE":
-            return self.moving_average(Constants.NUMBER_OF_PREDICTIONS)
+            return self.ma_final()
         elif min_algo == "AR":
             return self.ar_final()
         elif min_algo == "ARMA":

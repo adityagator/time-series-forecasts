@@ -15,11 +15,9 @@ warnings.filterwarnings("ignore")
 
 class Process():
     def run(input):
-        print(input.algorithms)
+        count = 0
         input_file = os.path.join(settings.MEDIA_ROOT, input.file.name)
         dict_data = FileOperations.read_file(file=input_file)
-        print("dict data:")
-        print(dict_data)
         output_dict = {}
         output_obj = OutputData()
         for key, value in dict_data.items():
@@ -27,8 +25,8 @@ class Process():
             min_mape = sys.maxsize
             min_algo = ""
             algo_obj = Algorithms(value,
-                                  value[0:Constants.TRAINING_MONTHS],
-                                  value[Constants.TRAINING_MONTHS:])
+                                  value[0:-Constants.TESTING_MONTHS],
+                                  value[-Constants.TESTING_MONTHS:])
             min_params = []
             # ARIMA Algorithm
             if "ARIMA" in input.algorithms:
@@ -37,7 +35,7 @@ class Process():
                     min_rmse = rmse_arima
                     min_algo = "ARIMA"
                     min_mape = mape_arima
-                print("rmse is :", rmse_arima, " ", mape_arima, " ", "ARIMA")
+                # print("rmse is :", rmse_arima, " ", mape_arima, " ", "ARIMA")
 
             # Moving Average
             if "MA" in input.algorithms:
@@ -46,7 +44,7 @@ class Process():
                     min_rmse = rmse_ma
                     min_algo = "MOVING AVERAGE"
                     min_mape = mape_ma
-                print("rmse is :", rmse_ma, " ", mape_ma, " ", "MA")
+                # print("rmse is :", rmse_ma, " ", mape_ma, " ", "MA")
 
             # Auto Reg
             if "AR" in input.algorithms:
@@ -55,7 +53,7 @@ class Process():
                     min_rmse = rmse_ar
                     min_algo = "AR"
                     min_mape = mape_ar
-                print("rmse is :", rmse_ar, " ", mape_ar, " ", "AR")
+                # print("rmse is :", rmse_ar, " ", mape_ar, " ", "AR")
 
             # ARMA
             if "ARMA" in input.algorithms:
@@ -64,7 +62,7 @@ class Process():
                     min_rmse = rmse_arma
                     min_algo = "ARMA"
                     min_mape = mape_arma
-                print("rmse is :", rmse_arma, " ", mape_arma, " ", "ARMA")
+                # print("rmse is :", rmse_arma, " ", mape_arma, " ", "ARMA")
 
             # SARIMA
             if "SARIMA" in input.algorithms:
@@ -73,13 +71,13 @@ class Process():
                     min_rmse = rmse_sarima
                     min_algo = "SARIMA"
                     min_mape = mape_sarima
-                print(
-                    "rmse is :",
-                    rmse_sarima,
-                    " ",
-                    mape_sarima,
-                    " ",
-                    "SARIMA")
+                # print(
+                #     "rmse is :",
+                #     rmse_sarima,
+                #     " ",
+                #     mape_sarima,
+                #     " ",
+                #     "SARIMA")
 
             # SES
             if "SES" in input.algorithms:
@@ -88,7 +86,7 @@ class Process():
                     min_rmse = rmse_ses
                     min_algo = "SES"
                     min_mape = mape_ses
-                print("rmse is :", rmse_ses, " ", mape_ses, " ", "SES")
+                # print("rmse is :", rmse_ses, " ", mape_ses, " ", "SES")
 
             # FNN
             # if input.deepLearning:
@@ -101,7 +99,7 @@ class Process():
 
                 # Holt-Winters method
             if "HWES" in input.algorithms:
-                print('optimised HWES Method :')
+                # print('optimised HWES Method :')
                 data = value
                 # data = ads.Ads[:-20]  # leave some data for testing
 
@@ -118,7 +116,7 @@ class Process():
 
                 # Take optimal values...
                 alpha_final, beta_final, gamma_final = opt.x
-                print('final values: ', alpha_final, beta_final, gamma_final)
+                # print('final values: ', alpha_final, beta_final, gamma_final)
 
                 # ...and train the model with them, forecasting for the next 50 hours
                 model = HoltWintersClass(
@@ -137,13 +135,16 @@ class Process():
                     min_algo = "HWES"
                     min_mape = algo_obj.mean_absolute_percentage_error(predictions)
                     min_params = [alpha_final, beta_final, gamma_final]
-                print("rmse is :", rmse_hwes, " ", "HWES")
-                print()
+                # print("rmse is :", rmse_hwes, " ", "HWES")
+                # print()
 
                 print('____________________________')
-
+            
+            # count = count + 1
+            # print("count is")
+            # print(count)
             predicted_output = algo_obj.getPredictedValues(min_algo, min_params)
-            print(predicted_output)
+            # print(predicted_output)
             output_dict[key] = [min_algo, min_rmse, min_mape, predicted_output, min_params]
 
         # forecast = FileOperations.write_forecast_file(output_dict, input)

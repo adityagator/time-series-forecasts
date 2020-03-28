@@ -15,7 +15,9 @@ class FileOperations:
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
             for key, value in data.items():
-                ship_pt, prod_h, part_no = key.split("-")
+                ship_pt, prod_h, part_no = key.split("^")
+                print(key)
+                print(value)
                 writer.writerow({'Ship pt': ship_pt, 'Product Hierarchy': prod_h, 'Part Number': part_no,
                 'Month 1': value[3][0], 'Month 2': value[3][1], 'Month 3': value[3][2], 'Month 4': value[3][3], 'Month 5': value[3][4],
                 'Month 6': value[3][5], 'Month 7': value[3][6], 'Month 8': value[3][7], 'Month 9': value[3][8], 'Month 10': value[3][9],
@@ -28,7 +30,7 @@ class FileOperations:
             csv_reader = csv.reader(csv_file, delimiter=',')
             data = list(csv_reader)
         for i in data:
-            i[0: 3] = ['-'.join(i[0: 3])]
+            i[0: 3] = ['^'.join(i[0: 3])]
         dict_data = {i[0]: i[1:] for i in data}
 
         for key in dict_data:

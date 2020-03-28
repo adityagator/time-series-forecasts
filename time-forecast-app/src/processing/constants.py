@@ -12,6 +12,6 @@ class Constants:
     #     self.TESTING_MONTHS = 12
     #     self.NUMBER_OF_PREDICTIONS = 12
 
-    TRAINING_MONTHS = 48
+    TRAINING_MONTHS = 49
     TESTING_MONTHS = 12
     NUMBER_OF_PREDICTIONS = 12

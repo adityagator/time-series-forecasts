@@ -38,7 +38,16 @@ class Algorithms:
     # return mape
     def mean_absolute_percentage_error(self, y_pred):
         y_true, y_pred = np.array(self.test), np.array(y_pred)
-        return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+        ans_arr = np.array([])
+        for i in range(0, len(y_true)):
+            if y_true[i] > 0:
+                ans = abs((y_true[i] - y_pred[i]) / y_true) * 100
+                # ans_arr.append(ans)
+                np.append(ans_arr, ans)
+        if not ans_arr:
+            return 0
+        return np.mean(ans_arr) 
+        # return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
     
     # return rmse
     def rmse(self, predicted):
@@ -46,7 +55,7 @@ class Algorithms:
 
     # return rmse and mape
     def rmse_mape(self, predicted):
-        print("true: ", self.test, " pred: ", predicted)
+        # print("true: ", self.test, " pred: ", predicted)
         return round(math.sqrt(mean_squared_error(self.test, predicted)),2), round(self.mean_absolute_percentage_error(
                                                                                                         predicted),2)
     # return rmse and mape for ARIMA method
@@ -63,7 +72,7 @@ class Algorithms:
         for yhat in forecast:
             inverted = self.inverse_difference(history, yhat, 12)
             pred.append(round(inverted, 2))
-            print('Day %d: %f' % (day, inverted))
+            # print('Day %d: %f' % (day, inverted))
             history.append(round(inverted, 2))
             day += 1
         for i in range(0, len(pred)):
@@ -85,7 +94,7 @@ class Algorithms:
         for yhat in forecast:
             inverted = self.inverse_difference(history, yhat, 12)
             pred.append(round(inverted, 2))
-            print('Day %d: %f' % (day, inverted))
+            # print('Day %d: %f' % (day, inverted))
             history.append(round(inverted, 2))
             day += 1
         for i in range(0, len(pred)):
@@ -105,7 +114,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            print('Day %d: %f' % (day, yhat))
+            # print('Day %d: %f' % (day, yhat))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -125,7 +134,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            print('Day %d: %f' % (day, yhat))
+            # print('Day %d: %f' % (day, yhat))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -146,7 +155,7 @@ class Algorithms:
         for yhat in forecast:
             inverted = self.inverse_difference(history, yhat, 12)
             pred.append(round(inverted, 2))
-            print('Day %d: %f' % (day, round(inverted, 2)))
+            # print('Day %d: %f' % (day, round(inverted, 2)))
             history.append(round(inverted, 2))
             day += 1
         for i in range(0, len(pred)):
@@ -167,7 +176,7 @@ class Algorithms:
         for yhat in forecast:
             inverted = self.inverse_difference(history, yhat, 12)
             pred.append(round(inverted, 2))
-            print('Day %d: %f' % (day, round(inverted, 2)))
+            # print('Day %d: %f' % (day, round(inverted, 2)))
             history.append(round(inverted, 2))
             day += 1
         for i in range(0, len(pred)):
@@ -186,7 +195,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat, 2))
-            print('Day %d: %f' % (day, round(yhat,2)))
+            # print('Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat, 2))
             day += 1
         for i in range(0, len(pred)):
@@ -205,7 +214,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            print('Day %d: %f' % (day, round(yhat,2)))
+            # print('Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -225,7 +234,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat, 2))
-            print('Day %d: %f' % (day, round(yhat,2)))
+            # print('Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat, 2))
             day += 1
         for i in range(0, len(pred)):
@@ -244,7 +253,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            print('Day %d: %f' % (day, round(yhat,2)))
+            # print('Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -264,7 +273,7 @@ class Algorithms:
         for yhat in forecast:
             # inverted = self.inverse_difference(history, yhat, 12)
             pred.append(round(yhat,2))
-            print('Day %d: %f' % (day, round(yhat,2)))
+            # print('Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -283,7 +292,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            print('Day %d: %f' % (day, round(yhat,2)))
+            # print('Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -317,9 +326,9 @@ class Algorithms:
     
     def rnn_calculate(self, value):
         yhat, month_rnn = lstm.lstm.rnn(value, Constants.TESTING_MONTHS)
-        print('Recurrent Neural Network (LSTM):')
-        print('Actual values: ', self.test)
-        print('Predicted values: ', yhat)
+        # print('Recurrent Neural Network (LSTM):')
+        # print('Actual values: ', self.test)
+        # print('Predicted values: ', yhat)
         rmse, mape = self.rmse_mape(yhat)
         #print('RMSE: %.3f' % rmse)
         return round(rmse,2), round(mape,2), month_rnn

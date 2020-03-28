@@ -37,16 +37,20 @@ class Algorithms:
 
     # return mape
     def mean_absolute_percentage_error(self, y_pred):
-        y_true, y_pred = np.array(self.test), np.array(y_pred)
-        ans_arr = np.array([])
+        y_true, y_pred = numpy.array(self.test), numpy.array(y_pred)
+        ans_arr = numpy.array([])
+        print("MAPE")
+        print(y_true)
+        print(y_pred)
         for i in range(0, len(y_true)):
             if y_true[i] > 0:
-                ans = abs((y_true[i] - y_pred[i]) / y_true) * 100
+                ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
                 # ans_arr.append(ans)
-                np.append(ans_arr, ans)
-        if not ans_arr:
+                ans_arr = numpy.append(ans_arr, ans)
+            print(ans_arr)
+        if ans_arr.size == 0:
             return 0
-        return np.mean(ans_arr) 
+        return numpy.mean(ans_arr) 
         # return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
     
     # return rmse

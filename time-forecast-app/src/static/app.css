@@ -252,7 +252,7 @@ input[type="file"]:hover{
     list-style-type: none;
 }
 
-button {
+/* button {
     background-color: Transparent;
     background-repeat:no-repeat;
     cursor:pointer;
@@ -271,6 +271,28 @@ button:hover {
     outline:none;
     color: darkblue;
     padding: 1rem 0.5rem;
+} */
+
+button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    color: #eee;
+    padding: 1rem 0.5rem;
+    font-size: large;
+}
+
+button:hover {
+    background-color: transparent;
+    background-repeat:no-repeat;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    color: lightblue;
+    padding: 1rem 0.5rem;
+    opacity: 0.7;
 }
 
 

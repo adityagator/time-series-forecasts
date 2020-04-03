@@ -19,6 +19,7 @@ warnings.filterwarnings("ignore")
 class Process():
     log_file = os.path.join(settings.MEDIA_ROOT ,"log/app.log")
     logging.basicConfig(filename=log_file, filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+    logging.info("Creating log file")
     def run(input):
         count = 0
         input_file = os.path.join(settings.MEDIA_ROOT, input.file.name)

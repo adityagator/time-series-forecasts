@@ -1,24 +1,26 @@
 from django.db import models
-from multiselectfield import MultiSelectField
+# from multiselectfield import MultiSelectField
+
 
 # Create your models here.
 class InputData(models.Model):
     # algorithms = models.TextField()
-    ALGO_CHOICES = (
-        ('AR', 'Auto Regression'),
-        ('ARIMA', 'ARIMA'),
-        ('SARIMA', 'SARIMA'),
-        ('ARMA', 'ARMA'),
-        ('MA', 'Moving Average'),
-        ('SES', 'Simple Exponential Smoothing'),
-        ('HWES', 'HWES')
-    )
+    # ALGO_CHOICES = (
+    #     ('AR', 'Auto Regression'),
+    #     ('ARIMA', 'ARIMA'),
+    #     ('SARIMA', 'SARIMA'),
+    #     ('ARMA', 'ARMA'),
+    #     ('MA', 'Moving Average'),
+    #     ('SES', 'Simple Exponential Smoothing'),
+    #     ('HWES', 'HWES')
+    # )
     # algorithms = models.CharField(max_length = 100, choices = ALGO_CHOICES)
-    algorithms = MultiSelectField(choices = ALGO_CHOICES)
+    # algorithms = MultiSelectField(choices = ALGO_CHOICES, default=None)
+    forecast = models.BooleanField(default=True)
     cluster = models.BooleanField(default=True)
-    log = models.BooleanField(default=False)
-    graph = models.BooleanField(default=True)
-    deepLearning = models.BooleanField(default=False)
+    # log = models.BooleanField(default=False)
+    # graph = models.BooleanField(default=True)
+    # deepLearning = models.BooleanField(default=False)
     file = models.FileField(upload_to="input/")
     # isProcessed = models.BooleanField(default=False)
 
@@ -55,5 +57,3 @@ class OutputData(models.Model):
 
     def get_log_file():
         return self.log_file
-    
-    

@@ -16,7 +16,6 @@ warnings.filterwarnings("ignore")
 # from processing.fnn import FeedForwardNeuralNetwork
 
 class Algorithms:
-
     # constructor: initializing training and testing data
     def __init__(self, total, data, test):
         self.total = total
@@ -39,15 +38,11 @@ class Algorithms:
     def mean_absolute_percentage_error(self, y_pred):
         y_true, y_pred = numpy.array(self.test), numpy.array(y_pred)
         ans_arr = numpy.array([])
-        print("MAPE")
-        print(y_true)
-        print(y_pred)
         for i in range(0, len(y_true)):
             if y_true[i] > 0:
                 ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
                 # ans_arr.append(ans)
                 ans_arr = numpy.append(ans_arr, ans)
-            print(ans_arr)
         if ans_arr.size == 0:
             return 0
         return numpy.mean(ans_arr) 
@@ -63,48 +58,88 @@ class Algorithms:
         return round(math.sqrt(mean_squared_error(self.test, predicted)),2), round(self.mean_absolute_percentage_error(
                                                                                                         predicted),2)
     # return rmse and mape for ARIMA method
+    # def arima_calculate(self):
+    #     differenced = self.difference(self.data, 12)
+    #     model = ARIMA(differenced, order=(7, 0, 1))
+    #     model_fit = model.fit()
+    #     start_index = len(differenced)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.data]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         inverted = self.inverse_difference(history, yhat, 12)
+    #         pred.append(round(inverted, 2))
+    #         # print('Day %d: %f' % (day, inverted))
+    #         history.append(round(inverted, 2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if(pred[i] < 0):
+    #             pred[i] = 0
+    #     return self.rmse_mape(pred)
+
     def arima_calculate(self):
-        differenced = self.difference(self.data, 12)
-        model = ARIMA(differenced, order=(7, 0, 1))
+        model = ARIMA(self.data, order=(7, 0, 1))
         model_fit = model.fit()
-        start_index = len(differenced)
+        start_index = len(self.data)
         end_index = start_index + 11
         forecast = model_fit.predict(start=start_index, end=end_index)
         history = [x for x in self.data]
-        day = 1
+        # day = 1
         pred = []
         for yhat in forecast:
-            inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(round(inverted, 2))
-            # print('Day %d: %f' % (day, inverted))
-            history.append(round(inverted, 2))
-            day += 1
+            pred.append(round(yhat,2))
+            # print('Day %d: %f' % (day, yhat))
+            history.append(round(yhat,2))
+            # day += 1
         for i in range(0, len(pred)):
-            if(pred[i] < 0):
+            if pred[i] < 0:
                 pred[i] = 0
+        # raise Exception("testing")
         return self.rmse_mape(pred)
     
     # return predictions for ARIMA if least rmse amongst others
+    # def arima_final(self):
+    #     differenced = self.difference(self.total, 12)
+    #     model = ARIMA(differenced, order=(7, 0, 1))
+    #     model_fit = model.fit()
+    #     start_index = len(differenced)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.total]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         inverted = self.inverse_difference(history, yhat, 12)
+    #         pred.append(round(inverted, 2))
+    #         # print('Day %d: %f' % (day, inverted))
+    #         history.append(round(inverted, 2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if(pred[i] < 0):
+    #             pred[i] = 0
+    #     return pred
+    
     def arima_final(self):
-        differenced = self.difference(self.total, 12)
-        model = ARIMA(differenced, order=(7, 0, 1))
+        model = ARIMA(self.total, order=(7, 0, 1))
         model_fit = model.fit()
-        start_index = len(differenced)
+        start_index = len(self.total)
         end_index = start_index + 11
         forecast = model_fit.predict(start=start_index, end=end_index)
         history = [x for x in self.total]
         day = 1
         pred = []
         for yhat in forecast:
-            inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(round(inverted, 2))
-            # print('Day %d: %f' % (day, inverted))
-            history.append(round(inverted, 2))
+            pred.append(round(yhat,2))
+            # print('Day %d: %f' % (day, yhat))
+            history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
-            if(pred[i] < 0):
+            if pred[i] < 0:
                 pred[i] = 0
         return pred
+
 
     # return rmse and mape for SARIMA method
     def sarima_calculate(self):
@@ -145,48 +180,86 @@ class Algorithms:
             if pred[i] < 0:
                 pred[i] = 0
         return pred
-    
+
     def ar_calculate(self):
-        differenced = self.difference(self.data, 12)
-        model = AR(differenced)
+        model = AR(self.data)
         model_fit = model.fit(disp=0)
-        start_index = len(differenced)
+        start_index = len(self.data)
         end_index = start_index + 11
         forecast = model_fit.predict(start=start_index, end=end_index)
         history = [x for x in self.data]
         day = 1
         pred = []
         for yhat in forecast:
-            inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(round(inverted, 2))
-            # print('Day %d: %f' % (day, round(inverted, 2)))
-            history.append(round(inverted, 2))
+            pred.append(round(yhat,2))
+            # print('Day %d: %f' % (day, yhat))
+            history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
             if pred[i] < 0:
                 pred[i] = 0
         return self.rmse_mape(pred)
     
+    # def ar_calculate(self):
+    #     differenced = self.difference(self.data, 12)
+    #     model = AR(differenced)
+    #     model_fit = model.fit(disp=0)
+    #     start_index = len(differenced)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.data]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         inverted = self.inverse_difference(history, yhat, 12)
+    #         pred.append(round(inverted, 2))
+    #         # print('Day %d: %f' % (day, round(inverted, 2)))
+    #         history.append(round(inverted, 2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if pred[i] < 0:
+    #             pred[i] = 0
+    #     return self.rmse_mape(pred)
+
     def ar_final(self):
-        differenced = self.difference(self.total, 12)
-        model = AR(differenced)
+        model = AR(self.total)
         model_fit = model.fit(disp=0)
-        start_index = len(differenced)
+        start_index = len(self.total)
         end_index = start_index + 11
         forecast = model_fit.predict(start=start_index, end=end_index)
         history = [x for x in self.total]
         day = 1
         pred = []
         for yhat in forecast:
-            inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(round(inverted, 2))
-            # print('Day %d: %f' % (day, round(inverted, 2)))
-            history.append(round(inverted, 2))
+            pred.append(round(yhat,2))
+            # print('Day %d: %f' % (day, yhat))
+            history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
-            if (pred[i] < 0):
+            if pred[i] < 0:
                 pred[i] = 0
         return pred
+    
+    # def ar_final(self):
+    #     differenced = self.difference(self.total, 12)
+    #     model = AR(differenced)
+    #     model_fit = model.fit(disp=0)
+    #     start_index = len(differenced)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.total]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         inverted = self.inverse_difference(history, yhat, 12)
+    #         pred.append(round(inverted, 2))
+    #         # print('Day %d: %f' % (day, round(inverted, 2)))
+    #         history.append(round(inverted, 2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if (pred[i] < 0):
+    #             pred[i] = 0
+    #     return pred
     
     def arma_calculate(self):
         model = ARMA(self.data, order=[1,0])
@@ -405,3 +478,5 @@ class Algorithms:
             return self.hwes_final(params)
         # elif min_algo == "FNN":
         #     return FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn_next_year(self.total)
+        else:
+            return [0,0,0,0,0,0,0,0,0,0,0,0]

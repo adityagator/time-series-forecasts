@@ -5,10 +5,7 @@ class InputDataForm(forms.ModelForm):
     class Meta:
         model = InputData
         fields = [
-            'algorithms',
+            'forecast',
             'cluster',
-            'log',
-            'graph',
-            'deepLearning',
             'file'
         ]

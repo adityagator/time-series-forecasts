@@ -18,6 +18,7 @@ from django.urls import path
 from pages.views import home_view
 from pages.views import about_view
 from pages.views import help_view
+from pages.views import contact_view
 from data.views import input_create_view
 from data.views import output_detail_view
 from processing.views import processing_view
@@ -27,6 +28,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', home_view, name='home'),
     path('about/', about_view, name='about'),
+    path('contact/', contact_view, name='contact'),
     path('help/', help_view, name='help'),
     path('create/', input_create_view),
     path('process/<int:id>', processing_view),
@@ -34,3 +36,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -164,10 +164,18 @@ class Process():
                 output_dict[key] = [min_algo, min_rmse, min_mape, predicted_output, min_params]
 
         output_obj.input = input
-        output_obj.forecast_file.save(
-            'forecast', File(
+        output_obj.output_file.save(
+            'forecast.csv', File(
                 open(
                     FileOperations.write_forecast_file(
-                        output_dict, input, vol_cluster, int_cluster))))
+                        output_dict, input, vol_cluster, int_cluster), encoding='utf-8-sig')))
+        
+        output_obj.log_file.save(
+            'app.log', File(
+                open(
+                    os.path.join(settings.MEDIA_ROOT ,"log/app.log"), encoding='utf-8-sig'
+                )
+            )
+        )
         return True
         

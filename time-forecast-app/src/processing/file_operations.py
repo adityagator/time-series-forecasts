@@ -28,7 +28,7 @@ class FileOperations:
         if not bool(data):
             output_file_name = input.file.name.split("/", 1)
             output_file = os.path.join(settings.MEDIA_ROOT ,"output/" + "output_" + output_file_name[1])
-            with open(output_file, mode='w+') as csv_file:
+            with open(output_file, mode='w+', encoding='utf-8-sig') as csv_file:
                 fieldnames = ['Ship pt', 'Product Hierarchy', 'Part Number', 'Volume', 'Intermittency']
                 writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
                 writer.writeheader()
@@ -40,7 +40,7 @@ class FileOperations:
         elif not bool(vol_cluster):
             output_file_name = input.file.name.split("/", 1)
             output_file = os.path.join(settings.MEDIA_ROOT ,"output/" + "output_" + output_file_name[1])
-            with open(output_file, mode='w+') as csv_file:
+            with open(output_file, mode='w+', encoding='utf-8-sig') as csv_file:
                 fieldnames = ['Ship pt', 'Product Hierarchy', 'Part Number', 'Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6',
                 'Month 7', 'Month 8', 'Month 9', 'Month 10', 'Month 11', 'Month 12', 'Algorithm', 'RMSE', 'MAPE']
                 writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
@@ -56,7 +56,7 @@ class FileOperations:
         else:
             output_file_name = input.file.name.split("/", 1)
             output_file = os.path.join(settings.MEDIA_ROOT ,"output/" + "output_" + output_file_name[1])
-            with open(output_file, mode='w+') as csv_file:
+            with open(output_file, mode='w+', encoding='utf-8-sig') as csv_file:
                 fieldnames = ['Ship pt', 'Product Hierarchy', 'Part Number', 'Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6',
                 'Month 7', 'Month 8', 'Month 9', 'Month 10', 'Month 11', 'Month 12', 'Algorithm', 'RMSE', 'MAPE', 'Volume', 'Intermittency']
                 writer = csv.DictWriter(csv_file, fieldnames=fieldnames)

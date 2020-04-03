@@ -12,6 +12,5 @@ class OutputData(models.Model):
         primary_key=True,
         default=0
         )
-    forecast_file = models.FileField()
-    cluster_file = models.FileField()
+    output_file = models.FileField()
     log_file = models.FileField()

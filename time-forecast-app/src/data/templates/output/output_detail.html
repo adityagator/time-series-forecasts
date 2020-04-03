@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Forecast File</h1>
-<p>{{ output_data.forecast_file }}</p>
-<a href={{ output_data.forecast_file }} download="forecast.csv">
-    Download Forecast File
-    <!-- <img src="/images/myw3schoolsimage.jpg" alt="W3Schools"> -->
-  </a>
-<h1>Cluster File</h1>
-<p>{{ output_data.cluster_file }}</p>
-<a href={{ output_data.cluster_file }} download="cluster.csv">
-    Download Cluster File
-    <!-- <img src="/images/myw3schoolsimage.jpg" alt="W3Schools"> -->
-  </a>
-<!-- <h1>Log File</h1>
-<p>{{ output_data.log_file }}</p> -->
+<div class="page-heading">
+  <ul class="downloads-list">
+    <li>
+      <a href={{ output_data.output_file }} download="output.csv" class="download-link">
+        <button class="download-button">Download Output File</button>
+      </a>
+    </li>
+    <li>
+      <a href={{ output_data.log_file }} download="app.log" class="download-link">
+        <button class="download-button">Download Log File</button>
+      </a>
+    </li>
+</div>
+
 {% endblock %}

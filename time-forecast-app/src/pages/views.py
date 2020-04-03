@@ -15,3 +15,6 @@ def about_view(request, *args, **kwargs):
 
 def help_view(request, *args, **kwargs):
     return render(request, "help.html", {})
+
+def contact_view(request, *args, **kwargs):
+    return render(request, "contact.html", {})

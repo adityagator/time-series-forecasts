@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-heading">
+    <div class="section-heading">
+        <h1>Contact Me</h1>
+        <p>How can we help?</p>
+    </div>
+    <form action="" data-aos="fade-up" data-aos-delay="300">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name..." required>
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your e-mail ID..." required>
+        <label for="org">Organization:</label>
+        <input type="text" id="org" name="org" placeholder="Enter your organization's name...">
+        <label for="message">Message:</label>
+        <textarea name="message" id="message" cols="10" rows="10"></textarea>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock %}

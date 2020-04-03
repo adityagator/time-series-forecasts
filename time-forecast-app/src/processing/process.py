@@ -152,23 +152,17 @@ class Process():
                     predictions = model.result[-12:]
                     rmse_hwes = algo_obj.rmse(predictions)
                     if (rmse_hwes < min_rmse):
-                        min_rmse = rmse_hwes
+                        min_rmse = round(rmse_hwes, 2)
                         min_algo = "HWES"
-                        min_mape = algo_obj.mean_absolute_percentage_error(predictions)
+                        min_mape = round(algo_obj.mean_absolute_percentage_error(predictions), 2)
                         min_params = [alpha_final, beta_final, gamma_final]
                 except Exception as err:
                     logging.error("Error while using HWES method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
                     logging.error(traceback.format_exc())
                 
-                # count = count + 1
-                # print(count)
                 predicted_output = algo_obj.getPredictedValues(min_algo, min_params)
-                # print(predicted_output)
                 output_dict[key] = [min_algo, min_rmse, min_mape, predicted_output, min_params]
 
-        # forecast = FileOperations.write_forecast_file(output_dict, input)
-        # f = open(forecast)
-        # forecast_file = File(f)
         output_obj.input = input
         output_obj.forecast_file.save(
             'forecast', File(

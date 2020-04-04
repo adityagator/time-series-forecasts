@@ -3,7 +3,7 @@ from django.db import models
 class InputData(models.Model):
     forecast = models.BooleanField(default=True)
     cluster = models.BooleanField(default=True)
-    file = models.FileField(upload_to="input/")
+    file = models.FileField(upload_to="input/", default=None)
 
 class OutputData(models.Model):
     input = models.OneToOneField(

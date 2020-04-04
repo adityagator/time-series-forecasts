@@ -86,17 +86,16 @@ class Algorithms:
         end_index = start_index + 11
         forecast = model_fit.predict(start=start_index, end=end_index)
         history = [x for x in self.data]
-        # day = 1
+        day = 1
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            # print('Day %d: %f' % (day, yhat))
+            print('ARIMA Day %d: %f' % (day, yhat))
             history.append(round(yhat,2))
-            # day += 1
+            day += 1
         for i in range(0, len(pred)):
             if pred[i] < 0:
                 pred[i] = 0
-        # raise Exception("testing")
         return self.rmse_mape(pred)
     
     # return predictions for ARIMA if least rmse amongst others
@@ -153,7 +152,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            # print('Day %d: %f' % (day, yhat))
+            print('SARIMA Day %d: %f' % (day, yhat))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -173,7 +172,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            # print('Day %d: %f' % (day, yhat))
+            # print('SARIMA Day %d: %f' % (day, yhat))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -192,7 +191,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            # print('Day %d: %f' % (day, yhat))
+            print('AR Day %d: %f' % (day, yhat))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -272,7 +271,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat, 2))
-            # print('Day %d: %f' % (day, round(yhat,2)))
+            print('ARMA Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat, 2))
             day += 1
         for i in range(0, len(pred)):
@@ -311,7 +310,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat, 2))
-            # print('Day %d: %f' % (day, round(yhat,2)))
+            print('MA Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat, 2))
             day += 1
         for i in range(0, len(pred)):
@@ -350,7 +349,7 @@ class Algorithms:
         for yhat in forecast:
             # inverted = self.inverse_difference(history, yhat, 12)
             pred.append(round(yhat,2))
-            # print('Day %d: %f' % (day, round(yhat,2)))
+            print('SES Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):

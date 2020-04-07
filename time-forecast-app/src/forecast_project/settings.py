@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'pages',
     'multiselectfield',
     'processing',
+    'jquery',
 ]
 
 MIDDLEWARE = [

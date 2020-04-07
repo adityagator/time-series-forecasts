@@ -2,35 +2,20 @@
 
 {% block content %}
 <div class="form-div">
-    <!-- <form action = "." method='POST' enctype="multipart/form-data"> {% csrf_token %}
-        <label for="forecast">Forecast</label>
-        <input type="checkbox" value="True" name="forecast" class="action-checkbox" checked>
-        <label for="cluster">Cluster</label>
-        <input type="checkbox" value="True" name="cluster" class="action-checkbox" checked>
-        <label for="input_file">Upload data file</label>
-        <input type="file" name="input_file" class="upload-file">
-        <input type='submit' value='Submit' />
-    </form> -->
     <form action = "" method='POST' enctype="multipart/form-data"> {% csrf_token %}
         {{ form.as_p}}
         <input type='submit' value='Submit' />
     </form>
-
-    <!-- <form action = "" method='POST' enctype="multipart/form-data"> {% csrf_token %}
-        <label class="container">Forecast
-            {{ form.forecast }}
-            <span class="checkmark"></span>
-        </label>
-        <label class="container">Cluster
-            {{ form.cluster }}
-            <span class="checkmark"></span>
-        </label>
-        <label class="file-container">Input File
-            {{ form.file }}
-            <span class="file_input"></span>
-        </label>
-        <input type='submit' value='Submit' />
-    </form> -->
+    <p class="processing">Processing...</p>
 </div>
 
+<!-- <script>
+    $(document).ready(function(){
+        $('.processing').hide();
+        // $(':submit').click(function(){
+        //     $('.processing').show();
+        // });
+    });
+</script> -->
 {% endblock %}
+

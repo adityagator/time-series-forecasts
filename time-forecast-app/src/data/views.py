@@ -42,3 +42,39 @@ def output_detail_view(request, id):
     }
     return render(request, "output/output_detail.html", context)
 
+def dashboard_calculate(request):
+    return JsonResponse(data={
+        'labels': ['Month 1', 'Month 2', 'Month 3'],
+        'data': [20, 30, 25]
+    })
+
+def dashboard_view(request, id):
+    input = InputData.objects.get(id=id)
+    output = OutputData.objects.get(input=input)
+    output_dict = output.output_dict
+    input_dict = output.input_dict
+    ship_pt_arr = []
+    prod_h_arr = []
+    part_no_arr = []
+    for key, values in output_dict.items():
+        pt, h, no = key.split("^")
+        if pt not in ship_pt_arr:
+            ship_pt_arr.append(pt)
+        if h not in prod_h_arr:
+            prod_h_arr.append(h)
+        if no not in part_no_arr:
+            part_no_arr.append(no)
+        # print(ship_pt_arr)
+        # print(part_no_arr)
+        # print(prod_h_arr)
+
+    context = {
+        'ship_pt_arr': ship_pt_arr,
+        'prod_h_arr': prod_h_arr,
+        'part_no_arr': part_no_arr,
+        # 'url': "dashcalculate/" + str(id),
+        'labels' : ["Month1", "Month2", "Month3","Month4", "Month5", "Month6","Month7", "Month8", "Month9","Month10", "Month11", "Month12"],
+        'data' : output_dict[key][3],
+        'output_dict': output_dict
+    }
+    return render(request, "output/dashboard.html", context)

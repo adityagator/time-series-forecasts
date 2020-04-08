@@ -1,4 +1,5 @@
 from django.db import models
+from jsonfield import JSONField
 
 class InputData(models.Model):
     forecast = models.BooleanField(default=True)
@@ -14,3 +15,5 @@ class OutputData(models.Model):
         )
     output_file = models.FileField()
     log_file = models.FileField()
+    input_dict = JSONField(default={'default': 'default'})
+    output_dict = JSONField(default={'default': 'default'})

@@ -174,12 +174,16 @@ class Process():
             )
 
         output_obj.input = input
+        output_obj.output_dict = output_dict
+        output_obj.input_dict = dict_data
         output_obj.output_file.save(
             'forecast.csv', output_file)
         
         output_obj.log_file.save(
             'app.log', log_file
         )
+        
+
 
         # if os.path.exists(str(input_file)):
         #     os.remove(str(input_file))

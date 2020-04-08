@@ -1,0 +1,162 @@
+{% extends 'dashboard_base.html' %}
+
+{% block content %}
+<h1>Dashboard</h1>
+<!-- <label for="ship_pt">Ship_pt</label> -->
+<div id="formDiv">
+  <!-- <form action = "#">
+    <select id="ship_pt" name="ship_pt">
+      {% for ship_pt in ship_pt_arr %}
+            <option value={{ ship_pt }}>{{ ship_pt }}</option>
+      {% endfor %}
+    </select>
+    <select id="prod_h" name="prod_h">
+      {% for prod_h in prod_h_arr %}
+            <option value={{ prod_h }}>{{ prod_h }}</option>
+      {% endfor %}
+    </select>
+    <select id="part_no" name="part_no">
+      {% for part_no in part_no_arr %}
+            <option value={{ part_no }}>{{ part_no }}</option>
+      {% endfor %}
+    </select>
+    <button>Submit</button>
+  </form> -->
+  <select id="key" name="key">
+    {% for key in output_dict %}
+          <option value={{ key }}>{{ key }}</option>
+    {% endfor %}
+    
+  </select>
+  </div>
+
+
+<canvas id="pie-chart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script>
+    var output_dict = {{ output_dict|safe}}
+    // console.log(output_dict)
+    // var ship_pt = $("#ship_pt :selected").text();
+    // var prod_h = $("#prod_h :selected").text(); 
+    // var part_no = $("#part_no :selected").text();
+    // var key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
+    // $("select#ship_pt").change(function(){
+    //   ship_pt = $("#ship_pt :selected").text();
+    //   key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
+    //   console.log(key)
+    // });
+    // $("select#prod_h").change(function(){
+    //   prod_h = $("#prod_h :selected").text();
+    //   key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
+    //   console.log(key)
+    // });
+    // $("select#part_no").change(function(){
+    //   part_no = $("#part_no :selected").text();
+    //   key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
+    //   console.log(key)
+    // });
+
+    var key = $("#key :selected").text();
+    $("select#key").change(function(){
+      key = $("#key :selected").text();
+      var config2 = {
+      type: 'line',
+      data: {
+        datasets: [{
+          // data: {{ data|safe }},
+          // backgroundColor: 'white',
+          data: output_dict[key][3],
+          label: 'demand'
+        }],
+        labels: {{ labels|safe }}
+      },
+      options: {
+        responsive: true
+      }
+    };
+
+      if(currentChart){currentChart.destroy();}
+      var ctx2 = document.getElementById('pie-chart').getContext('2d');
+      window.myPie = new Chart(ctx2, config2);
+      currentChart = window.myPie;
+      // key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
+      console.log(key)
+    });
+
+    // $("button").click(function() { 
+    //   var key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
+    //   console.log(key);
+    //         });
+
+    // var key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
+    // console.log(key)
+    // var test2 = $("#prod_h :selected").val();
+    
+    // $(document).on('change', '.div-toggle', function() {
+    //   var target = $(this).data('target');
+    //   var show = $("option:selected", this).data('show');
+    //   $(target).children().addClass('hide');
+    //   $(show).removeClass('hide');
+    //   var config = {
+    //   type: 'line',
+    //   data: {
+    //     datasets: [{
+    //       // data: {{ data|safe }},
+    //       // backgroundColor: 'white',
+    //       data: output_dict[this.classname][3],
+    //       label: 'demand'
+    //     }],
+    //     labels: {{ labels|safe }}
+    //   },
+    //   options: {
+    //     responsive: true
+    //   }
+    // };
+    // window.onload = function() {
+    //   var ctx = document.getElementById('pie-chart').getContext('2d');
+    //   window.myPie = new Chart(ctx, config);
+    // };
+    // });
+    // $(document).ready(function(){
+    //     $('.div-toggle').trigger('change');
+    // });
+
+    // console.log(this.className);
+
+    var config = {
+      type: 'line',
+      data: {
+        datasets: [{
+          // data: {{ data|safe }},
+          // backgroundColor: 'white',
+          data: output_dict[key][3],
+          label: 'demand'
+        }],
+        labels: {{ labels|safe }}
+      },
+      options: {
+        responsive: true
+      }
+    };
+
+    var currentChart;
+
+    function updateChart() {
+     if(currentChart){currentChart.destroy();}
+   
+     var determineChart = $("#chartType").val();
+
+     var params = dataMap[determineChart]
+     currentChart = new Chart(ctx)[params.method](params.data, {});
+ }
+
+    window.onload = function() {
+      var ctx = document.getElementById('pie-chart').getContext('2d');
+      window.myPie = new Chart(ctx, config);
+      currentChart = window.myPie;
+    };
+
+  </script>
+
+{% endblock %}

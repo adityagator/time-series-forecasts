@@ -21,6 +21,7 @@ from pages.views import help_view
 from pages.views import contact_view
 from data.views import input_create_view
 from data.views import output_detail_view
+from data.views import dashboard_view, dashboard_calculate
 from processing.views import processing_view
 from django.conf import settings
 from django.conf.urls.static import static
@@ -33,6 +34,8 @@ urlpatterns = [
     path('create/', input_create_view),
     path('process/<int:id>', processing_view),
     path('output/<int:id>', output_detail_view),
+    path('dashboard/<int:id>', dashboard_view),
+    path('dashcalculate/<int:id>/', dashboard_calculate, name='dash-calc'),
     path('admin/', admin.site.urls),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

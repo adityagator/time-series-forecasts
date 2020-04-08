@@ -68,9 +68,14 @@
       function appendZerostoOutputArr(inputLen, outputArr){
         var final_arr = [];
         var count = 0;
+        var countMix = 0;
         for (i = 0; i < inputLen + outputArr.length; i++){
-        if(i < inputLen){
+        if(i < inputLen && i < (inputLen - output_dict[key][4].length)){
           final_arr[i] = null;
+        }
+        else if(i < inputLen){
+          final_arr[i] = output_dict[key][4][countMix];
+          countMix++;
         }
         else{
           final_arr[i] = outputArr[count];
@@ -85,7 +90,7 @@
         label: 'Input Demand',
         data: input_dict[key],
         // order: 1
-        // backgroundColor: 'rgba(0, 99, 132, 0.6)',
+        // backgroundColor: 'rgba(0, 99, 132, 0.5)',
         // borderWidth: 0,
         // yAxisID: "y-axis-density"
       };
@@ -93,7 +98,7 @@
       var outputData = {
         label: 'Predicted Demand',
         data: appendZerostoOutputArr(input_dict[key].length, output_dict[key][3]),
-        backgroundColor: 'red',
+        backgroundColor: 'rgba(255,0,0,0.6)',
         // pointRadius: 0,
         // order: 2
         // borderWidth: 0,

@@ -90,13 +90,14 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            print('ARIMA Day %d: %f' % (day, yhat))
+            # print('ARIMA Month %d: %f' % (day, yhat))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
             if pred[i] < 0:
                 pred[i] = 0
-        return self.rmse_mape(pred)
+        rmse, mape = self.rmse_mape(pred)
+        return rmse, mape, pred
     
     # return predictions for ARIMA if least rmse amongst others
     # def arima_final(self):

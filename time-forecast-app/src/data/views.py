@@ -37,8 +37,10 @@ def output_detail_view(request, id):
     # Process.run(input)
     # output_data = OutputData.objects.create(input=input, forecast_file=input.file)
     output_data = get_object_or_404(OutputData, input=input)
+    dash_url = '/dashboard/' + str(input.id)
     context = {
-        "output_data" : output_data
+        "output_data" : output_data,
+        "dash_url" : dash_url
     }
     return render(request, "output/output_detail.html", context)
 
@@ -75,6 +77,9 @@ def dashboard_view(request, id):
         # 'url': "dashcalculate/" + str(id),
         'labels' : ["Month1", "Month2", "Month3","Month4", "Month5", "Month6","Month7", "Month8", "Month9","Month10", "Month11", "Month12"],
         'data' : output_dict[key][3],
-        'output_dict': output_dict
+        'output_dict': output_dict,
+        'input_dict': input_dict
     }
     return render(request, "output/dashboard.html", context)
+
+    

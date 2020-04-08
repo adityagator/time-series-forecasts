@@ -457,7 +457,9 @@ class Algorithms:
         predictions = new_model.result[-12:]
         for i in range(0, len(predictions)):
             predictions[i] = round(predictions[i], 2)
-
+            if predictions[i] < 0:
+                predictions[i] = 0
+            
         return predictions
 
     # return the predicted output for the least rmse algorithm given by min_algo

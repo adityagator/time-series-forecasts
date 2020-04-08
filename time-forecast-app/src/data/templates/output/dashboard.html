@@ -35,7 +35,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
   <script>
-    var output_dict = {{ output_dict|safe}}
+    var output_dict = {{ output_dict|safe }}
+    var input_dict = {{ input_dict|safe }}
+    console.log(input_dict)
     // console.log(output_dict)
     // var ship_pt = $("#ship_pt :selected").text();
     // var prod_h = $("#prod_h :selected").text(); 
@@ -60,21 +62,104 @@
     var key = $("#key :selected").text();
     $("select#key").change(function(){
       key = $("#key :selected").text();
-      var config2 = {
+
+      totalData_arr = input_dict[key].concat(output_dict[key][3]);
+
+      function appendZerostoOutputArr(inputLen, outputArr){
+        var final_arr = [];
+        var count = 0;
+        for (i = 0; i < inputLen + outputArr.length; i++){
+        if(i < inputLen){
+          final_arr[i] = null;
+        }
+        else{
+          final_arr[i] = outputArr[count];
+          count++;
+        }
+      }
+      return final_arr;
+      }
+
+
+      var inputData = {
+        label: 'Input Demand',
+        data: input_dict[key],
+        // order: 1
+        // backgroundColor: 'rgba(0, 99, 132, 0.6)',
+        // borderWidth: 0,
+        // yAxisID: "y-axis-density"
+      };
+
+      var outputData = {
+        label: 'Predicted Demand',
+        data: appendZerostoOutputArr(input_dict[key].length, output_dict[key][3]),
+        backgroundColor: 'red',
+        // pointRadius: 0,
+        // order: 2
+        // borderWidth: 0,
+        // yAxisID: "y-axis-gravity"
+      };
+
+      var totalData = {
+        labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+        datasets: [inputData, outputData]
+      };
+
+    //   var config2 = {
+    //   type: 'line',
+    //   data: {
+    //     datasets: [{
+    //       // data: {{ data|safe }},
+    //       // backgroundColor: 'white',
+    //       data: output_dict[key][3],
+    //       label: 'forecasted demand'
+    //     }],
+    //     labels: {{ labels|safe }}
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     title: {
+    //       display: true,
+    //       text: key
+    //       // position: bottom
+    //     }
+    //   }
+    // };
+    //   var config2 = {
+    //   type: 'bar',
+    //   data: {
+    //     labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+    //     datasets: [{
+    //       // data: {{ data|safe }},
+    //       backgroundColor: getBackgroundColor(input_dict[key].length, output_dict[key][3].length),
+    //       data: totalData_arr,
+    //       label: 'input + forecasted demand'
+    //     }],
+    //     // labels: {{ labels|safe }}
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     title: {
+    //       display: true,
+    //       text: key
+    //       // position: bottom
+    //     }
+    //   }
+    // };
+    var config2 = {
       type: 'line',
-      data: {
-        datasets: [{
-          // data: {{ data|safe }},
-          // backgroundColor: 'white',
-          data: output_dict[key][3],
-          label: 'demand'
-        }],
-        labels: {{ labels|safe }}
-      },
+      data: totalData,
       options: {
-        responsive: true
+        elements: { point: { hitRadius: 10, hoverRadius: 10 } },
+        responsive: true,
+        title: {
+          display: true,
+          text: key
+          // position: bottom
+        }
       }
     };
+    
 
       if(currentChart){currentChart.destroy();}
       var ctx2 = document.getElementById('pie-chart').getContext('2d');
@@ -123,22 +208,38 @@
     // });
 
     // console.log(this.className);
-
+    // var pointBackgroundColors = []
     var config = {
       type: 'line',
       data: {
+        labels: ["one", "two", "three", "four", "five"],
         datasets: [{
-          // data: {{ data|safe }},
-          // backgroundColor: 'white',
-          data: output_dict[key][3],
-          label: 'demand'
+          type: 'line',
+          data: [15, 30, 20, 20, 30],
+          // backgroundColor: 
+          // data: output_dict[key][3],
         }],
-        labels: {{ labels|safe }}
+        // labels: {{ labels|safe }}
+        // labels: ["one", "two", "three", "four", "five"]
       },
       options: {
-        responsive: true
+        responsive: true,
+        title: {
+          display: true,
+          text: key
+          // position: bottom
+        }
       }
     };
+    // if(currentChart){
+    // for(i = 0; i < currentChart.data.datasets[0].data.length; i++){
+    //     if(i >2)
+    //       pointBackgroundColors.push("green");
+    //     else
+    //     pointBackgroundColors.push("red");
+    // }
+    // currentChart.update();
+    // }
 
     var currentChart;
 
@@ -150,6 +251,27 @@
      var params = dataMap[determineChart]
      currentChart = new Chart(ctx)[params.method](params.data, {});
  }
+
+    function makeLabel(num){
+      var label = [];
+      for (i = 1; i <= num; i++){
+        label[i - 1] = "Month".concat(" ").concat(i.toString()); 
+      }
+      return label;
+    }
+
+    function getBackgroundColor(inputLen, outputLen){
+      bgArr = [];
+      for (i = 0; i < inputLen + outputLen; i++){
+        if(i < inputLen){
+          bgArr[i] = "rgba(0, 0, 0, 0.1)";
+        }
+        else{
+          bgArr[i] = "red";
+        }
+      }
+      return bgArr;
+    }
 
     window.onload = function() {
       var ctx = document.getElementById('pie-chart').getContext('2d');

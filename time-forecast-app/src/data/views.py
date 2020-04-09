@@ -50,6 +50,22 @@ def dashboard_calculate(request):
         'data': [20, 30, 25]
     })
 
+def getSummary(cluster):
+    low = 0
+    mid = 0
+    high = 0
+    for key, value in cluster.items():
+        if cluster[key] == "low":
+            low = low + 1
+        elif cluster[key] == "medium":
+            mid  = mid + 1
+        else:
+            high = high + 1
+    print(low)
+    print(mid)
+    print(high)
+    return [low, mid, high]
+
 def dashboard_view(request, id):
     input = InputData.objects.get(id=id)
     output = OutputData.objects.get(input=input)
@@ -66,6 +82,13 @@ def dashboard_view(request, id):
             prod_h_arr.append(h)
         if no not in part_no_arr:
             part_no_arr.append(no)
+    
+    volume_cluster = []
+    int_cluster = []
+    if input.cluster:
+        volume_cluster = getSummary(output.volume_cluster)
+        int_cluster = getSummary(output.int_cluster)
+    
         # print(ship_pt_arr)
         # print(part_no_arr)
         # print(prod_h_arr)
@@ -75,10 +98,13 @@ def dashboard_view(request, id):
         'prod_h_arr': prod_h_arr,
         'part_no_arr': part_no_arr,
         # 'url': "dashcalculate/" + str(id),
-        'labels' : ["Month1", "Month2", "Month3","Month4", "Month5", "Month6","Month7", "Month8", "Month9","Month10", "Month11", "Month12"],
-        'data' : output_dict[key][3],
+        # 'labels' : ["Month1", "Month2", "Month3","Month4", "Month5", "Month6","Month7", "Month8", "Month9","Month10", "Month11", "Month12"],
+        # 'data' : output_dict[key][3],
         'output_dict': output_dict,
-        'input_dict': input_dict
+        'input_dict': input_dict,
+        'inputObj': input,
+        'volume_cluster': volume_cluster,
+        'int_cluster': int_cluster
     }
     return render(request, "output/dashboard.html", context)
 

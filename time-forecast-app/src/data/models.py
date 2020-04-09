@@ -17,3 +17,5 @@ class OutputData(models.Model):
     log_file = models.FileField()
     input_dict = JSONField(default={'default': 'default'})
     output_dict = JSONField(default={'default': 'default'})
+    volume_cluster = JSONField(default={'default': 'default'})
+    int_cluster = JSONField(default={'default': 'default'})

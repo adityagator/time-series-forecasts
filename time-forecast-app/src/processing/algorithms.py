@@ -159,7 +159,8 @@ class Algorithms:
         for i in range(0, len(pred)):
             if pred[i] < 0:
                 pred[i] = 0
-        return self.rmse_mape(pred)
+        rmse, mape = self.rmse_mape(pred)
+        return rmse, mape, pred
 
     # return predictions for SARIMA if least rmse amongst others
     def sarima_final(self):
@@ -198,7 +199,8 @@ class Algorithms:
         for i in range(0, len(pred)):
             if pred[i] < 0:
                 pred[i] = 0
-        return self.rmse_mape(pred)
+        rmse, mape = self.rmse_mape(pred)
+        return rmse, mape, pred
     
     # def ar_calculate(self):
     #     differenced = self.difference(self.data, 12)
@@ -278,7 +280,8 @@ class Algorithms:
         for i in range(0, len(pred)):
             if pred[i] < 0:
                 pred[i] = 0
-        return self.rmse_mape(pred)
+        rmse, mape = self.rmse_mape(pred)
+        return rmse, mape, pred
     
     def arma_final(self):
         model = ARMA(self.total, order=[1,0])
@@ -317,7 +320,8 @@ class Algorithms:
         for i in range(0, len(pred)):
             if pred[i] < 0:
                 pred[i] = 0
-        return self.rmse_mape(pred)
+        rmse, mape = self.rmse_mape(pred)
+        return rmse, mape, pred
     
     def ma_final(self):
         model = ARMA(self.total, order=[0,1])
@@ -356,7 +360,8 @@ class Algorithms:
         for i in range(0, len(pred)):
             if pred[i] < 0:
                 pred[i] = 0
-        return self.rmse_mape(pred)
+        rmse, mape = self.rmse_mape(pred)
+        return rmse, mape, pred
 
     def ses_final(self):
         model = SimpleExpSmoothing(self.total)

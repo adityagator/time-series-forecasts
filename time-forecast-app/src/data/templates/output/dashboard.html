@@ -1,40 +1,93 @@
 {% extends 'dashboard_base.html' %}
 
 {% block content %}
-<h1>Dashboard</h1>
-<!-- <label for="ship_pt">Ship_pt</label> -->
-<div id="formDiv">
-  <!-- <form action = "#">
-    <select id="ship_pt" name="ship_pt">
-      {% for ship_pt in ship_pt_arr %}
-            <option value={{ ship_pt }}>{{ ship_pt }}</option>
-      {% endfor %}
-    </select>
-    <select id="prod_h" name="prod_h">
-      {% for prod_h in prod_h_arr %}
-            <option value={{ prod_h }}>{{ prod_h }}</option>
-      {% endfor %}
-    </select>
-    <select id="part_no" name="part_no">
-      {% for part_no in part_no_arr %}
-            <option value={{ part_no }}>{{ part_no }}</option>
-      {% endfor %}
-    </select>
-    <button>Submit</button>
-  </form> -->
-  <select id="key" name="key">
-    {% for key in output_dict %}
-          <option value={{ key }}>{{ key }}</option>
-    {% endfor %}
-    
-  </select>
+
+<section class="summary_results" id="summary_results" name="summary_results">
+  <h1>Summary</h1>
+  {% if inputObj.cluster %}
+  <div id="div-cluster">
+    <canvas id="volume-chart"></canvas>
+    <canvas id="int-chart"></canvas>
   </div>
+  {% endif %}
+</section>
+
+<section class="forecast_results" id="forecast_results" name="forecast_results">
+  <h1>Forecast Results</h1>
+  <!-- <label for="ship_pt">Ship_pt</label> -->
+  {% if inputObj.forecast %}
+    <div id="div_forecast">
+      <select id="key" name="key">
+        {% for key in output_dict %}
+              <option value={{ key }}>{{ key }}</option>
+        {% endfor %}
+      </select>
+        <canvas id="forecast-chart"></canvas>
+      </div>
+  {% else %}
+      <h1>No data to display</h1>
+  {% endif %}
+      
+    
+    
+</section>
 
 
-<canvas id="pie-chart"></canvas>
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
   <script>
+    
+    var configVol = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          // data: {{ data|safe }},
+          backgroundColor: ['rgba(255, 255, 0, 0.5)', 'rgba(255, 165, 0, 0.5)', 'rgba(255, 0, 0, 0.5)'],
+          data: {{ volume_cluster }},
+          label: 'Volume'
+        }],
+        labels: ['low', 'medium', 'high']
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: "Volume Clusters"
+        }
+      }
+    };
+
+    var configInt = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          // data: {{ data|safe }},
+          backgroundColor: ['rgba(255, 255, 0, 0.5)', 'rgba(255, 165, 0, 0.5)', 'rgba(255, 0, 0, 0.5)'],
+          data: {{ int_cluster }},
+          label: 'Intermittency'
+        }],
+        labels: ['low', 'medium', 'high']
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: "Intermittency Clusters"
+        }
+      }
+    };
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
     var output_dict = {{ output_dict|safe }}
     var input_dict = {{ input_dict|safe }}
     console.log(input_dict)
@@ -60,12 +113,8 @@
     // });
 
     var key = $("#key :selected").text();
-    $("select#key").change(function(){
-      key = $("#key :selected").text();
 
-      totalData_arr = input_dict[key].concat(output_dict[key][3]);
-
-      function appendZerostoOutputArr(inputLen, outputArr){
+    function appendZerostoOutputArr(inputLen, outputArr){
         var final_arr = [];
         var count = 0;
         var countMix = 0;
@@ -85,6 +134,35 @@
       return final_arr;
       }
 
+      var inputData = {
+        label: 'Input Demand',
+        data: input_dict[key],
+        // order: 1
+        // backgroundColor: 'rgba(0, 99, 132, 0.5)',
+        // borderWidth: 0,
+        // yAxisID: "y-axis-density"
+      };
+
+      var outputData = {
+        label: 'Predicted Demand',
+        data: appendZerostoOutputArr(input_dict[key].length, output_dict[key][3]),
+        backgroundColor: 'rgba(255,0,0,0.5)',
+        // pointRadius: 0,
+        // order: 2
+        // borderWidth: 0,
+        // yAxisID: "y-axis-gravity"
+      };
+
+      var totalData = {
+        labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+        datasets: [inputData, outputData]
+      };
+      totalData_arr = input_dict[key].concat(output_dict[key][3]);
+
+    $("select#key").change(function(){
+      key = $("#key :selected").text();
+
+      totalData_arr = input_dict[key].concat(output_dict[key][3]);
 
       var inputData = {
         label: 'Input Demand',
@@ -98,7 +176,7 @@
       var outputData = {
         label: 'Predicted Demand',
         data: appendZerostoOutputArr(input_dict[key].length, output_dict[key][3]),
-        backgroundColor: 'rgba(255,0,0,0.6)',
+        backgroundColor: 'rgba(255,0,0,0.5)',
         // pointRadius: 0,
         // order: 2
         // borderWidth: 0,
@@ -159,15 +237,18 @@
         responsive: true,
         title: {
           display: true,
-          text: key
-          // position: bottom
+          text: "Algorithm: ".concat(output_dict[key][0]).concat("          ").concat("RMSE: ").concat(output_dict[key][1]).concat("          ").concat("MAPE: ").concat(output_dict[key][2])
+      },
+      legend: {
+            display: true,
+            position: 'bottom'
         }
-      }
+    }
     };
     
 
       if(currentChart){currentChart.destroy();}
-      var ctx2 = document.getElementById('pie-chart').getContext('2d');
+      var ctx2 = document.getElementById('forecast-chart').getContext('2d');
       window.myPie = new Chart(ctx2, config2);
       currentChart = window.myPie;
       // key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
@@ -204,7 +285,7 @@
     //   }
     // };
     // window.onload = function() {
-    //   var ctx = document.getElementById('pie-chart').getContext('2d');
+    //   var ctx = document.getElementById('forecast-chart').getContext('2d');
     //   window.myPie = new Chart(ctx, config);
     // };
     // });
@@ -216,25 +297,20 @@
     // var pointBackgroundColors = []
     var config = {
       type: 'line',
-      data: {
-        labels: ["one", "two", "three", "four", "five"],
-        datasets: [{
-          type: 'line',
-          data: [15, 30, 20, 20, 30],
-          // backgroundColor: 
-          // data: output_dict[key][3],
-        }],
-        // labels: {{ labels|safe }}
-        // labels: ["one", "two", "three", "four", "five"]
-      },
+      data: totalData,
       options: {
+        elements: { point: { hitRadius: 10, hoverRadius: 10 } },
         responsive: true,
         title: {
           display: true,
-          text: key
-          // position: bottom
+          text: "Algorithm: ".concat(output_dict[key][0]).concat("          ").concat("RMSE: ").concat(output_dict[key][1]).
+          concat("          ").concat("MAPE: ").concat(output_dict[key][2])
+      },
+      legend: {
+            display: true,
+            position: 'bottom'
         }
-      }
+    }
     };
     // if(currentChart){
     // for(i = 0; i < currentChart.data.datasets[0].data.length; i++){
@@ -278,12 +354,21 @@
       return bgArr;
     }
 
-    window.onload = function() {
-      var ctx = document.getElementById('pie-chart').getContext('2d');
+    // window.onload = function() {
+    //   var ctx = document.getElementById('forecast-chart').getContext('2d');
+    //   window.myPie = new Chart(ctx, config);
+    //   currentChart = window.myPie;
+    // };
+    window.onload = function() {  
+      var ctx = document.getElementById('forecast-chart').getContext('2d');
       window.myPie = new Chart(ctx, config);
       currentChart = window.myPie;
+      var ctxVol = document.getElementById('volume-chart').getContext('2d');
+      window.myBar = new Chart(ctxVol, configVol);
+      var ctxInt = document.getElementById('int-chart').getContext('2d');
+      window.myBar = new Chart(ctxInt, configInt);
     };
 
-  </script>
+   </script>
 
 {% endblock %}

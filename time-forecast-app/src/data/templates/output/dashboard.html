@@ -4,36 +4,52 @@
 
 <section class="summary_results" id="summary_results" name="summary_results">
   <h1>Summary</h1>
-  {% if inputObj.cluster %}
-  <div id="div-cluster">
-    <canvas id="volume-chart"></canvas>
-    <canvas id="int-chart"></canvas>
+  <ul class="downloads-list">
+    <li>
+      <a href={{ output_data.output_file }} download="output.csv" class="download-link">
+        <button class="download-button">Download Output File</button>
+      </a>
+    </li>
+    <li>
+      <a href={{ output_data.log_file }} download="app.log" class="download-link">
+        <button class="download-button">Download Log File</button>
+      </a>
+    </li>
+    </ul>
+  {% if cluster_flag %}
+  <div id="div-cluster" class="div-cluster">
+    <div class="volume_pie">
+      <canvas id="volume-chart"></canvas>
+    </div> 
+    <div class="int_pie">
+      <canvas id="int-chart"></canvas>
+    </div>
   </div>
   {% endif %}
 </section>
 
 <section class="forecast_results" id="forecast_results" name="forecast_results">
-  <h1>Forecast Results</h1>
+  <h1>Dashboard</h1>
   <!-- <label for="ship_pt">Ship_pt</label> -->
   {% if inputObj.forecast %}
     <div id="div_forecast">
-      <select id="key" name="key">
-        {% for key in output_dict %}
-              <option value={{ key }}>{{ key }}</option>
-        {% endfor %}
-      </select>
+      <div class="div-selector">
+        <select id="key" name="key" class="key-selector">
+          {% for key in output_dict %}
+                <option value={{ key }}>{{ key }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="forecast-graph-div">
         <canvas id="forecast-chart"></canvas>
+      </div>
+        
       </div>
   {% else %}
       <h1>No data to display</h1>
-  {% endif %}
-      
-    
-    
+  {% endif %}     
+
 </section>
-
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
   <script>
@@ -78,41 +94,25 @@
       }
     };
 
-
-
-
-
-
-
-
-
-
 ///////////////////////////////////////////////////////////////////////////////
-    var output_dict = {{ output_dict|safe }}
-    var input_dict = {{ input_dict|safe }}
+    var output_dict = {{ output_dict|safe }};
+    var input_dict = {{ input_dict|safe }};
+    var volume_cluster = {{ output_data.volume_cluster|safe}};
+    var int_cluster = {{ output_data.int_cluster|safe }}
     console.log(input_dict)
-    // console.log(output_dict)
-    // var ship_pt = $("#ship_pt :selected").text();
-    // var prod_h = $("#prod_h :selected").text(); 
-    // var part_no = $("#part_no :selected").text();
-    // var key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
-    // $("select#ship_pt").change(function(){
-    //   ship_pt = $("#ship_pt :selected").text();
-    //   key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
-    //   console.log(key)
-    // });
-    // $("select#prod_h").change(function(){
-    //   prod_h = $("#prod_h :selected").text();
-    //   key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
-    //   console.log(key)
-    // });
-    // $("select#part_no").change(function(){
-    //   part_no = $("#part_no :selected").text();
-    //   key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
-    //   console.log(key)
-    // });
-
+  
     var key = $("#key :selected").text();
+    // var isCluster = {{ cluster_flag|safe }}
+    function getTitle(key){
+      var title = null;
+      if(volume_cluster == {}){
+        title = "Algorithm: ".concat(output_dict[key][0]).concat("          ").concat("RMSE: ").concat(output_dict[key][1]).concat("          ").concat("MAPE: ").concat(output_dict[key][2]);
+      } else{
+        title = "Algorithm: ".concat(output_dict[key][0]).concat("          ").concat("RMSE: ").concat(output_dict[key][1]).concat("          ").concat("MAPE: ")
+        .concat(output_dict[key][2]).concat("          ").concat("Volume: ").concat(volume_cluster[key]).concat("          ").concat("Intermittency: ").concat(int_cluster[key]);
+      }
+      return title;
+    }
 
     function appendZerostoOutputArr(inputLen, outputArr){
         var final_arr = [];
@@ -136,21 +136,13 @@
 
       var inputData = {
         label: 'Input Demand',
-        data: input_dict[key],
-        // order: 1
-        // backgroundColor: 'rgba(0, 99, 132, 0.5)',
-        // borderWidth: 0,
-        // yAxisID: "y-axis-density"
+        data: input_dict[key]
       };
 
       var outputData = {
         label: 'Predicted Demand',
         data: appendZerostoOutputArr(input_dict[key].length, output_dict[key][3]),
-        backgroundColor: 'rgba(255,0,0,0.5)',
-        // pointRadius: 0,
-        // order: 2
-        // borderWidth: 0,
-        // yAxisID: "y-axis-gravity"
+        backgroundColor: 'rgba(255,0,0,0.5)'
       };
 
       var totalData = {
@@ -167,20 +159,12 @@
       var inputData = {
         label: 'Input Demand',
         data: input_dict[key],
-        // order: 1
-        // backgroundColor: 'rgba(0, 99, 132, 0.5)',
-        // borderWidth: 0,
-        // yAxisID: "y-axis-density"
       };
 
       var outputData = {
         label: 'Predicted Demand',
         data: appendZerostoOutputArr(input_dict[key].length, output_dict[key][3]),
         backgroundColor: 'rgba(255,0,0,0.5)',
-        // pointRadius: 0,
-        // order: 2
-        // borderWidth: 0,
-        // yAxisID: "y-axis-gravity"
       };
 
       var totalData = {
@@ -188,56 +172,15 @@
         datasets: [inputData, outputData]
       };
 
-    //   var config2 = {
-    //   type: 'line',
-    //   data: {
-    //     datasets: [{
-    //       // data: {{ data|safe }},
-    //       // backgroundColor: 'white',
-    //       data: output_dict[key][3],
-    //       label: 'forecasted demand'
-    //     }],
-    //     labels: {{ labels|safe }}
-    //   },
-    //   options: {
-    //     responsive: true,
-    //     title: {
-    //       display: true,
-    //       text: key
-    //       // position: bottom
-    //     }
-    //   }
-    // };
-    //   var config2 = {
-    //   type: 'bar',
-    //   data: {
-    //     labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
-    //     datasets: [{
-    //       // data: {{ data|safe }},
-    //       backgroundColor: getBackgroundColor(input_dict[key].length, output_dict[key][3].length),
-    //       data: totalData_arr,
-    //       label: 'input + forecasted demand'
-    //     }],
-    //     // labels: {{ labels|safe }}
-    //   },
-    //   options: {
-    //     responsive: true,
-    //     title: {
-    //       display: true,
-    //       text: key
-    //       // position: bottom
-    //     }
-    //   }
-    // };
     var config2 = {
       type: 'line',
       data: totalData,
       options: {
-        elements: { point: { hitRadius: 10, hoverRadius: 10 } },
+        elements: { point: { hitRadius: 20, hoverRadius: 20 } },
         responsive: true,
         title: {
           display: true,
-          text: "Algorithm: ".concat(output_dict[key][0]).concat("          ").concat("RMSE: ").concat(output_dict[key][1]).concat("          ").concat("MAPE: ").concat(output_dict[key][2])
+          text: getTitle(key)
       },
       legend: {
             display: true,
@@ -251,60 +194,19 @@
       var ctx2 = document.getElementById('forecast-chart').getContext('2d');
       window.myPie = new Chart(ctx2, config2);
       currentChart = window.myPie;
-      // key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
       console.log(key)
     });
 
-    // $("button").click(function() { 
-    //   var key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
-    //   console.log(key);
-    //         });
-
-    // var key = ship_pt.concat("^").concat(prod_h).concat("^").concat(part_no);
-    // console.log(key)
-    // var test2 = $("#prod_h :selected").val();
     
-    // $(document).on('change', '.div-toggle', function() {
-    //   var target = $(this).data('target');
-    //   var show = $("option:selected", this).data('show');
-    //   $(target).children().addClass('hide');
-    //   $(show).removeClass('hide');
-    //   var config = {
-    //   type: 'line',
-    //   data: {
-    //     datasets: [{
-    //       // data: {{ data|safe }},
-    //       // backgroundColor: 'white',
-    //       data: output_dict[this.classname][3],
-    //       label: 'demand'
-    //     }],
-    //     labels: {{ labels|safe }}
-    //   },
-    //   options: {
-    //     responsive: true
-    //   }
-    // };
-    // window.onload = function() {
-    //   var ctx = document.getElementById('forecast-chart').getContext('2d');
-    //   window.myPie = new Chart(ctx, config);
-    // };
-    // });
-    // $(document).ready(function(){
-    //     $('.div-toggle').trigger('change');
-    // });
-
-    // console.log(this.className);
-    // var pointBackgroundColors = []
     var config = {
       type: 'line',
       data: totalData,
       options: {
-        elements: { point: { hitRadius: 10, hoverRadius: 10 } },
+        elements: { point: { hitRadius: 20, hoverRadius: 20 } },
         responsive: true,
         title: {
           display: true,
-          text: "Algorithm: ".concat(output_dict[key][0]).concat("          ").concat("RMSE: ").concat(output_dict[key][1]).
-          concat("          ").concat("MAPE: ").concat(output_dict[key][2])
+          text: getTitle(key)
       },
       legend: {
             display: true,
@@ -312,15 +214,6 @@
         }
     }
     };
-    // if(currentChart){
-    // for(i = 0; i < currentChart.data.datasets[0].data.length; i++){
-    //     if(i >2)
-    //       pointBackgroundColors.push("green");
-    //     else
-    //     pointBackgroundColors.push("red");
-    // }
-    // currentChart.update();
-    // }
 
     var currentChart;
 
@@ -354,11 +247,6 @@
       return bgArr;
     }
 
-    // window.onload = function() {
-    //   var ctx = document.getElementById('forecast-chart').getContext('2d');
-    //   window.myPie = new Chart(ctx, config);
-    //   currentChart = window.myPie;
-    // };
     window.onload = function() {  
       var ctx = document.getElementById('forecast-chart').getContext('2d');
       window.myPie = new Chart(ctx, config);

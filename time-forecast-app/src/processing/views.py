@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect
 def processing_view(request, id):
     input = InputData.objects.get(id=id)
     if Process.run(input):
-        link_with_id = '/output/' + str(input.id)
+        link_with_id = '/dashboard/' + str(input.id)
         return HttpResponseRedirect(link_with_id)
     
     context = {

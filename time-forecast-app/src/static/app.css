@@ -12,6 +12,7 @@ body{
     width: 100%;
     height: 100%;
     background: url("geometric-bg2.jpg") no-repeat center fixed;
+    /* background: white; */
     background-size: cover;
     font-family: 'Nanum Gothic';
     /* color: aliceblue; */
@@ -20,11 +21,6 @@ body{
 a{
     text-decoration: none;
     color: lightblue;
-}
-
-header{
-    /* width: 100%;
-    height: 100vh; */
 }
 
 .text{
@@ -101,84 +97,6 @@ h1{
     padding: 1rem;
     -webkit-font-smoothing: antialiased;
 }
-
-/* #id_forecast input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  } */
-
-/* #id_forecast {
-    position: relative;
-    /* top: 0;
-    left: 0; 
-    height: 25px;
-    width: 25px;
-    background-color: black;
-    margin: 1rem 0.75rem;
-    color: black;
-    
-  } */
-
-  /* #id_forecast input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  }
-
-#id_forecast {
-    position: relative;
-    /* top: 0;
-    left: 0; 
-    height: 25px;
-    width: 25px;
-    background-color: black;
-    margin: 1rem 0.75rem;
-    color: black;
-    
-  }
-
-  #id_forecast:hover{
-    background-color: rgb(10, 0, 0);
-  } */
-
-  /* .container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-
-  .file-container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-
-  .container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  } */
 
   .errorlist{
       font-size: 0rem;
@@ -285,14 +203,34 @@ button {
 }
 
 button:hover {
-    background-color: transparent;
+    background-color: lightblue;
     background-repeat:no-repeat;
     cursor:pointer;
     overflow: hidden;
     outline:none;
-    color: lightblue;
+    color: black;
     padding: 1rem 0.5rem;
     opacity: 0.7;
+}
+
+.dash-button{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    /* width: 100px;
+    height: 100px; */
+}
+
+.dash-btn{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 100px;
+    height: 100px;
 }
 
 

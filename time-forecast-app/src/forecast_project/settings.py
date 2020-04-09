@@ -26,7 +26,8 @@ SECRET_KEY = 'hq_u07u43p2zf0_0-**qg1l#t&i%o&$8g2#%^lbz_ucp)3*uvy'
 DEBUG = True
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'files/')
-MEDIA_URL = '/output/'
+# MEDIA_URL = '/output/'
+MEDIA_URL = '/dashboard/'
 
 ALLOWED_HOSTS = []
 
@@ -130,3 +131,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')

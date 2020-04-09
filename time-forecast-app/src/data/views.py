@@ -68,6 +68,7 @@ def getSummary(cluster):
 
 def dashboard_view(request, id):
     input = InputData.objects.get(id=id)
+    output_data = get_object_or_404(OutputData, input=input)
     output = OutputData.objects.get(input=input)
     output_dict = output.output_dict
     input_dict = output.input_dict
@@ -85,7 +86,9 @@ def dashboard_view(request, id):
     
     volume_cluster = []
     int_cluster = []
-    if input.cluster:
+    cluster_flag = False
+    if len(output.volume_cluster) > 0:
+        cluster_flag = True
         volume_cluster = getSummary(output.volume_cluster)
         int_cluster = getSummary(output.int_cluster)
     
@@ -104,7 +107,9 @@ def dashboard_view(request, id):
         'input_dict': input_dict,
         'inputObj': input,
         'volume_cluster': volume_cluster,
-        'int_cluster': int_cluster
+        'int_cluster': int_cluster,
+        'cluster_flag': cluster_flag,
+        'output_data': output_data
     }
     return render(request, "output/dashboard.html", context)
 

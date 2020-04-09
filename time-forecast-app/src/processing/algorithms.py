@@ -11,7 +11,10 @@ from pandas import np
 import math
 from sklearn.model_selection import TimeSeriesSplit
 from processing.holt_winters import HoltWintersClass
+from processing.croston import Croston
 import warnings
+from statsmodels.tsa.statespace.varmax import VARMAX
+import pandas as pd
 warnings.filterwarnings("ignore")
 # from processing.fnn import FeedForwardNeuralNetwork
 
@@ -23,7 +26,7 @@ class Algorithms:
         self.test = test
     
     # create a differenced series for ARIMA, AR etc
-    def difference(self, dataset, interval=1):
+    def difference(self, dataset, interval=12):
         diff = list()
         for i in range(interval, len(dataset)):
             value = dataset[i] - dataset[i - interval]
@@ -31,7 +34,7 @@ class Algorithms:
         return numpy.array(diff)
     
     # invert differences to get back original values
-    def inverse_difference(self, history, yhat, interval=1):
+    def inverse_difference(self, history, yhat, interval=12):
         return yhat + history[-interval]
 
     # return mape
@@ -57,6 +60,7 @@ class Algorithms:
         # print("true: ", self.test, " pred: ", predicted)
         return round(math.sqrt(mean_squared_error(self.test, predicted)),2), round(self.mean_absolute_percentage_error(
                                                                                                         predicted),2)
+    
     # return rmse and mape for ARIMA method
     # def arima_calculate(self):
     #     differenced = self.difference(self.data, 12)
@@ -264,7 +268,8 @@ class Algorithms:
     #     return pred
     
     def arma_calculate(self):
-        model = ARMA(self.data, order=[1,0])
+        # model = ARMA(self.data, order=[1,0])
+        model = ARMA(self.data, order=[2,1])
         model_fit = model.fit(disp=0)
         start_index = len(self.data)
         end_index = start_index + 11
@@ -284,7 +289,8 @@ class Algorithms:
         return rmse, mape, pred
     
     def arma_final(self):
-        model = ARMA(self.total, order=[1,0])
+        # model = ARMA(self.total, order=[1,0])
+        model = ARMA(self.total, order=[2,1])
         model_fit = model.fit(disp=0)
         start_index = len(self.total)
         end_index = start_index + 11
@@ -467,6 +473,78 @@ class Algorithms:
                 predictions[i] = 0
             
         return predictions
+    
+    def croston_calculate(self):
+        print("in croston calc")
+        input_data = self.data
+        predictions = []
+        for i in range(0,len(self.test)):
+	        yhat = Croston.croston_method(input_data)
+	        input_data.append(yhat)
+	        predictions.append(yhat)
+        for i in range(0, len(predictions)):
+            predictions[i] = round(predictions[i], 2)
+            if predictions[i] < 0:
+                predictions[i] = 0
+        rmse, mape = self.rmse_mape(predictions)
+        print(predictions)
+        return rmse, mape, predictions
+
+    def croston_final(self):
+        print("in croston final")
+        predictions = []
+        input_data = self.total
+        for i in range(0,12):
+	        yhat = Croston.croston_method(input_data)
+	        input_data.append(yhat)
+	        predictions.append(yhat)
+        for i in range(0, len(predictions)):
+            predictions[i] = round(predictions[i], 2)
+            if predictions[i] < 0:
+                predictions[i] = 0
+        print(predictions)
+        return predictions
+
+    def varma_calculate(self):
+        predictions = []
+        input_data = numpy.array(self.data)
+        input_data = numpy.log(input_data)
+        input_data = self.difference(input_data)
+        input_data = pd.DataFrame(input_data)
+        input_data = input_data.dropna()
+        for i in range(0,len(self.test)):
+            model = VARMAX(input_data, order=(1,1))
+            model_fit = model.fit(disp=False)
+            yhat = model_fit.forecast()
+            predictions.append(yhat)
+            input_data.append(yhat)
+        for i in range(0, len(predictions)):
+            predictions[i] = round(predictions[i], 2)
+            if predictions[i] < 0:
+                predictions[i] = 0
+        rmse, mape = self.rmse_mape(predictions)
+        return rmse, mape, predictions
+    
+    def varma_final(self):
+        predictions = []
+        input_data = numpy.array(self.total)
+        input_data = numpy.log(input_data)
+        input_data = self.difference(input_data)
+        input_data = pd.DataFrame(input_data)
+        input_data = input_data.dropna()
+        for i in range(0,len(self.test)):
+            model = VARMAX(input_data, order=(1,1))
+            model_fit = model.fit(disp=False)
+            yhat = model_fit.forecast()
+            predictions.append(yhat)
+            input_data.append(yhat)
+        for i in range(0, len(predictions)):
+            predictions[i] = round(predictions[i], 2)
+            if predictions[i] < 0:
+                predictions[i] = 0
+       
+        return predictions
+
 
     # return the predicted output for the least rmse algorithm given by min_algo
     def getPredictedValues(self, min_algo, params):
@@ -486,6 +564,10 @@ class Algorithms:
             return []
         elif min_algo == "HWES":
             return self.hwes_final(params)
+        elif min_algo == "croston":
+            return self.croston_final()
+        elif min_algo == "VARMA":
+            return self.varma_final()
         # elif min_algo == "FNN":
         #     return FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn_next_year(self.total)
         else:

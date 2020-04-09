@@ -42,6 +42,31 @@ class Process():
                                   value[-Constants.TESTING_MONTHS:])
                 min_params = []
                 ship_pt, prod_h, part_no = key.split("^")
+
+            # Croston Algorithm
+                try:
+                    rmse_cros, mape_cros, pred_cros = algo_obj.croston_calculate()
+                    if(rmse_cros < min_rmse):
+                        min_rmse = rmse_cros
+                        min_algo = "croston"
+                        min_mape = mape_cros
+                        min_pred = pred_cros
+                except Exception as err:
+                    logging.error("Error while using Croston method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+                    logging.error(traceback.format_exc())
+                
+                # # VARMA Algorithm
+                # try:
+                #     rmse_varma, mape_varma, pred_varma = algo_obj.varma_calculate()
+                #     if(rmse_varma < min_rmse):
+                #         min_rmse = rmse_varma
+                #         min_algo = "VARMA"
+                #         min_mape = mape_varma
+                #         min_pred = pred_varma
+                # except Exception as err:
+                #     logging.error("Error while using VARMA method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+                #     logging.error(traceback.format_exc())
+
             # ARIMA Algorithm
                 try:
                     rmse_arima, mape_arima, pred_arima = algo_obj.arima_calculate()

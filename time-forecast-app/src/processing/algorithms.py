@@ -16,7 +16,8 @@ import warnings
 from statsmodels.tsa.statespace.varmax import VARMAX
 import pandas as pd
 warnings.filterwarnings("ignore")
-# from processing.fnn import FeedForwardNeuralNetwork
+from processing.fnn import FeedForwardNeuralNetwork
+from processing.lstm import lstm
 
 class Algorithms:
     # constructor: initializing training and testing data
@@ -412,23 +413,23 @@ class Algorithms:
     #     print('Predicted values for last 4 months : ', predicted)
     #     return round(rmse,2), round(mape,2)
     
-    def rnn_calculate(self, value):
-        yhat, month_rnn = lstm.lstm.rnn(value, Constants.TESTING_MONTHS)
-        # print('Recurrent Neural Network (LSTM):')
-        # print('Actual values: ', self.test)
-        # print('Predicted values: ', yhat)
+    def rnn_calculate(self):
+        yhat = lstm.rnn(self.total, len(self.test))
         rmse, mape = self.rmse_mape(yhat)
-        #print('RMSE: %.3f' % rmse)
-        return round(rmse,2), round(mape,2), month_rnn
+        return round(rmse,2), round(mape,2), yhat
+
+    def rnn_final(self):
+        yhat = lstm.rnn_next_year(self.total)
+        return yhat
     
-    # def fnn_calculate(self, value):
-    #     yhat = FeedForwardNeuralNetwork.fnn(value, Constants.TESTING_MONTHS)
-    #     print('Feed Forward Neural Network:')
-    #     print('Actual values: ', self.test)
-    #     print('Predicted values: ', yhat)
-    #     rmse, mape = self.rmse_mape(yhat)
-    #     #print('RMSE: %.3f' % rmse)
-    #     return round(rmse,2), round(mape,2)
+    def fnn_calculate(self):
+        yhat = FeedForwardNeuralNetwork.fnn(self.total, len(self.test))
+        rmse, mape = self.rmse_mape(yhat)
+        return round(rmse,2), round(mape,2), yhat
+    
+    def fnn_final(self):
+        yhat = FeedForwardNeuralNetwork.fnn_next_year(self.total)
+        return yhat
 
     def holt_winters_function(self, params=[0.1, 0.1, 0.1], series=[], loss_function=mean_squared_error, slen=12):
         series = self.total
@@ -568,7 +569,9 @@ class Algorithms:
             return self.croston_final()
         elif min_algo == "VARMA":
             return self.varma_final()
-        # elif min_algo == "FNN":
-        #     return FeedForwardNeuralNetwork.FeedForwardNeuralNetwork.fnn_next_year(self.total)
+        elif min_algo == "FNN":
+            return FeedForwardNeuralNetwork.fnn_next_year(self.total)
+        elif min_algo == "RNN":
+            return lstm.rnn_next_year(self.total)
         else:
             return [0,0,0,0,0,0,0,0,0,0,0,0]

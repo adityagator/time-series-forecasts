@@ -9,13 +9,13 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 from math import sqrt
-from matplotlib import pyplot
+# from matplotlib import pyplot
 import numpy
-
-
+import keras.backend.tensorflow_backend as tb
+tb._SYMBOLIC_SCOPE.value = True
 
 class lstm:
-
+    tb._SYMBOLIC_SCOPE.value = True
     # date-time parsing function for loading the dataset
     def parser(x):
         return datetime.strptime('190'+x, '%Y-%m')
@@ -153,4 +153,46 @@ class lstm:
         print(predictions)
         print("")
         print("")
-        return predictions, one_year_predictions
+        return predictions
+
+
+    
+    def rnn_next_year(total_data):
+        train_data = total_data
+        diff_values = lstm.difference(train_data, 1)
+        supervised = lstm.timeseries_to_supervised(diff_values, 1)
+        supervised_values = supervised.values
+
+        scaler = MinMaxScaler(feature_range=(-1, 1))
+        scaler = scaler.fit(train_data)
+        # transform train
+        train_data = train_data.reshape(train_data.shape[0], train_data.shape[1])
+        train_scaled = scaler.transform(train_data)
+        lstm_model = lstm.fit_lstm(train_scaled, 1, 100, 10)
+        predictions = [None] * 12
+        # test = [None] * 12
+        # model = lstm.model_fit(train_data, 1, 100, 10)
+        # seed history with training dataset
+        # history = [x for x in train_data]
+        # history = numpy.array(history)
+        # step over each time-step in the test set
+        train_reshaped = train_scaled[:, 0].reshape(len(train_scaled), 1, 1)
+        # lstm_model.predict(train_reshaped, batch_size=1)
+        for i in range(len(predictions)):
+            # fit model and make forecast for history
+            yhat = lstm_model.predict(train_reshaped, batch_size=1)
+            # store forecast in list of predictions
+            predictions.append(numpy.round(yhat, 2))
+            # add actual observation to history for the next loop
+            # history = numpy.append(history, numpy.round(yhat, 2))
+            # history.append(numpy.round(yhat, 2))
+
+        l = numpy.array(predictions).tolist()
+        flat_list = [item for sublist in l for item in sublist]
+
+        for i in range(0, len(flat_list)):
+            flat_list[i] = round(flat_list[i], 2)
+            if flat_list[i] < 0:
+                flat_list[i] = 0
+
+        return flat_list

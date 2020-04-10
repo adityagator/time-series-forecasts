@@ -139,17 +139,34 @@ class Process():
                 except Exception as err:
                     logging.error("Error while using SES method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
                     logging.error(traceback.format_exc())
+                
+                # FNN
+                try:
+                    rmse_fnn, mape_fnn, pred_fnn = algo_obj.fnn_calculate()
+                    if (rmse_fnn < min_rmse):
+                        min_rmse = rmse_fnn
+                        min_algo = "FNN"
+                        min_mape = mape_fnn
+                        min_pred = pred_fnn
+                except Exception as err:
+                    logging.error("Error while using FNN method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+                    logging.error(traceback.format_exc())
 
-                # # FNN
-                # # if input.deepLearning:
-                # #     rmse, mape = algo_obj.fnn_calculate(value)
-                # #     if (rmse < min_rmse):
-                # #         min_rmse = rmse
-                # #         min_algo = "FNN"
-                # #         min_mape = mape
-                # #     print("rmse is :", rmse, " ", mape, " ", "FNN")
+                # RNN
+                # try:
+                #     rmse_rnn, mape_rnn, pred_rnn = algo_obj.rnn_calculate()
+                #     if (rmse_rnn < min_rmse):
+                #         min_rmse = rmse_rnn
+                #         min_algo = "RNN"
+                #         min_mape = mape_rnn
+                #         min_pred = pred_rnn
+                # except Exception as err:
+                #     logging.error("Error while using RNN method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+                #     logging.error(traceback.format_exc())
 
-                #     # Holt-Winters method
+                
+
+                    # Holt-Winters method
                 try:
                     # print('optimised HWES Method :')
                     data = value

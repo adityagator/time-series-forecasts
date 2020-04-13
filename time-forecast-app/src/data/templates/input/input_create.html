@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="form-div">
@@ -9,13 +10,14 @@
     <p class="processing">Processing...</p>
 </div>
 
-<!-- <script>
-    $(document).ready(function(){
+<script src="{% static "js/jquery-3.4.1.js" %}"></script>
+<script src="{% static "js/rango-jquery.js" %}"></script>
+<script>
+$(document).ready(function() {
         $('.processing').hide();
-        // $(':submit').click(function(){
-        //     $('.processing').show();
-        // });
+        $(':submit').click(function(){
+            $('.processing').show();
+        });
     });
-</script> -->
+</script>
 {% endblock %}
-

@@ -1,2 +1,0 @@
-location-sku,Month 1 - 12 values,algorithm,rmse,mape
-ZTRD-TEST-CORONA,"[4170.0, 4502.0, 4791.0, 4856.0, 5220.0, 4884.0, 5669.0, 6078.0, 6765.0, 7408.0, 8224.0, 9198.0]",RNN,539.93,6.95

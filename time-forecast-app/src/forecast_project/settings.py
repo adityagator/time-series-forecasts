@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     'processing',
     'jquery',
+    # 'split_key',
 ]
 
 MIDDLEWARE = [

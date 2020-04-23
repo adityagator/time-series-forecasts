@@ -121,7 +121,8 @@ def dashboard_view(request, id):
         'volume_cluster': volume_cluster,
         'int_cluster': int_cluster,
         'cluster_flag': cluster_flag,
-        'output_data': output_data
+        'output_data': output_data,
+        'i': 0
     }
     return render(request, "output/dashboard.html", context)
 

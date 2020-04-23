@@ -4,18 +4,10 @@
 
 <section class="summary_results" id="summary_results" name="summary_results">
   <h1>Summary</h1>
-  <ul class="downloads-list">
-    <li>
-      <a href={{ output_data.output_file }} download="output.csv" class="download-link">
-        <button class="download-button">Download Output File</button>
-      </a>
-    </li>
-    <li>
-      <a href={{ output_data.log_file }} download="app.log" class="download-link">
-        <button class="download-button">Download Log File</button>
-      </a>
-    </li>
-    </ul>
+  <div class="email-confirm">
+    <p style="display: flex; text-align: center; justify-content: center; color: black;">
+      Output file has been sent to {{ inputObj.email }} </p>
+  </div>
   {% if cluster_flag %}
   <div id="div-cluster" class="div-cluster">
     <div class="volume_pie">

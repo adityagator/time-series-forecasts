@@ -5,6 +5,7 @@ class InputData(models.Model):
     forecast = models.BooleanField(default=True)
     cluster = models.BooleanField(default=True)
     file = models.FileField(upload_to="input/", default=None)
+    email = models.EmailField(default="dummy@dummy.com")
 
 class OutputData(models.Model):
     input = models.OneToOneField(

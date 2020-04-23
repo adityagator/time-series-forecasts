@@ -233,4 +233,9 @@ button:hover {
     height: 100px;
 }
 
+.processing{
+    font-size: 1px;
+    display: none;
+}
+
 

@@ -3,21 +3,43 @@
 
 {% block content %}
 <div class="form-div">
-    <form action = "" method='POST' enctype="multipart/form-data"> {% csrf_token %}
+    <form action = "" method='POST' enctype="multipart/form-data" id="input_form"> {% csrf_token %}
         {{ form.as_p}}
-        <input type='submit' value='Submit' />
+        <input type='submit' value='Submit' id="sub-btn"/>
     </form>
-    <p class="processing">Processing...</p>
+    <!-- <p id="process" class="processing" style="display:none; font-size: 10px;">Processing...</p> -->
 </div>
 
 <script src="{% static "js/jquery-3.4.1.js" %}"></script>
 <script src="{% static "js/rango-jquery.js" %}"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script>
 $(document).ready(function() {
-        $('.processing').hide();
-        $(':submit').click(function(){
-            $('.processing').show();
-        });
-    });
+
+    // document.getElementById("process").style.display = 'none';
+    // $('.processing').hide();
+    // $(':submit').click(function(){
+    //     if($('form#input_form').checkValidity()){
+    //         $('.processing').show();
+    //     }
+    // });
+
+    $('#sub-btn').bind('click',function(){
+        console.log("clicked submit");
+        if ($('#input_form')[0].checkValidity()) {
+            console.log("Valid");
+            // $('.processing').show(); 
+            var para = document.createElement("p");
+            var node = document.createTextNode("Processing");
+            para.appendChild(node);
+            var element = document.getElementById("input_form");
+            element.appendChild(para);
+        } else {
+            console.log("inValid");
+        }
+    })
+
+    // $('.processing').hide();
+});
 </script>
 {% endblock %}

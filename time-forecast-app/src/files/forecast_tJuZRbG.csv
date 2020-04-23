@@ -1,0 +1,2 @@
+Ship pt,Product Hierarchy,Part Number,Month 1,Month 2,Month 3,Month 4,Month 5,Month 6,Month 7,Month 8,Month 9,Month 10,Month 11,Month 12,Algorithm,RMSE,MAPE
+ZTRD,TEST,CORONA,10587.56,11642.75,12462.91,13391.29,14464.96,15533.67,16654.07,17952.01,19268.69,20741.86,22305.64,23987.67,FNN,1415.9,13.24

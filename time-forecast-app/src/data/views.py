@@ -4,6 +4,9 @@ from .models import InputData
 from .models import OutputData
 from django.http import HttpResponseRedirect
 from processing.process import Process
+# from django.core.mail import send_mail as sm
+from django.core.mail import EmailMessage
+from django.conf import settings
 
 def input_create_view(request):
     form = InputDataForm(request.POST, request.FILES)
@@ -66,10 +69,18 @@ def getSummary(cluster):
     print(high)
     return [low, mid, high]
 
+def send_mail(output_file, log_file):
+    mail = EmailMessage("Output file", "Body of email", settings.EMAIL_HOST_USER, ["adityagator1@gmail.com"])
+    mail.attach(output_file.name, output_file.read())
+    mail.attach(log_file.name, log_file.read())
+    mail.send()
+    print("Email sent")
+
 def dashboard_view(request, id):
     input = InputData.objects.get(id=id)
     output_data = get_object_or_404(OutputData, input=input)
     output = OutputData.objects.get(input=input)
+    send_mail(output.output_file, output.log_file)
     output_dict = output.output_dict
     input_dict = output.input_dict
     ship_pt_arr = []

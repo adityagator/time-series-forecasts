@@ -1,11 +1,11 @@
-$(document).ready(function() {
-    $(document).ready(function(){
-        $('.processing').hide();
-        $(':submit').click(function(){
-            $('.processing').show();
-        });
-    });
-});
+// $(document).ready(function() {
+//     $(document).ready(function(){
+//         $('.processing').hide();
+//         $(':submit').click(function(){
+//             $('.processing').show();
+//         });
+//     });
+// });
 //     var ctx = document.getElementById('myChart').getContext('2d');
 //     var chart = new Chart(ctx, {
 //     // The type of chart we want to create

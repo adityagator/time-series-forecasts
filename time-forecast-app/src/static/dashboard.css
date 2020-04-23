@@ -83,6 +83,13 @@ h6{
     justify-content: center;
 }
 
+.email-confirm{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+}
+
 button {
     background-color: Transparent;
     background-repeat:no-repeat;

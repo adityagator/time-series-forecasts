@@ -158,7 +158,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            print('SARIMA Day %d: %f' % (day, yhat))
+            # print('SARIMA Day %d: %f' % (day, yhat))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -198,7 +198,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat,2))
-            print('AR Day %d: %f' % (day, yhat))
+            # print('AR Day %d: %f' % (day, yhat))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -280,7 +280,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat, 2))
-            print('ARMA Day %d: %f' % (day, round(yhat,2)))
+            # print('ARMA Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat, 2))
             day += 1
         for i in range(0, len(pred)):
@@ -321,7 +321,7 @@ class Algorithms:
         pred = []
         for yhat in forecast:
             pred.append(round(yhat, 2))
-            print('MA Day %d: %f' % (day, round(yhat,2)))
+            # print('MA Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat, 2))
             day += 1
         for i in range(0, len(pred)):
@@ -361,7 +361,7 @@ class Algorithms:
         for yhat in forecast:
             # inverted = self.inverse_difference(history, yhat, 12)
             pred.append(round(yhat,2))
-            print('SES Day %d: %f' % (day, round(yhat,2)))
+            # print('SES Day %d: %f' % (day, round(yhat,2)))
             history.append(round(yhat,2))
             day += 1
         for i in range(0, len(pred)):
@@ -476,7 +476,7 @@ class Algorithms:
         return predictions
     
     def croston_calculate(self):
-        print("in croston calc")
+        # print("in croston calc")
         input_data = self.data
         predictions = []
         for i in range(0,len(self.test)):
@@ -488,11 +488,11 @@ class Algorithms:
             if predictions[i] < 0:
                 predictions[i] = 0
         rmse, mape = self.rmse_mape(predictions)
-        print(predictions)
+        # print(predictions)
         return rmse, mape, predictions
 
     def croston_final(self):
-        print("in croston final")
+        # print("in croston final")
         predictions = []
         input_data = self.total
         for i in range(0,12):
@@ -503,7 +503,7 @@ class Algorithms:
             predictions[i] = round(predictions[i], 2)
             if predictions[i] < 0:
                 predictions[i] = 0
-        print(predictions)
+        # print(predictions)
         return predictions
 
     def varma_calculate(self):

@@ -126,4 +126,7 @@ def dashboard_view(request, id):
     }
     return render(request, "output/dashboard.html", context)
 
+
+
+
     

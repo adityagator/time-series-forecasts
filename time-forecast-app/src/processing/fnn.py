@@ -90,7 +90,7 @@ class FeedForwardNeuralNetwork:
             history.append(test[i])
         # estimate prediction error
         error = FeedForwardNeuralNetwork.measure_rmse(test, predictions)
-        print(' > %.3f' % error)
+        # print(' > %.3f' % error)
         return error, predictions
 
     # repeat evaluation of a config
@@ -105,7 +105,7 @@ class FeedForwardNeuralNetwork:
     def summarize_scores(name, scores):
         # print a summary
         scores_m, score_std = mean(scores), std(scores)
-        print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
+        # print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
 
     def mean_absolute_percentage_error(y_true, y_pred):
 
@@ -123,7 +123,7 @@ class FeedForwardNeuralNetwork:
         scores = repeat_evaluate(data, config, n_test)
         # summarize scores
         summarize_scores('mlp', scores)'''
-        print('Feed Forward Neural Net')
+        # print('Feed Forward Neural Net')
         rmse, prediction_list = FeedForwardNeuralNetwork.walk_forward_validation(
             data, n_test, config)
         l = numpy.array(prediction_list).tolist()
@@ -144,7 +144,7 @@ class FeedForwardNeuralNetwork:
     def fnn_next_year(total_data):
         train_data = total_data
         config = [10, 10, 25, 1]
-        print("Next Year Pred using FNN")
+        # print("Next Year Pred using FNN")
 
         predictions = list()
         test = [None] * 12

@@ -1,0 +1,407 @@
+django.request - ERROR - Internal Server Error: /dashboard/175
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 828, in _resolve_lookup
+    current = current[bit]
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/context.py", line 83, in __getitem__
+    raise KeyError(key)
+KeyError: 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 834, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(type(current), bit):
+AttributeError: type object 'RequestContext' has no attribute 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 842, in _resolve_lookup
+    current = current[int(bit)]
+ValueError: invalid literal for int() with base 10: 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/data/views.py", line 127, in dashboard_view
+    return render(request, "output/dashboard.html", context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 986, in render
+    output = self.filter_expression.resolve(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 691, in resolve
+    arg_vals.append(arg.resolve(context))
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 795, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    (bit, current))  # missing attribute
+django.template.base.VariableDoesNotExist: Failed lookup for key [text] in [{'True': True, 'False': False, 'None': None}, {}, {}, {'ship_pt_arr': ['ZTRD'], 'prod_h_arr': ['TEST'], 'part_no_arr': ['CORONA'], 'output_dict': {'ZTRD^TEST^CORONA': ['FNN', 980.42, 10.03, [8612.33, 9422.38, 9897.22, 9170.4, 11077.43, 11413.88, 11200.34, 14572.93, 13861.02, 13776.82, 17059.48, 14612.65], [4097.0, 4309.0, 4559.0, 4738.0, 5085.0, 5167.0, 5505.0, 5742.0, 5980.0, 6848.0, 7042.0, 8112.0]]}, 'input_dict': {'ZTRD^TEST^CORONA': [17.5, 25.0, 41.0, 56.0, 80.0, 106.0, 132.0, 170.0, 213.0, 259.0, 304.0, 362.0, 426.0, 492.0, 565.0, 638.0, 724.0, 813.0, 910.0, 1018.0, 1115.0, 1261.0, 1383.0, 1526.0, 1669.0, 1775.0, 1873.0, 2009.0, 2126.0, 2247.0, 2360.0, 2460.0, 2618.0, 2699.0, 2763.0, 2800.0, 2858.0, 2923.0, 2977.0, 3050.0, 3117.0, 3202.0, 3285.0, 3387.0, 3494.0, 3599.0, 3827.0, 4025.0, 4296.0, 4563.0, 4628.0, 4981.0, 4644.0, 5429.0, 5833.0, 6519.0, 7161.0, 7978.0, 8951.0, 10131.0]}, 'inputObj': <InputData: InputData object (175)>, 'volume_cluster': [], 'int_cluster': [], 'cluster_flag': False, 'output_data': <OutputData: OutputData object (175)>, 'i': 0}]
+django.request - ERROR - Internal Server Error: /dashboard/175
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 828, in _resolve_lookup
+    current = current[bit]
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/context.py", line 83, in __getitem__
+    raise KeyError(key)
+KeyError: 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 834, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(type(current), bit):
+AttributeError: type object 'RequestContext' has no attribute 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 842, in _resolve_lookup
+    current = current[int(bit)]
+ValueError: invalid literal for int() with base 10: 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/data/views.py", line 127, in dashboard_view
+    return render(request, "output/dashboard.html", context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 986, in render
+    output = self.filter_expression.resolve(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 691, in resolve
+    arg_vals.append(arg.resolve(context))
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 795, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    (bit, current))  # missing attribute
+django.template.base.VariableDoesNotExist: Failed lookup for key [text] in [{'True': True, 'False': False, 'None': None}, {}, {}, {'ship_pt_arr': ['ZTRD'], 'prod_h_arr': ['TEST'], 'part_no_arr': ['CORONA'], 'output_dict': {'ZTRD^TEST^CORONA': ['FNN', 980.42, 10.03, [8612.33, 9422.38, 9897.22, 9170.4, 11077.43, 11413.88, 11200.34, 14572.93, 13861.02, 13776.82, 17059.48, 14612.65], [4097.0, 4309.0, 4559.0, 4738.0, 5085.0, 5167.0, 5505.0, 5742.0, 5980.0, 6848.0, 7042.0, 8112.0]]}, 'input_dict': {'ZTRD^TEST^CORONA': [17.5, 25.0, 41.0, 56.0, 80.0, 106.0, 132.0, 170.0, 213.0, 259.0, 304.0, 362.0, 426.0, 492.0, 565.0, 638.0, 724.0, 813.0, 910.0, 1018.0, 1115.0, 1261.0, 1383.0, 1526.0, 1669.0, 1775.0, 1873.0, 2009.0, 2126.0, 2247.0, 2360.0, 2460.0, 2618.0, 2699.0, 2763.0, 2800.0, 2858.0, 2923.0, 2977.0, 3050.0, 3117.0, 3202.0, 3285.0, 3387.0, 3494.0, 3599.0, 3827.0, 4025.0, 4296.0, 4563.0, 4628.0, 4981.0, 4644.0, 5429.0, 5833.0, 6519.0, 7161.0, 7978.0, 8951.0, 10131.0]}, 'inputObj': <InputData: InputData object (175)>, 'volume_cluster': [], 'int_cluster': [], 'cluster_flag': False, 'output_data': <OutputData: OutputData object (175)>, 'i': 0}]
+django.request - ERROR - Internal Server Error: /dashboard/175
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 828, in _resolve_lookup
+    current = current[bit]
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/context.py", line 83, in __getitem__
+    raise KeyError(key)
+KeyError: 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 834, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(type(current), bit):
+AttributeError: type object 'RequestContext' has no attribute 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 842, in _resolve_lookup
+    current = current[int(bit)]
+ValueError: invalid literal for int() with base 10: 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/data/views.py", line 127, in dashboard_view
+    return render(request, "output/dashboard.html", context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 986, in render
+    output = self.filter_expression.resolve(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 691, in resolve
+    arg_vals.append(arg.resolve(context))
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 795, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    (bit, current))  # missing attribute
+django.template.base.VariableDoesNotExist: Failed lookup for key [text] in [{'True': True, 'False': False, 'None': None}, {}, {}, {'ship_pt_arr': ['ZTRD'], 'prod_h_arr': ['TEST'], 'part_no_arr': ['CORONA'], 'output_dict': {'ZTRD^TEST^CORONA': ['FNN', 980.42, 10.03, [8612.33, 9422.38, 9897.22, 9170.4, 11077.43, 11413.88, 11200.34, 14572.93, 13861.02, 13776.82, 17059.48, 14612.65], [4097.0, 4309.0, 4559.0, 4738.0, 5085.0, 5167.0, 5505.0, 5742.0, 5980.0, 6848.0, 7042.0, 8112.0]]}, 'input_dict': {'ZTRD^TEST^CORONA': [17.5, 25.0, 41.0, 56.0, 80.0, 106.0, 132.0, 170.0, 213.0, 259.0, 304.0, 362.0, 426.0, 492.0, 565.0, 638.0, 724.0, 813.0, 910.0, 1018.0, 1115.0, 1261.0, 1383.0, 1526.0, 1669.0, 1775.0, 1873.0, 2009.0, 2126.0, 2247.0, 2360.0, 2460.0, 2618.0, 2699.0, 2763.0, 2800.0, 2858.0, 2923.0, 2977.0, 3050.0, 3117.0, 3202.0, 3285.0, 3387.0, 3494.0, 3599.0, 3827.0, 4025.0, 4296.0, 4563.0, 4628.0, 4981.0, 4644.0, 5429.0, 5833.0, 6519.0, 7161.0, 7978.0, 8951.0, 10131.0]}, 'inputObj': <InputData: InputData object (175)>, 'volume_cluster': [], 'int_cluster': [], 'cluster_flag': False, 'output_data': <OutputData: OutputData object (175)>, 'i': 0}]
+root - ERROR - Error while using ARMA method on ship_pt: ZTRD, prod_hierarchy: TEST, part_number: CORONA
+root - ERROR - Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/processing/process.py", line 111, in run
+    rmse_arma, mape_arma, pred_arma = algo_obj.arma_calculate()
+  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/processing/algorithms.py", line 274, in arma_calculate
+    model_fit = model.fit(disp=0)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 999, in fit
+    callback=callback, **kwargs)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/model.py", line 526, in fit
+    full_output=full_output)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/optimizer.py", line 218, in _fit
+    hess=hessian)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/optimizer.py", line 440, in _fit_lbfgs
+    **extra_kwargs)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 199, in fmin_l_bfgs_b
+    **opts)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 345, in _minimize_lbfgsb
+    f, g = func_and_grad(x)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 290, in func_and_grad
+    f = fun(x, *args)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/optimize.py", line 327, in function_wrapper
+    return function(*(wrapper_args + args))
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/model.py", line 500, in f
+    return -self.loglike(params, *args) / nobs
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 810, in loglike
+    return self.loglike_kalman(params, set_sigma2)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 820, in loglike_kalman
+    return KalmanFilter.loglike(params, self, set_sigma2)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/kalmanf/kalmanfilter.py", line 220, in loglike
+    Z_mat, R_mat, T_mat)
+  File "statsmodels/tsa/kalmanf/kalman_loglike.pyx", line 331, in statsmodels.tsa.kalmanf.kalman_loglike.kalman_loglike_double
+  File "statsmodels/tsa/kalmanf/kalman_loglike.pyx", line 62, in statsmodels.tsa.kalmanf.kalman_loglike.kalman_filter_double
+  File "<__array_function__ internals>", line 6, in pinv
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 1961, in pinv
+    u, s, vt = svd(a, full_matrices=False, hermitian=hermitian)
+  File "<__array_function__ internals>", line 6, in svd
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 1626, in svd
+    u, s, vh = gufunc(a, signature=signature, extobj=extobj)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 106, in _raise_linalgerror_svd_nonconvergence
+    raise LinAlgError("SVD did not converge")
+numpy.linalg.LinAlgError: SVD did not converge
+
+django.request - ERROR - Internal Server Error: /dashboard/176
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 828, in _resolve_lookup
+    current = current[bit]
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/context.py", line 83, in __getitem__
+    raise KeyError(key)
+KeyError: 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 834, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(type(current), bit):
+AttributeError: type object 'RequestContext' has no attribute 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 842, in _resolve_lookup
+    current = current[int(bit)]
+ValueError: invalid literal for int() with base 10: 'text'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/data/views.py", line 127, in dashboard_view
+    return render(request, "output/dashboard.html", context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 171, in render
+    return self._render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 903, in render_annotated
+    return self.render(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 986, in render
+    output = self.filter_expression.resolve(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 691, in resolve
+    arg_vals.append(arg.resolve(context))
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 795, in resolve
+    value = self._resolve_lookup(context)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/django/template/base.py", line 849, in _resolve_lookup
+    (bit, current))  # missing attribute
+django.template.base.VariableDoesNotExist: Failed lookup for key [text] in [{'True': True, 'False': False, 'None': None}, {}, {}, {'ship_pt_arr': ['ZTRD'], 'prod_h_arr': ['TEST'], 'part_no_arr': ['CORONA'], 'output_dict': {'ZTRD^TEST^CORONA': ['FNN', 986.49, 11.46, [9852.42, 10408.6, 10485.29, 10450.72, 10791.71, 11369.04, 12637.0, 14165.38, 15836.08, 17343.17, 18844.53, 19524.85], [3870.0, 4071.0, 4351.0, 4625.0, 4830.0, 5182.0, 5121.0, 5802.0, 6062.0, 6357.0, 7404.0, 8206.0]]}, 'input_dict': {'ZTRD^TEST^CORONA': [17.5, 25.0, 41.0, 56.0, 80.0, 106.0, 132.0, 170.0, 213.0, 259.0, 304.0, 362.0, 426.0, 492.0, 565.0, 638.0, 724.0, 813.0, 910.0, 1018.0, 1115.0, 1261.0, 1383.0, 1526.0, 1669.0, 1775.0, 1873.0, 2009.0, 2126.0, 2247.0, 2360.0, 2460.0, 2618.0, 2699.0, 2763.0, 2800.0, 2858.0, 2923.0, 2977.0, 3050.0, 3117.0, 3202.0, 3285.0, 3387.0, 3494.0, 3599.0, 3827.0, 4025.0, 4296.0, 4563.0, 4628.0, 4981.0, 4644.0, 5429.0, 5833.0, 6519.0, 7161.0, 7978.0, 8951.0, 10131.0]}, 'inputObj': <InputData: InputData object (176)>, 'volume_cluster': [], 'int_cluster': [], 'cluster_flag': False, 'output_data': <OutputData: OutputData object (176)>, 'i': 0}]
+root - ERROR - Error while using ARMA method on ship_pt: ZTRD, prod_hierarchy: TEST, part_number: CORONA1
+root - ERROR - Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/processing/process.py", line 111, in run
+    rmse_arma, mape_arma, pred_arma = algo_obj.arma_calculate()
+  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/processing/algorithms.py", line 274, in arma_calculate
+    model_fit = model.fit(disp=0)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 999, in fit
+    callback=callback, **kwargs)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/model.py", line 526, in fit
+    full_output=full_output)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/optimizer.py", line 218, in _fit
+    hess=hessian)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/optimizer.py", line 440, in _fit_lbfgs
+    **extra_kwargs)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 199, in fmin_l_bfgs_b
+    **opts)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 345, in _minimize_lbfgsb
+    f, g = func_and_grad(x)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 290, in func_and_grad
+    f = fun(x, *args)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/optimize.py", line 327, in function_wrapper
+    return function(*(wrapper_args + args))
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/model.py", line 500, in f
+    return -self.loglike(params, *args) / nobs
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 810, in loglike
+    return self.loglike_kalman(params, set_sigma2)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 820, in loglike_kalman
+    return KalmanFilter.loglike(params, self, set_sigma2)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/kalmanf/kalmanfilter.py", line 220, in loglike
+    Z_mat, R_mat, T_mat)
+  File "statsmodels/tsa/kalmanf/kalman_loglike.pyx", line 331, in statsmodels.tsa.kalmanf.kalman_loglike.kalman_loglike_double
+  File "statsmodels/tsa/kalmanf/kalman_loglike.pyx", line 62, in statsmodels.tsa.kalmanf.kalman_loglike.kalman_filter_double
+  File "<__array_function__ internals>", line 6, in pinv
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 1961, in pinv
+    u, s, vt = svd(a, full_matrices=False, hermitian=hermitian)
+  File "<__array_function__ internals>", line 6, in svd
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 1626, in svd
+    u, s, vh = gufunc(a, signature=signature, extobj=extobj)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 106, in _raise_linalgerror_svd_nonconvergence
+    raise LinAlgError("SVD did not converge")
+numpy.linalg.LinAlgError: SVD did not converge
+
+root - ERROR - Error while using ARMA method on ship_pt: ZTRD, prod_hierarchy: TEST, part_number: CORONA1
+root - ERROR - Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/processing/process.py", line 111, in run
+    rmse_arma, mape_arma, pred_arma = algo_obj.arma_calculate()
+  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/processing/algorithms.py", line 274, in arma_calculate
+    model_fit = model.fit(disp=0)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 999, in fit
+    callback=callback, **kwargs)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/model.py", line 526, in fit
+    full_output=full_output)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/optimizer.py", line 218, in _fit
+    hess=hessian)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/optimizer.py", line 440, in _fit_lbfgs
+    **extra_kwargs)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 199, in fmin_l_bfgs_b
+    **opts)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 345, in _minimize_lbfgsb
+    f, g = func_and_grad(x)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 290, in func_and_grad
+    f = fun(x, *args)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/optimize.py", line 327, in function_wrapper
+    return function(*(wrapper_args + args))
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/model.py", line 500, in f
+    return -self.loglike(params, *args) / nobs
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 810, in loglike
+    return self.loglike_kalman(params, set_sigma2)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 820, in loglike_kalman
+    return KalmanFilter.loglike(params, self, set_sigma2)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/kalmanf/kalmanfilter.py", line 220, in loglike
+    Z_mat, R_mat, T_mat)
+  File "statsmodels/tsa/kalmanf/kalman_loglike.pyx", line 331, in statsmodels.tsa.kalmanf.kalman_loglike.kalman_loglike_double
+  File "statsmodels/tsa/kalmanf/kalman_loglike.pyx", line 62, in statsmodels.tsa.kalmanf.kalman_loglike.kalman_filter_double
+  File "<__array_function__ internals>", line 6, in pinv
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 1961, in pinv
+    u, s, vt = svd(a, full_matrices=False, hermitian=hermitian)
+  File "<__array_function__ internals>", line 6, in svd
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 1626, in svd
+    u, s, vh = gufunc(a, signature=signature, extobj=extobj)
+  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 106, in _raise_linalgerror_svd_nonconvergence
+    raise LinAlgError("SVD did not converge")
+numpy.linalg.LinAlgError: SVD did not converge
+
+django.utils.autoreload - INFO - /Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/data/views.py changed, reloading.

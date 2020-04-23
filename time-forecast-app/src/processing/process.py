@@ -217,6 +217,8 @@ class Process():
                 
                 predicted_output = algo_obj.getPredictedValues(min_algo, min_params)
                 output_dict[key] = [min_algo, min_rmse, min_mape, predicted_output, min_pred]
+                count += 1
+                print(count)
 
         output_file = File(
                 open(

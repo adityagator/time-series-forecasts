@@ -1,8 +1,26 @@
-{% import printing %}
 {% extends "base.html" %}
 
 {% block content %}
 <h1>Processing</h1>
-<p>{{ input.file }}</p>
+<p>Processing file: {{ input.file }}</p>
+<p>Number of rows to process: {{ input_length }}</p>
+<div id="progress">
+    <p class="progress_p">Done processing with: </p>
+</div>
 
+<a href="/dashboard/{{ input.id }}">Dashboard</a>
+
+
+<script>
+    $(document).ready(function() {
+    var total = {{ input_length }};
+    var count = 0;
+
+    // while(count < total){
+    //     count = {{ process.count|safe }};
+    //     console.log(count);
+    // }
+    });
+
+</script>
 {% endblock %}

@@ -15,3 +15,7 @@ def remove_spaces(value):
 @register.filter
 def add_spaces(value):
     return value.replace("@", " ")
+
+@register.filter
+def handle_query(value, text):
+    return value.handle_query(text)

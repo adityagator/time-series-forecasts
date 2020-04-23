@@ -20,3 +20,8 @@ class OutputData(models.Model):
     output_dict = JSONField(default={'default': 'default'})
     volume_cluster = JSONField(default={'default': 'default'})
     int_cluster = JSONField(default={'default': 'default'})
+
+    def handle_query(text):
+        for key, value in output_dict.items():
+            print(key)
+            print(value)

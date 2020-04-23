@@ -26,6 +26,11 @@
   {% if inputObj.forecast %}
     <div id="div_forecast">
       <div class="div-selector">
+        <div id="div_textquery" class="div_textquery">
+          <input type="text" id="textquery" placeholder="Enter ship part, product hierarchy or part number">
+          <input type="submit" value="Submit" id="submit_text">
+        </div>
+        
         <select id="key" name="key" class="key-selector">
           {% for key in output_dict %}
                 <option value={{ key|remove_spaces }}>{{ key|split_key }}</option>
@@ -47,6 +52,16 @@
   <script>
 
 
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
   var configVol = {
       type: 'pie',
       data: {
@@ -257,7 +272,117 @@
     };
 
     
-    
+    $('#submit_text').bind('click',function(){
+      var result = [];
+      var input_result = [];
+      var text = document.getElementById("textquery").value;
+      var i = 0;
+      for(const key in output_dict){
+        if(key.includes(text)){
+          result[i] = output_dict[key];
+          input_result[i] = input_dict[key];
+          i++;
+        }
+      }
+
+      if(result.length == 0){
+        console.log("empty");
+      } else {
+        (combine_pred = []).length = result[0][4].length;
+        (combine_output = []).length = result[0][3].length;
+        (combine_input = []).length = input_result[0].length;
+        combine_pred.fill(0);
+        combine_output.fill(0);
+        combine_input.fill(0);
+        // console.log(result.length);
+        for(i=0; i<result.length; i++){
+          // console.log(result[i][3]);
+          j = 0;
+          while(j < result[0][3].length){
+            console.log(result[i][3][j])
+            combine_output[j] += result[i][3][j];
+            j++;
+          }
+          j = 0;
+          while(j < result[0][4].length){
+            combine_pred[j] += result[i][4][j];
+            j++;
+          }
+        }
+
+        for(i=0; i<input_result.length; i++){
+          j = 0;
+          while(j < input_result[0].length){
+            combine_input[j] += input_result[i][j];
+            j++;
+          }
+        }
+        console.log(combine_input);
+
+        var combine_inputData = {
+        label: 'Input Demand',
+        data: combine_input
+      };
+
+      var combine_outputData = {
+        label: 'Predicted Demand',
+        data: combine_appendZerostoOutputArr(combine_input.length, combine_output, combine_pred),
+        backgroundColor: 'rgba(255,0,0,0.5)'
+      };
+
+      var combine_totalData = {
+        labels: makeLabel(combine_input.length + combine_output.length),
+        datasets: [combine_inputData, combine_outputData]
+      };
+
+      var config_combine = {
+      type: 'line',
+      data: combine_totalData,
+      options: {
+        elements: { point: { hitRadius: 20, hoverRadius: 20 } },
+        responsive: true,
+        title: {
+          display: true,
+          text: "Combined"
+      },
+      legend: {
+            display: true,
+            position: 'bottom'
+        }
+    }
+    };
+
+    console.log(combine_input.length + combine_pred.length + combine_output.length);
+    console.log(combine_totalData.labels.length)
+
+    if(currentChart){currentChart.destroy();}
+      var ctx_combine = document.getElementById('forecast-chart').getContext('2d');
+      window.myPie = new Chart(ctx_combine, config_combine);
+      currentChart = window.myPie;
+
+      }
+    });
+
+
+    function combine_appendZerostoOutputArr(inputLen, outputArr, pred){
+        var final_arr = [];
+        var count = 0;
+        var countMix = 0;
+        for (i = 0; i < inputLen + outputArr.length; i++){
+        if(i < inputLen && i < (inputLen - pred.length)){
+          final_arr[i] = null;
+        }
+        else if(i < inputLen){
+          final_arr[i] = pred[countMix];
+          countMix++;
+        }
+        else{
+          final_arr[i] = outputArr[count];
+          count++;
+        }
+      }
+      return final_arr;
+      }
 
    </script>
 

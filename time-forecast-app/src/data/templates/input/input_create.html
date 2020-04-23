@@ -16,15 +16,8 @@
 <script>
 $(document).ready(function() {
 
-    // document.getElementById("process").style.display = 'none';
-    // $('.processing').hide();
-    // $(':submit').click(function(){
-    //     if($('form#input_form').checkValidity()){
-    //         $('.processing').show();
-    //     }
-    // });
-
     $('#sub-btn').bind('click',function(){
+        var count = 0;
         console.log("clicked submit");
         if ($('#input_form')[0].checkValidity()) {
             console.log("Valid");
@@ -34,12 +27,16 @@ $(document).ready(function() {
             para.appendChild(node);
             var element = document.getElementById("input_form");
             element.appendChild(para);
+            // while(true){
+            //     // count = {{ Process.count|safe }};
+            //     count++;
+            //     console.log(count);
+            // }
         } else {
             console.log("inValid");
         }
     })
 
-    // $('.processing').hide();
 });
 </script>
 {% endblock %}

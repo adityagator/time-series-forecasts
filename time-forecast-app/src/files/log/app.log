@@ -1,48 +1,6 @@
 root - ERROR - Error while using ARMA method on ship_pt: ZTRD, prod_hierarchy: TEST, part_number: CORONA
 root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/processing/process.py", line 109, in run
-    rmse_arma, mape_arma, pred_arma = algo_obj.arma_calculate()
-  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/processing/algorithms.py", line 274, in arma_calculate
-    model_fit = model.fit(disp=0)
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 999, in fit
-    callback=callback, **kwargs)
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/model.py", line 526, in fit
-    full_output=full_output)
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/optimizer.py", line 218, in _fit
-    hess=hessian)
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/optimizer.py", line 440, in _fit_lbfgs
-    **extra_kwargs)
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 199, in fmin_l_bfgs_b
-    **opts)
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 345, in _minimize_lbfgsb
-    f, g = func_and_grad(x)
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/lbfgsb.py", line 290, in func_and_grad
-    f = fun(x, *args)
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/scipy/optimize/optimize.py", line 327, in function_wrapper
-    return function(*(wrapper_args + args))
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/base/model.py", line 500, in f
-    return -self.loglike(params, *args) / nobs
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 810, in loglike
-    return self.loglike_kalman(params, set_sigma2)
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/arima_model.py", line 820, in loglike_kalman
-    return KalmanFilter.loglike(params, self, set_sigma2)
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/statsmodels/tsa/kalmanf/kalmanfilter.py", line 220, in loglike
-    Z_mat, R_mat, T_mat)
-  File "statsmodels/tsa/kalmanf/kalman_loglike.pyx", line 331, in statsmodels.tsa.kalmanf.kalman_loglike.kalman_loglike_double
-  File "statsmodels/tsa/kalmanf/kalman_loglike.pyx", line 62, in statsmodels.tsa.kalmanf.kalman_loglike.kalman_filter_double
-  File "<__array_function__ internals>", line 6, in pinv
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 1961, in pinv
-    u, s, vt = svd(a, full_matrices=False, hermitian=hermitian)
-  File "<__array_function__ internals>", line 6, in svd
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 1626, in svd
-    u, s, vh = gufunc(a, signature=signature, extobj=extobj)
-  File "/Users/adityabharadwaj/Dev/time-forecast-app/lib/python3.6/site-packages/numpy/linalg/linalg.py", line 106, in _raise_linalgerror_svd_nonconvergence
-    raise LinAlgError("SVD did not converge")
-numpy.linalg.LinAlgError: SVD did not converge
-
-root - ERROR - Error while using ARMA method on ship_pt: ZTRD, prod_hierarchy: TEST, part_number: CORONA
-root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/processing/process.py", line 109, in run
+  File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/processing/process.py", line 111, in run
     rmse_arma, mape_arma, pred_arma = algo_obj.arma_calculate()
   File "/Users/adityabharadwaj/Desktop/time-series-Apr10/time-series-forecasts/time-forecast-app/src/processing/algorithms.py", line 274, in arma_calculate
     model_fit = model.fit(disp=0)

@@ -16,7 +16,8 @@ def input_create_view(request):
         link_with_id = '/process/' + str(input_data.id)
         return HttpResponseRedirect(link_with_id)
     context = {
-        'form' : form
+        'form' : form,
+        'Process': Process
     }
     return render(request, "input/input_create.html", context)
 

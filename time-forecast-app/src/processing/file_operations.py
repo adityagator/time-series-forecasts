@@ -36,7 +36,7 @@ class FileOperations:
                     ship_pt, prod_h, part_no = key.split("^")
                     writer.writerow({'Ship pt': ship_pt, 'Product Hierarchy': prod_h, 'Part Number': part_no, 'Volume': vol_cluster[key], 'Intermittency': int_cluster[key]})
             return output_file
-        
+
         elif not bool(vol_cluster):
             output_file_name = input.file.name.split("/", 1)
             output_file = os.path.join(settings.MEDIA_ROOT ,"output/" + "output_" + output_file_name[1])
@@ -52,7 +52,7 @@ class FileOperations:
                     'Month 6': value[3][5], 'Month 7': value[3][6], 'Month 8': value[3][7], 'Month 9': value[3][8], 'Month 10': value[3][9],
                     'Month 11': value[3][10], 'Month 12': value[3][11], 'Algorithm': value[0], 'RMSE': value[1], 'MAPE': value[2]})
             return output_file
-        
+
         else:
             output_file_name = input.file.name.split("/", 1)
             output_file = os.path.join(settings.MEDIA_ROOT ,"output/" + "output_" + output_file_name[1])
@@ -67,5 +67,5 @@ class FileOperations:
                     'Month 1': value[3][0], 'Month 2': value[3][1], 'Month 3': value[3][2], 'Month 4': value[3][3], 'Month 5': value[3][4],
                     'Month 6': value[3][5], 'Month 7': value[3][6], 'Month 8': value[3][7], 'Month 9': value[3][8], 'Month 10': value[3][9],
                     'Month 11': value[3][10], 'Month 12': value[3][11], 'Algorithm': value[0], 'RMSE': value[1], 'MAPE': value[2], 'Volume': vol_cluster[key], 'Intermittency': int_cluster[key]})
-            
+
             return output_file

@@ -7,6 +7,8 @@ from processing.process import Process
 # from django.core.mail import send_mail as sm
 from django.core.mail import EmailMessage
 from django.conf import settings
+import boto3
+import boto3.session
 
 def input_create_view(request):
     form = InputDataForm(request.POST, request.FILES)
@@ -27,14 +29,14 @@ def input_create_view(request):
 #     cluster = request.POST.get('cluster')
 #     input_file = request.POST.get('input_file')
 #     context = {}
-    
+
 #     if input_file is None:
 #         return render(request, "input/input_create.html", context)
 #     input_data = InputData.objects.create(forecast=forecast, cluster=cluster, file=input_file)
 #     link_with_id = '/process/' + str(input_data.id)
 #     return HttpResponseRedirect(link_with_id)
-    
-    
+
+
 
 def output_detail_view(request, id):
     input = InputData.objects.get(id=id)
@@ -95,7 +97,7 @@ def dashboard_view(request, id):
             prod_h_arr.append(h)
         if no not in part_no_arr:
             part_no_arr.append(no)
-    
+
     volume_cluster = []
     int_cluster = []
     cluster_flag = False
@@ -103,11 +105,18 @@ def dashboard_view(request, id):
         cluster_flag = True
         volume_cluster = getSummary(output.volume_cluster)
         int_cluster = getSummary(output.int_cluster)
-    
+
         # print(ship_pt_arr)
         # print(part_no_arr)
         # print(prod_h_arr)
-
+    session = boto3.session.Session(region_name=settings.AWS_REGION)
+    s3client = session.client('s3', config= boto3.session.Config(signature_version='s3v4'))
+    output_file_link = s3client.generate_presigned_url('get_object',
+                                                      Params={'Bucket': settings.AWS_STORAGE_BUCKET_NAME,
+                                                              'Key': output_data.output_file.name})
+    log_file_link = s3client.generate_presigned_url('get_object',
+                                                      Params={'Bucket': settings.AWS_STORAGE_BUCKET_NAME,
+                                                              'Key': output_data.log_file.name})
     context = {
         'ship_pt_arr': ship_pt_arr,
         'prod_h_arr': prod_h_arr,
@@ -122,11 +131,8 @@ def dashboard_view(request, id):
         'int_cluster': int_cluster,
         'cluster_flag': cluster_flag,
         'output_data': output_data,
-        'i': 0
+        'i': 0,
+        'output_file_link': output_file_link,
+        'log_file_link': log_file_link
     }
     return render(request, "output/dashboard.html", context)
-
-
-
-
-    

@@ -14,6 +14,7 @@ from processing.cluster import Cluster
 import warnings
 import logging
 import traceback
+import boto3
 warnings.filterwarnings("ignore")
 
 class Process():
@@ -21,9 +22,13 @@ class Process():
     log_file = os.path.join(settings.MEDIA_ROOT ,"log/app.log")
     logging.basicConfig(filename=log_file, filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     logging.info("Creating log file")
-    
+
     def run(input):
         count = 0
+        # AWS download
+        s3_client = boto3.client('s3')
+        s3_client.download_file(settings.AWS_STORAGE_BUCKET_NAME, input.file.name, "files/"+input.file.name)
+
         input_file = os.path.join(settings.MEDIA_ROOT, input.file.name)
         dict_data = FileOperations.read_file(file=input_file)
         output_dict = {}
@@ -32,7 +37,7 @@ class Process():
         int_cluster = {}
         if input.cluster:
             vol_cluster, int_cluster = Cluster.run(dict_data)
-        
+
         if input.forecast:
             for key, value in dict_data.items():
                 min_rmse = sys.maxsize
@@ -56,7 +61,7 @@ class Process():
                 except Exception as err:
                     logging.error("Error while using Croston method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
                     logging.error(traceback.format_exc())
-                
+
                 # # VARMA Algorithm
                 # try:
                 #     rmse_varma, mape_varma, pred_varma = algo_obj.varma_calculate()
@@ -80,7 +85,7 @@ class Process():
                 except Exception as err:
                     logging.error("Error while using ARIMA method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
                     logging.error(traceback.format_exc())
-                
+
                 # Moving Average
                 try:
                     rmse_ma, mape_ma, pred_ma = algo_obj.ma_calculate()
@@ -105,7 +110,7 @@ class Process():
                 except Exception as err:
                     logging.error("Error while using Auto Regression method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
                     logging.error(traceback.format_exc())
-                
+
                 # ARMA
                 try:
                     rmse_arma, mape_arma, pred_arma = algo_obj.arma_calculate()
@@ -141,7 +146,7 @@ class Process():
                 except Exception as err:
                     logging.error("Error while using SES method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
                     logging.error(traceback.format_exc())
-                
+
                 # FNN
                 try:
                     rmse_fnn, mape_fnn, pred_fnn = algo_obj.fnn_calculate()
@@ -166,7 +171,7 @@ class Process():
                 #     logging.error("Error while using RNN method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
                 #     logging.error(traceback.format_exc())
 
-                
+
 
                     # Holt-Winters method
                 try:
@@ -214,7 +219,7 @@ class Process():
                 except Exception as err:
                     logging.error("Error while using HWES method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
                     logging.error(traceback.format_exc())
-                
+
                 predicted_output = algo_obj.getPredictedValues(min_algo, min_params)
                 output_dict[key] = [min_algo, min_rmse, min_mape, predicted_output, min_pred]
                 count += 1
@@ -223,10 +228,10 @@ class Process():
         output_file = File(
                 open(
                     FileOperations.write_forecast_file(
-                        output_dict, input, vol_cluster, int_cluster), encoding='utf-8-sig'))
+                        output_dict, input, vol_cluster, int_cluster), 'rb'))
         log_file = File(
                 open(
-                    os.path.join(settings.MEDIA_ROOT ,"log/app.log"), encoding='utf-8-sig'
+                    os.path.join(settings.MEDIA_ROOT ,"log/app.log"), 'rb'
                 )
             )
 
@@ -237,21 +242,20 @@ class Process():
         output_obj.int_cluster = int_cluster
         output_obj.output_file.save(
             'forecast.csv', output_file)
-        
+
         output_obj.log_file.save(
             'app.log', log_file
         )
-        
+
 
 
         # if os.path.exists(str(input_file)):
         #     os.remove(str(input_file))
-        
+
         # if os.path.exists(os.path.abspath(output_file)):
         #     os.remove(os.path.abspath(output_file))
-        
+
         # if os.path.exists(os.path.abspath(log_file)):
         #     os.remove(os.path.abspath(log_file))
-        
+
         return True
-        

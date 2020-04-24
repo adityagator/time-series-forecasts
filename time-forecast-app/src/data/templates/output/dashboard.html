@@ -4,6 +4,18 @@
 
 <section class="summary_results" id="summary_results" name="summary_results">
   <h1>Summary</h1>
+  <ul class="downloads-list">
+    <li>
+      <a href={{ output_file_link }} download="output.csv" class="download-link">
+        <button class="download-button">Download Output File</button>
+      </a>
+    </li>
+    <li>
+      <a href={{ log_file_link }} download="app.log" class="download-link">
+        <button class="download-button">Download Log File</button>
+      </a>
+    </li>
+    </ul>
   <div class="email-confirm">
     <p style="display: flex; text-align: center; justify-content: center; color: black;">
       Output file has been sent to {{ inputObj.email }} </p>
@@ -12,7 +24,7 @@
   <div id="div-cluster" class="div-cluster">
     <div class="volume_pie">
       <canvas id="volume-chart"></canvas>
-    </div> 
+    </div>
     <div class="int_pie">
       <canvas id="int-chart"></canvas>
     </div>
@@ -30,7 +42,7 @@
           <input type="text" id="textquery" placeholder="Enter ship part, product hierarchy or part number">
           <input type="submit" value="Submit" id="submit_text">
         </div>
-        
+
         <select id="key" name="key" class="key-selector">
           {% for key in output_dict %}
                 <option value={{ key|remove_spaces }}>{{ key|split_key }}</option>
@@ -40,11 +52,11 @@
       <div class="forecast-graph-div">
         <canvas id="forecast-chart"></canvas>
       </div>
-        
+
       </div>
   {% else %}
       <h1>No data to display</h1>
-  {% endif %}     
+  {% endif %}
 
 </section>
 
@@ -108,7 +120,7 @@
     var volume_cluster = {{ output_data.volume_cluster|safe}};
     var int_cluster = {{ output_data.int_cluster|safe }};
     // console.log(input_dict)
-  
+
     // var key = $("#key :selected").text();
     var key = $("#key :selected").val();
     key = key.replace(/@/g, " ")
@@ -200,7 +212,7 @@
         }
     }
     };
-    
+
 
       if(currentChart){currentChart.destroy();}
       var ctx2 = document.getElementById('forecast-chart').getContext('2d');
@@ -209,7 +221,7 @@
       console.log(key)
     });
 
-    
+
     var config = {
       type: 'line',
       data: totalData,
@@ -231,7 +243,7 @@
 
     function updateChart() {
      if(currentChart){currentChart.destroy();}
-   
+
      var determineChart = $("#chartType").val();
 
      var params = dataMap[determineChart]
@@ -241,7 +253,7 @@
     function makeLabel(num){
       var label = [];
       for (i = 1; i <= num; i++){
-        label[i - 1] = "Month".concat(" ").concat(i.toString()); 
+        label[i - 1] = "Month".concat(" ").concat(i.toString());
       }
       return label;
     }
@@ -259,7 +271,7 @@
       return bgArr;
     }
 
-    window.onload = function() {  
+    window.onload = function() {
       var ctx = document.getElementById('forecast-chart').getContext('2d');
       window.myPie = new Chart(ctx, config);
       {% if cluster_flag %}
@@ -271,7 +283,7 @@
       {% endif %}
     };
 
-    
+
     $('#submit_text').bind('click',function(){
       var result = [];
       var input_result = [];

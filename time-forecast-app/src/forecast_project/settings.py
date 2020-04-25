@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'multiselectfield',
     'processing',
     'jquery',
+    'users',
+    'crispy_forms',
     # 'split_key',
 ]
 
@@ -133,7 +135,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # EMAIL constants
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
@@ -151,3 +153,6 @@ AWS_S3_FILE_OVERWRITE = True
 AWS_DEFAULT_ACL = None
 
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+LOGIN_REDIRECT_URL = 'user_home'
+LOGIN_URL = 'login'

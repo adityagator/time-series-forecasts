@@ -12,7 +12,7 @@ import boto3.session
 
 def input_create_view(request):
     form = InputDataForm(request.POST, request.FILES)
-    print(form)
+    # print(form)
     if form.is_valid():
         input_data = form.save()
         link_with_id = '/process/' + str(input_data.id)

@@ -75,5 +75,36 @@ class FileOperations:
     def write_excel(data, input, vol_cluster, int_cluster):
         wb = Workbook()
         output_sheet = wb.add_sheet('Sheet 1')
-        output_sheet.write(0, 0, 'test')
-        wb.save('xlwt example.xls')
+        fieldnames = ['Ship pt', 'Product Hierarchy', 'Part Number', 'Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6',
+                'Month 7', 'Month 8', 'Month 9', 'Month 10', 'Month 11', 'Month 12', 'Algorithm', 'RMSE', 'MAPE', 'Volume', 'Intermittency']
+        heading_style = xlwt.easyxf('font: bold 1')
+        total_col = len(fieldnames)
+        print("total call "+ str(total_col))
+        for i in range(0, total_col):
+            print(i)
+            output_sheet.write(0, i, fieldnames[i], heading_style)
+
+        col = 0
+        row = 1
+        # info = [ship_pt, prod_h, part_no]
+        for key, value in data.items():
+            info = key.split("^")
+            for i in range(0, 3):
+                output_sheet.write(row, col, info[i])
+                col += 1
+            for i in range(0, len(value[3])):
+                output_sheet.write(row, col, value[3][i])
+                col += 1
+            for i in range(0, 3):
+                output_sheet.write(row, col, value[i])
+                col += 1
+            if bool(vol_cluster):
+                output_sheet.write(row, col, vol_cluster[key])
+                col += 1
+                output_sheet.write(row, col, int_cluster[key])
+            col = 0
+            row += 1      
+                
+           
+
+        wb.save('output.xls')

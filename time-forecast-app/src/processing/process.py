@@ -26,8 +26,9 @@ class Process():
     def run(input):
         count = 0
         # AWS download
-        s3_client = boto3.client('s3')
-        s3_client.download_file(settings.AWS_STORAGE_BUCKET_NAME, input.file.name, "files/"+input.file.name)
+        # s3_client = boto3.client('s3')
+        # print(input.file.name)
+        # s3_client.download_file(settings.AWS_STORAGE_BUCKET_NAME, input.file.name, "files/"+input.file.name)
 
         input_file = os.path.join(settings.MEDIA_ROOT, input.file.name)
         dict_data = FileOperations.read_file(file=input_file)
@@ -246,6 +247,8 @@ class Process():
         output_obj.log_file.save(
             'app.log', log_file
         )
+
+        FileOperations.write_excel(output_dict, input, vol_cluster, int_cluster)
 
 
 

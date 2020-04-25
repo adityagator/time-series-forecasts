@@ -3,6 +3,8 @@ from processing.constants import Constants
 import os
 from forecast_project import settings
 from django.core.files import File
+import xlwt 
+from xlwt import Workbook
 
 class FileOperations:
 
@@ -69,3 +71,9 @@ class FileOperations:
                     'Month 11': value[3][10], 'Month 12': value[3][11], 'Algorithm': value[0], 'RMSE': value[1], 'MAPE': value[2], 'Volume': vol_cluster[key], 'Intermittency': int_cluster[key]})
 
             return output_file
+
+    def write_excel(data, input, vol_cluster, int_cluster):
+        wb = Workbook()
+        output_sheet = wb.add_sheet('Sheet 1')
+        output_sheet.write(0, 0, 'test')
+        wb.save('xlwt example.xls')

@@ -163,6 +163,17 @@ button:hover {
     width: 1000px;
     height:600px;
 }
+
+.footerCustom{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+    opacity: 0.85;
+}
 /* h1{
     position: absolute;
     z-index: 2;

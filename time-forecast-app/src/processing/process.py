@@ -1,6 +1,5 @@
 from django.core.files import File
-from data.models import OutputData
-from data.models import InputData
+from data.models import InputData, OutputData, UserHistory
 from processing.constants import Constants
 from processing.file_operations import FileOperations
 from processing.algorithms import Algorithms
@@ -15,6 +14,8 @@ import warnings
 import logging
 import traceback
 import boto3
+from datetime import datetime
+from processing.get_username import get_username
 warnings.filterwarnings("ignore")
 
 class Process():
@@ -34,6 +35,7 @@ class Process():
         dict_data = FileOperations.read_file(file=input_file)
         output_dict = {}
         output_obj = OutputData()
+        user_history_obj = UserHistory()
         vol_cluster = {}
         int_cluster = {}
         if input.cluster:
@@ -249,6 +251,13 @@ class Process():
         )
 
         FileOperations.write_excel(output_dict, input, vol_cluster, int_cluster)
+
+        # user_history_obj.user = get_username().user
+        # user_history_obj.input = input
+        # user_history_obj.output = output_obj
+        # user_history_obj.timestamp = datetime.now()
+        # user_history_obj.save()
+
 
 
 

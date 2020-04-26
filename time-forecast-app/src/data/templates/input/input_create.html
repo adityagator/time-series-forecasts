@@ -1,7 +1,9 @@
-{% extends "base.html" %}
+{% extends "user_base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 <!-- <div class="form-div">
     <form action = "" method='POST' enctype="multipart/form-data" id="input_form"> {% csrf_token %}
         {{ form.as_p}}
@@ -32,11 +34,9 @@
 <script src="{% static "js/rango-jquery.js" %}"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script>
-$(document).ready(function() {
-    console.log("doc ready")  
+$(document).ready(function() { 
     $('#sub-btn').bind('click',function(){
         var count = 0;
-        console.log("clicked submit");
         if ($('#input_form')[0].checkValidity()) {
             console.log("Valid");
             // $('.processing').show(); 

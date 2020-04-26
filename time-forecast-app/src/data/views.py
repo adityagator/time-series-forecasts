@@ -4,12 +4,12 @@ from .models import InputData
 from .models import OutputData
 from django.http import HttpResponseRedirect
 from processing.process import Process
-# from django.core.mail import send_mail as sm
 from django.core.mail import EmailMessage
 from django.conf import settings
 import boto3
 import boto3.session
 from django.contrib.auth.decorators import login_required
+
 
 @login_required
 def input_create_view(request):
@@ -24,24 +24,6 @@ def input_create_view(request):
         'Process': Process
     }
     return render(request, "input/input_create.html", context)
-
-# def output_detail_view(request, id):
-#     input = InputData.objects.get(id=id)
-#     # Process.run(input)
-#     # output_data = OutputData.objects.create(input=input, forecast_file=input.file)
-#     output_data = get_object_or_404(OutputData, input=input)
-#     dash_url = '/dashboard/' + str(input.id)
-#     context = {
-#         "output_data" : output_data,
-#         "dash_url" : dash_url
-#     }
-#     return render(request, "output/output_detail.html", context)
-
-# def dashboard_calculate(request):
-#     return JsonResponse(data={
-#         'labels': ['Month 1', 'Month 2', 'Month 3'],
-#         'data': [20, 30, 25]
-#     })
 
 def getSummary(cluster):
     low = 0
@@ -61,7 +43,7 @@ def getSummary(cluster):
 
 def send_mail(output_file, log_file):
     try:
-        mail = EmailMessage("Output file", "Body of email", settings.EMAIL_HOST_USER, ["adityagator1@gmail.com"])
+        mail = EmailMessage("Output file", "Body of email", settings.EMAIL_HOST_USER, input.email)
         mail.attach(output_file.name, output_file.read())
         mail.attach(log_file.name, log_file.read())
         mail.send()
@@ -76,7 +58,7 @@ def dashboard_view(request, id):
     input = InputData.objects.get(id=id)
     output_data = get_object_or_404(OutputData, input=input)
     output = OutputData.objects.get(input=input)
-    send_mail(output.output_file, output.log_file)
+    email_flag = send_mail(output.output_file, output.log_file)
     output_dict = output.output_dict
     input_dict = output.input_dict
     ship_pt_arr = []
@@ -126,6 +108,7 @@ def dashboard_view(request, id):
         'output_data': output_data,
         'i': 0,
         'output_file_link': output_file_link,
-        'log_file_link': log_file_link
+        'log_file_link': log_file_link,
+        'email_flag': email_flag
     }
     return render(request, "output/dashboard.html", context)

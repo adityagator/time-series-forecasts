@@ -16,10 +16,12 @@
       </a>
     </li>
     </ul>
+  {% if email_flag %}
   <div class="email-confirm">
     <p style="display: flex; text-align: center; justify-content: center; color: black;">
       Output file has been sent to {{ inputObj.email }} </p>
   </div>
+  {% endif %}
   {% if cluster_flag %}
   <div id="div-cluster" class="div-cluster">
     <div class="volume_pie">
@@ -31,34 +33,37 @@
   </div>
   {% endif %}
 </section>
-
-<section class="forecast_results" id="forecast_results" name="forecast_results">
-  <h1>Dashboard</h1>
-  <!-- <label for="ship_pt">Ship_pt</label> -->
-  {% if inputObj.forecast %}
-    <div id="div_forecast">
-      <div class="div-selector">
-        <div id="div_textquery" class="div_textquery">
-          <input type="text" id="textquery" placeholder="Enter ship part, product hierarchy or part number">
-          <input type="submit" value="Submit" id="submit_text">
+  
+  <section class="forecast_results" id="forecast_results" name="forecast_results">
+    <h1>Dashboard</h1>
+    <!-- <label for="ship_pt">Ship_pt</label> -->
+    {% if inputObj.forecast %}
+      <div id="div_forecast">
+        <div class="div-selector">
+          <div id="div_textquery" class="div_textquery">
+            <input type="text" id="textquery" placeholder="">
+            <input type="submit" value="Submit" id="submit_text">
+          </div>
+          <p id="info" style="color: red; font-size: small;">Enter ship part, product hierarchy or part number</p>
+          <select id="key" name="key" class="key-selector">
+            <!-- <option value="empty"></option> -->
+            {% for key in output_dict %}
+                  <option value={{ key|remove_spaces }}>{{ key|split_key }}</option>
+            {% endfor %}
+          </select>
         </div>
+        <div class="forecast-graph-div">
+          <canvas id="forecast-chart"></canvas>
+        </div>
+  
+        </div>
+    {% else %}
+        <h1>No data to display</h1>
+    {% endif %}
+  
+  </section>
+</div>
 
-        <select id="key" name="key" class="key-selector">
-          {% for key in output_dict %}
-                <option value={{ key|remove_spaces }}>{{ key|split_key }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="forecast-graph-div">
-        <canvas id="forecast-chart"></canvas>
-      </div>
-
-      </div>
-  {% else %}
-      <h1>No data to display</h1>
-  {% endif %}
-
-</section>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
   <script>
@@ -298,14 +303,15 @@
       }
 
       if(result.length == 0){
-        console.log("empty");
+        document.getElementById("info").innerHTML = "Could not find any entries matching query";
       } else {
+        document.getElementById("info").innerHTML = "Number of entries found: " + result.length;
         (combine_pred = []).length = result[0][4].length;
         (combine_output = []).length = result[0][3].length;
         (combine_input = []).length = input_result[0].length;
         combine_pred.fill(0);
         combine_output.fill(0);
-        combine_input.fill(0);
+        combine_input.fill(0); 
         // console.log(result.length);
         for(i=0; i<result.length; i++){
           // console.log(result[i][3]);

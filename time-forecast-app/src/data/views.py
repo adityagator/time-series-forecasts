@@ -9,10 +9,12 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 import boto3
 import boto3.session
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def input_create_view(request):
     form = InputDataForm(request.POST, request.FILES)
-    # print(form)
+    print(form)
     if form.is_valid():
         input_data = form.save()
         link_with_id = '/process/' + str(input_data.id)
@@ -23,38 +25,23 @@ def input_create_view(request):
     }
     return render(request, "input/input_create.html", context)
 
-# def input_create_view(request):
-#     print(request.POST)
-#     forecast = request.POST.get('forecast')
-#     cluster = request.POST.get('cluster')
-#     input_file = request.POST.get('input_file')
-#     context = {}
+# def output_detail_view(request, id):
+#     input = InputData.objects.get(id=id)
+#     # Process.run(input)
+#     # output_data = OutputData.objects.create(input=input, forecast_file=input.file)
+#     output_data = get_object_or_404(OutputData, input=input)
+#     dash_url = '/dashboard/' + str(input.id)
+#     context = {
+#         "output_data" : output_data,
+#         "dash_url" : dash_url
+#     }
+#     return render(request, "output/output_detail.html", context)
 
-#     if input_file is None:
-#         return render(request, "input/input_create.html", context)
-#     input_data = InputData.objects.create(forecast=forecast, cluster=cluster, file=input_file)
-#     link_with_id = '/process/' + str(input_data.id)
-#     return HttpResponseRedirect(link_with_id)
-
-
-
-def output_detail_view(request, id):
-    input = InputData.objects.get(id=id)
-    # Process.run(input)
-    # output_data = OutputData.objects.create(input=input, forecast_file=input.file)
-    output_data = get_object_or_404(OutputData, input=input)
-    dash_url = '/dashboard/' + str(input.id)
-    context = {
-        "output_data" : output_data,
-        "dash_url" : dash_url
-    }
-    return render(request, "output/output_detail.html", context)
-
-def dashboard_calculate(request):
-    return JsonResponse(data={
-        'labels': ['Month 1', 'Month 2', 'Month 3'],
-        'data': [20, 30, 25]
-    })
+# def dashboard_calculate(request):
+#     return JsonResponse(data={
+#         'labels': ['Month 1', 'Month 2', 'Month 3'],
+#         'data': [20, 30, 25]
+#     })
 
 def getSummary(cluster):
     low = 0
@@ -73,12 +60,18 @@ def getSummary(cluster):
     return [low, mid, high]
 
 def send_mail(output_file, log_file):
-    mail = EmailMessage("Output file", "Body of email", settings.EMAIL_HOST_USER, ["adityagator1@gmail.com"])
-    mail.attach(output_file.name, output_file.read())
-    mail.attach(log_file.name, log_file.read())
-    mail.send()
-    print("Email sent")
+    try:
+        mail = EmailMessage("Output file", "Body of email", settings.EMAIL_HOST_USER, ["adityagator1@gmail.com"])
+        mail.attach(output_file.name, output_file.read())
+        mail.attach(log_file.name, log_file.read())
+        mail.send()
+        print("Email sent")
+        return True
+    except:
+        print("E-mail was not sent")
+        return False
 
+@login_required
 def dashboard_view(request, id):
     input = InputData.objects.get(id=id)
     output_data = get_object_or_404(OutputData, input=input)

@@ -7,8 +7,9 @@ import threading
 import os
 from forecast_project import settings
 from processing.file_operations import FileOperations
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def processing_view(request, id):
     input = InputData.objects.get(id=id)
     if Process.run(input):

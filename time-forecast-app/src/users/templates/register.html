@@ -1,16 +1,22 @@
 {% extends "user_base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<div class="container">
-    <h1 class="page-heading">Create Account</h1>
-<div class="form-div">
-    <form action = "" method='POST' id="input_form"> {% csrf_token %}
-        {{ form|crispy }}
-        <input type='submit' value='Sign up' id="sub-btn"/>
+<div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Registration</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Create Account</button>
+        </div>
     </form>
-</div>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+        </small>
+    </div>
 </div>
 
 {% endblock content %}

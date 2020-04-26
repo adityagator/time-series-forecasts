@@ -1,13 +1,31 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-<div class="form-div">
+<!-- <div class="form-div">
     <form action = "" method='POST' enctype="multipart/form-data" id="input_form"> {% csrf_token %}
         {{ form.as_p}}
         <input type='submit' value='Submit' id="sub-btn"/>
     </form>
     <!-- <p id="process" class="processing" style="display:none; font-size: 10px;">Processing...</p> -->
+<!-- </div> -->
+
+<div class="content-section">
+    <form action = "" method='POST' enctype="multipart/form-data" id="input_form"> {% csrf_token %}
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Upload input file</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button id="sub-btn" class="btn btn-outline-info" type="submit">Submit</button>
+        </div>
+    </form>
+    <!-- <div class="border-top pt-3">
+        <small class="text-muted">
+            Need An Account? <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>
+        </small>
+    </div> -->
 </div>
 
 <script src="{% static "js/jquery-3.4.1.js" %}"></script>
@@ -15,7 +33,7 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script>
 $(document).ready(function() {
-
+    console.log("doc ready")  
     $('#sub-btn').bind('click',function(){
         var count = 0;
         console.log("clicked submit");

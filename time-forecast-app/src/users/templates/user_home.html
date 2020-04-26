@@ -1,4 +1,7 @@
 {% extends "user_base.html" %}
 {% block content %}
-<h1 class="page-heading">Welcome</h1>
+<h1>Welcome {{user.username}}</h1>
+<button>
+    <a href="/create/">Upload input file</a>
+</button>
 {% endblock %}

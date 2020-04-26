@@ -9,9 +9,9 @@ def register_view(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Signed in as {username}')
-            link_with_id = '/home/' + str(username)
-            return redirect(link_with_id)
+            messages.success(request, f'Resgistered as {username}')
+            # link_with_id = '/home/' + str(username)
+            return redirect('user_home')
     else:
         form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
@@ -21,6 +21,7 @@ def register_view(request):
 #         'username' : username
 #     }
 #     return render(request, 'user_home.html', context)
+@login_required
 def user_home_view(request):
     context = {
         # 'username' : username

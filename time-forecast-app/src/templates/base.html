@@ -5,7 +5,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Smart4Kast</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'app.css' %}">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic">
         <script src="{% static "js/jquery-3.4.1.js" %}"></script>
         <script src="{% static "js/rango-jquery.js" %}"></script>
@@ -15,34 +17,42 @@
     </head>
 
     <body>
-        <header>
-            <nav class="top-nav">
-                <ul class="nav-list">
-                    <li>
-                        <a href="/" class="home-link">Home</a>
-                    </li>
-                    <li>
-                        <a href="/create/" class="home-link">New</a>
-                    </li>
-                    <li>
-                        <a href="/help/" class="nav-link">Help</a>
-                    </li>
-                    <li>
-                        <a href="/about/" class="nav-link">About</a>
-                    </li>
-                    <li>
-                        <a href="/contact/" class="nav-link">Contact</a>
-                    </li>
-                </ul>
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+              <div class="container">
+                <a class="navbar-brand mr-4" href="{% url 'home' %}">Smart4Kast</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                  <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+                    <a class="nav-item nav-link" href="{% url 'help' %}">Help</a>
+                    {% if user.is_authenticated %}
+                      <a class="nav-item nav-link" href="{% url 'create' %}">New</a>
+                    {% endif %}
+                  </div>
+                  <!-- Navbar Right Side -->
+                  <div class="navbar-nav">
+                    {% if user.is_authenticated %}
+                      <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                      <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                      <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                      <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
             </nav>
-            <hr>
-        </header>
+          </header>
         {% block content %}
             
         {% endblock %}
 
-        <footer class="copyright">
-            <p>&copy:2020 Smart4Kast</p>
-        </footer>
+        <div class="footerCustom">
+            <p style="font-size: x-small; padding-bottom: 0px;">Website developed by <a href="adityagator.github.io" style="text-decoration: none; color: lightgray">Aditya Bharadwaj</a>.</p>
+        </div>
+        
     </body>
 </html>

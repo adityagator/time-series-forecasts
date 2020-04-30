@@ -144,3 +144,5 @@ AWS_DEFAULT_ACL = None
 
 LOGIN_REDIRECT_URL = 'user_home'
 LOGIN_URL = 'login'
+
+CSRF_COOKIE_SECURE = True

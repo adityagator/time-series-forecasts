@@ -15,7 +15,6 @@ import logging
 import traceback
 import boto3
 from datetime import datetime
-from processing.get_username import get_username
 warnings.filterwarnings("ignore")
 
 class Process():

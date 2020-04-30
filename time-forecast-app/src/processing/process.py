@@ -52,6 +52,20 @@ class Process():
                 min_params = []
                 ship_pt, prod_h, part_no = key.split("^")
 
+                # Similar Algorithms: found in statsmodels
+                for algo_name in Constants.SIMILAR_ALGORITHMS:
+                    try:
+                        rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+                        if(rmse < min_rmse):
+                            min_rmse = rmse
+                            min_algo = algo_name
+                            min_mape = mape
+                            min_pred = pred
+                    except Exception as err:
+                        logging.error("Error while using %s on ship_pt: %s, prod_hierarchy: %s, part_number: %s", algo_name, ship_pt, prod_h, part_no)
+                        logging.error(traceback.format_exc())
+
+
             # Croston Algorithm
                 try:
                     rmse_cros, mape_cros, pred_cros = algo_obj.croston_calculate()
@@ -64,90 +78,90 @@ class Process():
                     logging.error("Error while using Croston method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
                     logging.error(traceback.format_exc())
 
-                # # VARMA Algorithm
-                # try:
-                #     rmse_varma, mape_varma, pred_varma = algo_obj.varma_calculate()
-                #     if(rmse_varma < min_rmse):
-                #         min_rmse = rmse_varma
-                #         min_algo = "VARMA"
-                #         min_mape = mape_varma
-                #         min_pred = pred_varma
-                # except Exception as err:
-                #     logging.error("Error while using VARMA method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
-                #     logging.error(traceback.format_exc())
+            #     # # VARMA Algorithm
+            #     # try:
+            #     #     rmse_varma, mape_varma, pred_varma = algo_obj.varma_calculate()
+            #     #     if(rmse_varma < min_rmse):
+            #     #         min_rmse = rmse_varma
+            #     #         min_algo = "VARMA"
+            #     #         min_mape = mape_varma
+            #     #         min_pred = pred_varma
+            #     # except Exception as err:
+            #     #     logging.error("Error while using VARMA method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+            #     #     logging.error(traceback.format_exc())
 
-            # ARIMA Algorithm
-                try:
-                    rmse_arima, mape_arima, pred_arima = algo_obj.arima_calculate()
-                    if(rmse_arima < min_rmse):
-                        min_rmse = rmse_arima
-                        min_algo = "ARIMA"
-                        min_mape = mape_arima
-                        min_pred = pred_arima
-                except Exception as err:
-                    logging.error("Error while using ARIMA method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
-                    logging.error(traceback.format_exc())
+            # # ARIMA Algorithm
+            #     try:
+            #         rmse_arima, mape_arima, pred_arima = algo_obj.arima_calculate()
+            #         if(rmse_arima < min_rmse):
+            #             min_rmse = rmse_arima
+            #             min_algo = "ARIMA"
+            #             min_mape = mape_arima
+            #             min_pred = pred_arima
+            #     except Exception as err:
+            #         logging.error("Error while using ARIMA method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+            #         logging.error(traceback.format_exc())
 
-                # Moving Average
-                try:
-                    rmse_ma, mape_ma, pred_ma = algo_obj.ma_calculate()
-                    if(rmse_ma < min_rmse):
-                        min_rmse = rmse_ma
-                        min_algo = "MOVING AVERAGE"
-                        min_mape = mape_ma
-                        min_pred = pred_ma
-                except Exception as err:
-                    logging.error("Error while using Moving Average method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
-                    logging.error(traceback.format_exc())
+            #     # Moving Average
+            #     try:
+            #         rmse_ma, mape_ma, pred_ma = algo_obj.ma_calculate()
+            #         if(rmse_ma < min_rmse):
+            #             min_rmse = rmse_ma
+            #             min_algo = "MOVING AVERAGE"
+            #             min_mape = mape_ma
+            #             min_pred = pred_ma
+            #     except Exception as err:
+            #         logging.error("Error while using Moving Average method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+            #         logging.error(traceback.format_exc())
 
-                # Auto Reg
-                try:
-                    rmse_ar, mape_ar, pred_ar = algo_obj.ar_calculate()
-                    if (rmse_ar < min_rmse):
-                        min_rmse = rmse_ar
-                        min_algo = "AR"
-                        min_mape = mape_ar
-                        min_pred = pred_ar
-                    # print("rmse is :", rmse_ar, " ", mape_ar, " ", "AR")
-                except Exception as err:
-                    logging.error("Error while using Auto Regression method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
-                    logging.error(traceback.format_exc())
+            #     # Auto Reg
+            #     try:
+            #         rmse_ar, mape_ar, pred_ar = algo_obj.ar_calculate()
+            #         if (rmse_ar < min_rmse):
+            #             min_rmse = rmse_ar
+            #             min_algo = "AR"
+            #             min_mape = mape_ar
+            #             min_pred = pred_ar
+            #         # print("rmse is :", rmse_ar, " ", mape_ar, " ", "AR")
+            #     except Exception as err:
+            #         logging.error("Error while using Auto Regression method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+            #         logging.error(traceback.format_exc())
 
-                # ARMA
-                try:
-                    rmse_arma, mape_arma, pred_arma = algo_obj.arma_calculate()
-                    if(rmse_arma < min_rmse):
-                        min_rmse = rmse_arma
-                        min_algo = "ARMA"
-                        min_mape = mape_arma
-                        min_pred = pred_arma
-                except Exception as err:
-                    logging.error("Error while using ARMA method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
-                    logging.error(traceback.format_exc())
+            #     # ARMA
+            #     try:
+            #         rmse_arma, mape_arma, pred_arma = algo_obj.arma_calculate()
+            #         if(rmse_arma < min_rmse):
+            #             min_rmse = rmse_arma
+            #             min_algo = "ARMA"
+            #             min_mape = mape_arma
+            #             min_pred = pred_arma
+            #     except Exception as err:
+            #         logging.error("Error while using ARMA method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+            #         logging.error(traceback.format_exc())
 
-                # SARIMA
-                try:
-                    rmse_sarima, mape_sarima, pred_sarima = algo_obj.sarima_calculate()
-                    if (rmse_sarima < min_rmse):
-                        min_rmse = rmse_sarima
-                        min_algo = "SARIMA"
-                        min_mape = mape_sarima
-                        min_pred = pred_sarima
-                except Exception as err:
-                    logging.error("Error while using SARIMA method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
-                    logging.error(traceback.format_exc())
+            #     # SARIMA
+            #     try:
+            #         rmse_sarima, mape_sarima, pred_sarima = algo_obj.sarima_calculate()
+            #         if (rmse_sarima < min_rmse):
+            #             min_rmse = rmse_sarima
+            #             min_algo = "SARIMA"
+            #             min_mape = mape_sarima
+            #             min_pred = pred_sarima
+            #     except Exception as err:
+            #         logging.error("Error while using SARIMA method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+            #         logging.error(traceback.format_exc())
 
-                # SES
-                try:
-                    rmse_ses, mape_ses, pred_ses = algo_obj.ses_calculate()
-                    if (rmse_ses < min_rmse):
-                        min_rmse = rmse_ses
-                        min_algo = "SES"
-                        min_mape = mape_ses
-                        min_pred = pred_ses
-                except Exception as err:
-                    logging.error("Error while using SES method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
-                    logging.error(traceback.format_exc())
+            #     # SES
+            #     try:
+            #         rmse_ses, mape_ses, pred_ses = algo_obj.ses_calculate()
+            #         if (rmse_ses < min_rmse):
+            #             min_rmse = rmse_ses
+            #             min_algo = "SES"
+            #             min_mape = mape_ses
+            #             min_pred = pred_ses
+            #     except Exception as err:
+            #         logging.error("Error while using SES method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+            #         logging.error(traceback.format_exc())
 
                 # FNN
                 try:
@@ -161,17 +175,17 @@ class Process():
                     logging.error("Error while using FNN method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
                     logging.error(traceback.format_exc())
 
-                # RNN
-                # try:
-                #     rmse_rnn, mape_rnn, pred_rnn = algo_obj.rnn_calculate()
-                #     if (rmse_rnn < min_rmse):
-                #         min_rmse = rmse_rnn
-                #         min_algo = "RNN"
-                #         min_mape = mape_rnn
-                #         min_pred = pred_rnn
-                # except Exception as err:
-                #     logging.error("Error while using RNN method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
-                #     logging.error(traceback.format_exc())
+            #     # RNN
+            #     # try:
+            #     #     rmse_rnn, mape_rnn, pred_rnn = algo_obj.rnn_calculate()
+            #     #     if (rmse_rnn < min_rmse):
+            #     #         min_rmse = rmse_rnn
+            #     #         min_algo = "RNN"
+            #     #         min_mape = mape_rnn
+            #     #         min_pred = pred_rnn
+            #     # except Exception as err:
+            #     #     logging.error("Error while using RNN method on ship_pt: %s, prod_hierarchy: %s, part_number: %s", ship_pt, prod_h, part_no)
+            #     #     logging.error(traceback.format_exc())
 
 
 
@@ -223,6 +237,9 @@ class Process():
                     logging.error(traceback.format_exc())
 
                 predicted_output = algo_obj.getPredictedValues(min_algo, min_params)
+                # round the predicted values
+                for i in range(0, len(predicted_output)):
+                    predicted_output[i] = round(predicted_output[i])
                 output_dict[key] = [min_algo, min_rmse, min_mape, predicted_output, min_pred]
                 count += 1
                 print(count)
@@ -249,7 +266,7 @@ class Process():
             'app.log', log_file
         )
 
-        FileOperations.write_excel(output_dict, input, vol_cluster, int_cluster)
+        # FileOperations.write_excel(output_dict, input, vol_cluster, int_cluster)
 
         # user_history_obj.user = get_username().user
         # user_history_obj.input = input

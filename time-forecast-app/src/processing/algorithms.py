@@ -25,6 +25,8 @@ class Algorithms:
         self.total = total
         self.data = data
         self.test = test
+        self.predictions_rmse = {}
+        self.predictions = {}
     
     # create a differenced series for ARIMA, AR etc
     def difference(self, dataset, interval=12):
@@ -84,310 +86,378 @@ class Algorithms:
     #             pred[i] = 0
     #     return self.rmse_mape(pred)
 
-    def arima_calculate(self):
-        model = ARIMA(self.data, order=(7, 0, 1))
-        model_fit = model.fit()
+    def get_predictions_rmse_mape(self, min_algo):
+        if min_algo == Constants.ARIMA:
+            model = ARIMA(self.data, order=(7, 0, 1))
+            model_fit = model.fit()
+        elif min_algo == Constants.MOVING_AVERAGE:
+            model = ARMA(self.data, order=[0,1])
+            model_fit = model.fit(disp=0)
+        elif min_algo == Constants.AR:
+            model = AR(self.data)
+            model_fit = model.fit(disp=0)
+        elif min_algo == Constants.ARMA:
+            # model = ARMA(self.data, order=[1,0])
+            model = ARMA(self.data, order=[2,1])
+            model_fit = model.fit(disp=0)
+        elif min_algo == Constants.SARIMA:
+            model = SARIMAX(self.data, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
+            model_fit = model.fit(disp=0)
+        elif min_algo == Constants.SES:
+            model = SimpleExpSmoothing(self.data)
+            model_fit = model.fit()
+        
         start_index = len(self.data)
-        end_index = start_index + 11
+        # end_index = start_index + 11
+        end_index = start_index + len(self.test) - 1
         forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.data]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            pred.append(round(yhat,2))
-            # print('ARIMA Month %d: %f' % (day, yhat))
-            history.append(round(yhat,2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        rmse, mape = self.rmse_mape(pred)
-        return rmse, mape, pred
+        rmse, mape = self.rmse_mape(forecast)
+        for i in range(0, len(forecast)):
+            forecast[i] = round(forecast[i])
+            if forecast[i] < 0:
+                forecast[i] = 0
+        return rmse, mape, forecast
     
-    # return predictions for ARIMA if least rmse amongst others
-    # def arima_final(self):
-    #     differenced = self.difference(self.total, 12)
-    #     model = ARIMA(differenced, order=(7, 0, 1))
+    def get_predictions_rmse_mape_final(self, min_algo):
+        if min_algo == Constants.ARIMA:
+            model = ARIMA(self.total, order=(7, 0, 1))
+            model_fit = model.fit()
+        elif min_algo == Constants.MOVING_AVERAGE:
+            model = ARMA(self.total, order=[0,1])
+            model_fit = model.fit(disp=0)
+        elif min_algo == Constants.AR:
+            model = AR(self.total)
+            model_fit = model.fit(disp=0)
+        elif min_algo == Constants.ARMA:
+            # model = ARMA(self.total, order=[1,0])
+            model = ARMA(self.total, order=[2,1])
+            model_fit = model.fit(disp=0)
+        elif min_algo == Constants.SARIMA:
+            model = SARIMAX(self.total, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
+            model_fit = model.fit(disp=0)
+        elif min_algo == Constants.SES:
+            model = SimpleExpSmoothing(self.total)
+            model_fit = model.fit()
+        
+        start_index = len(self.total)
+        # end_index = start_index + 11
+        end_index = start_index + Constants.NUMBER_OF_PREDICTIONS - 1
+        forecast = model_fit.predict(start=start_index, end=end_index)
+        for i in range(0, len(forecast)):
+            forecast[i] = round(forecast[i])
+            if forecast[i] < 0:
+                forecast[i] = 0
+        return forecast
+    
+    # def arima_calculate(self):
+    #     model = ARIMA(self.data, order=(7, 0, 1))
     #     model_fit = model.fit()
-    #     start_index = len(differenced)
+    #     start_index = len(self.data)
+    #     # end_index = start_index + 11
+    #     end_index = start_index + len(self.test) - 1
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.data]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         pred.append(round(yhat,2))
+    #         # print('ARIMA Month %d: %f' % (day, yhat))
+    #         history.append(round(yhat,2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if pred[i] < 0:
+    #             pred[i] = 0
+    #     rmse, mape = self.rmse_mape(pred)
+    #     self.predictions_rmse[Constants.ARIMA] = [pred, rmse]
+    #     return rmse, mape, pred
+    
+    # # return predictions for ARIMA if least rmse amongst others
+    # # def arima_final(self):
+    # #     differenced = self.difference(self.total, 12)
+    # #     model = ARIMA(differenced, order=(7, 0, 1))
+    # #     model_fit = model.fit()
+    # #     start_index = len(differenced)
+    # #     end_index = start_index + 11
+    # #     forecast = model_fit.predict(start=start_index, end=end_index)
+    # #     history = [x for x in self.total]
+    # #     day = 1
+    # #     pred = []
+    # #     for yhat in forecast:
+    # #         inverted = self.inverse_difference(history, yhat, 12)
+    # #         pred.append(round(inverted, 2))
+    # #         # print('Day %d: %f' % (day, inverted))
+    # #         history.append(round(inverted, 2))
+    # #         day += 1
+    # #     for i in range(0, len(pred)):
+    # #         if(pred[i] < 0):
+    # #             pred[i] = 0
+    # #     return pred
+    
+    # def arima_final(self):
+    #     model = ARIMA(self.total, order=(7, 0, 1))
+    #     model_fit = model.fit()
+    #     start_index = len(self.total)
     #     end_index = start_index + 11
     #     forecast = model_fit.predict(start=start_index, end=end_index)
     #     history = [x for x in self.total]
     #     day = 1
     #     pred = []
     #     for yhat in forecast:
-    #         inverted = self.inverse_difference(history, yhat, 12)
-    #         pred.append(round(inverted, 2))
-    #         # print('Day %d: %f' % (day, inverted))
-    #         history.append(round(inverted, 2))
+    #         pred.append(round(yhat,2))
+    #         # print('Day %d: %f' % (day, yhat))
+    #         history.append(round(yhat,2))
     #         day += 1
     #     for i in range(0, len(pred)):
-    #         if(pred[i] < 0):
+    #         if pred[i] < 0:
     #             pred[i] = 0
     #     return pred
-    
-    def arima_final(self):
-        model = ARIMA(self.total, order=(7, 0, 1))
-        model_fit = model.fit()
-        start_index = len(self.total)
-        end_index = start_index + 11
-        forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.total]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            pred.append(round(yhat,2))
-            # print('Day %d: %f' % (day, yhat))
-            history.append(round(yhat,2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        return pred
 
 
-    # return rmse and mape for SARIMA method
-    def sarima_calculate(self):
-        model = SARIMAX(self.data, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
-        model_fit = model.fit(disp=0)
-        start_index = len(self.data)
-        end_index = start_index + 11
-        forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.data]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            pred.append(round(yhat,2))
-            # print('SARIMA Day %d: %f' % (day, yhat))
-            history.append(round(yhat,2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        rmse, mape = self.rmse_mape(pred)
-        return rmse, mape, pred
-
-    # return predictions for SARIMA if least rmse amongst others
-    def sarima_final(self):
-        model = SARIMAX(self.total, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
-        model_fit = model.fit(disp=0)
-        start_index = len(self.total)
-        end_index = start_index + 11
-        forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.total]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            pred.append(round(yhat,2))
-            # print('SARIMA Day %d: %f' % (day, yhat))
-            history.append(round(yhat,2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        return pred
-
-    def ar_calculate(self):
-        model = AR(self.data)
-        model_fit = model.fit(disp=0)
-        start_index = len(self.data)
-        end_index = start_index + 11
-        forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.data]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            pred.append(round(yhat,2))
-            # print('AR Day %d: %f' % (day, yhat))
-            history.append(round(yhat,2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        rmse, mape = self.rmse_mape(pred)
-        return rmse, mape, pred
-    
-    # def ar_calculate(self):
-    #     differenced = self.difference(self.data, 12)
-    #     model = AR(differenced)
+    # # return rmse and mape for SARIMA method
+    # def sarima_calculate(self):
+    #     model = SARIMAX(self.data, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
     #     model_fit = model.fit(disp=0)
-    #     start_index = len(differenced)
+    #     start_index = len(self.data)
     #     end_index = start_index + 11
     #     forecast = model_fit.predict(start=start_index, end=end_index)
     #     history = [x for x in self.data]
     #     day = 1
     #     pred = []
     #     for yhat in forecast:
-    #         inverted = self.inverse_difference(history, yhat, 12)
-    #         pred.append(round(inverted, 2))
-    #         # print('Day %d: %f' % (day, round(inverted, 2)))
-    #         history.append(round(inverted, 2))
+    #         pred.append(round(yhat,2))
+    #         # print('SARIMA Day %d: %f' % (day, yhat))
+    #         history.append(round(yhat,2))
     #         day += 1
     #     for i in range(0, len(pred)):
     #         if pred[i] < 0:
     #             pred[i] = 0
-    #     return self.rmse_mape(pred)
+    #     rmse, mape = self.rmse_mape(pred)
+    #     self.predictions_rmse[Constants.SARIMA] = [pred, rmse]
+    #     return rmse, mape, pred
 
-    def ar_final(self):
-        model = AR(self.total)
-        model_fit = model.fit(disp=0)
-        start_index = len(self.total)
-        end_index = start_index + 11
-        forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.total]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            pred.append(round(yhat,2))
-            # print('Day %d: %f' % (day, yhat))
-            history.append(round(yhat,2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        return pred
-    
-    # def ar_final(self):
-    #     differenced = self.difference(self.total, 12)
-    #     model = AR(differenced)
+    # # return predictions for SARIMA if least rmse amongst others
+    # def sarima_final(self):
+    #     model = SARIMAX(self.total, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
     #     model_fit = model.fit(disp=0)
-    #     start_index = len(differenced)
+    #     start_index = len(self.total)
     #     end_index = start_index + 11
     #     forecast = model_fit.predict(start=start_index, end=end_index)
     #     history = [x for x in self.total]
     #     day = 1
     #     pred = []
     #     for yhat in forecast:
-    #         inverted = self.inverse_difference(history, yhat, 12)
-    #         pred.append(round(inverted, 2))
-    #         # print('Day %d: %f' % (day, round(inverted, 2)))
-    #         history.append(round(inverted, 2))
+    #         pred.append(round(yhat,2))
+    #         # print('SARIMA Day %d: %f' % (day, yhat))
+    #         history.append(round(yhat,2))
     #         day += 1
     #     for i in range(0, len(pred)):
-    #         if (pred[i] < 0):
+    #         if pred[i] < 0:
+    #             pred[i] = 0
+    #     return pred
+
+    # def ar_calculate(self):
+    #     model = AR(self.data)
+    #     model_fit = model.fit(disp=0)
+    #     start_index = len(self.data)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.data]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         pred.append(round(yhat,2))
+    #         # print('AR Day %d: %f' % (day, yhat))
+    #         history.append(round(yhat,2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if pred[i] < 0:
+    #             pred[i] = 0
+    #     rmse, mape = self.rmse_mape(pred)
+    #     self.predictions_rmse[Constants.AR] = [pred, rmse]
+    #     return rmse, mape, pred
+    
+    # # def ar_calculate(self):
+    # #     differenced = self.difference(self.data, 12)
+    # #     model = AR(differenced)
+    # #     model_fit = model.fit(disp=0)
+    # #     start_index = len(differenced)
+    # #     end_index = start_index + 11
+    # #     forecast = model_fit.predict(start=start_index, end=end_index)
+    # #     history = [x for x in self.data]
+    # #     day = 1
+    # #     pred = []
+    # #     for yhat in forecast:
+    # #         inverted = self.inverse_difference(history, yhat, 12)
+    # #         pred.append(round(inverted, 2))
+    # #         # print('Day %d: %f' % (day, round(inverted, 2)))
+    # #         history.append(round(inverted, 2))
+    # #         day += 1
+    # #     for i in range(0, len(pred)):
+    # #         if pred[i] < 0:
+    # #             pred[i] = 0
+    # #     return self.rmse_mape(pred)
+
+    # def ar_final(self):
+    #     model = AR(self.total)
+    #     model_fit = model.fit(disp=0)
+    #     start_index = len(self.total)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.total]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         pred.append(round(yhat,2))
+    #         # print('Day %d: %f' % (day, yhat))
+    #         history.append(round(yhat,2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if pred[i] < 0:
     #             pred[i] = 0
     #     return pred
     
-    def arma_calculate(self):
-        # model = ARMA(self.data, order=[1,0])
-        model = ARMA(self.data, order=[2,1])
-        model_fit = model.fit(disp=0)
-        start_index = len(self.data)
-        end_index = start_index + 11
-        forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.data]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            pred.append(round(yhat, 2))
-            # print('ARMA Day %d: %f' % (day, round(yhat,2)))
-            history.append(round(yhat, 2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        rmse, mape = self.rmse_mape(pred)
-        return rmse, mape, pred
+    # # def ar_final(self):
+    # #     differenced = self.difference(self.total, 12)
+    # #     model = AR(differenced)
+    # #     model_fit = model.fit(disp=0)
+    # #     start_index = len(differenced)
+    # #     end_index = start_index + 11
+    # #     forecast = model_fit.predict(start=start_index, end=end_index)
+    # #     history = [x for x in self.total]
+    # #     day = 1
+    # #     pred = []
+    # #     for yhat in forecast:
+    # #         inverted = self.inverse_difference(history, yhat, 12)
+    # #         pred.append(round(inverted, 2))
+    # #         # print('Day %d: %f' % (day, round(inverted, 2)))
+    # #         history.append(round(inverted, 2))
+    # #         day += 1
+    # #     for i in range(0, len(pred)):
+    # #         if (pred[i] < 0):
+    # #             pred[i] = 0
+    # #     return pred
     
-    def arma_final(self):
-        # model = ARMA(self.total, order=[1,0])
-        model = ARMA(self.total, order=[2,1])
-        model_fit = model.fit(disp=0)
-        start_index = len(self.total)
-        end_index = start_index + 11
-        forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.total]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            pred.append(round(yhat,2))
-            # print('Day %d: %f' % (day, round(yhat,2)))
-            history.append(round(yhat,2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        return pred
+    # def arma_calculate(self):
+    #     # model = ARMA(self.data, order=[1,0])
+    #     model = ARMA(self.data, order=[2,1])
+    #     model_fit = model.fit(disp=0)
+    #     start_index = len(self.data)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.data]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         pred.append(round(yhat, 2))
+    #         # print('ARMA Day %d: %f' % (day, round(yhat,2)))
+    #         history.append(round(yhat, 2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if pred[i] < 0:
+    #             pred[i] = 0
+    #     rmse, mape = self.rmse_mape(pred)
+    #     self.predictions_rmse[Constants.ARMA] = [pred, rmse]
+    #     return rmse, mape, pred
+    
+    # def arma_final(self):
+    #     # model = ARMA(self.total, order=[1,0])
+    #     model = ARMA(self.total, order=[2,1])
+    #     model_fit = model.fit(disp=0)
+    #     start_index = len(self.total)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.total]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         pred.append(round(yhat,2))
+    #         # print('Day %d: %f' % (day, round(yhat,2)))
+    #         history.append(round(yhat,2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if pred[i] < 0:
+    #             pred[i] = 0
+    #     return pred
 
-    # Moving Average
-    def ma_calculate(self):
-        model = ARMA(self.data, order=[0,1])
-        model_fit = model.fit(disp=0)
-        start_index = len(self.data)
-        end_index = start_index + 11
-        forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.data]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            pred.append(round(yhat, 2))
-            # print('MA Day %d: %f' % (day, round(yhat,2)))
-            history.append(round(yhat, 2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        rmse, mape = self.rmse_mape(pred)
-        return rmse, mape, pred
+    # # Moving Average
+    # def ma_calculate(self):
+    #     model = ARMA(self.data, order=[0,1])
+    #     model_fit = model.fit(disp=0)
+    #     start_index = len(self.data)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.data]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         pred.append(round(yhat, 2))
+    #         # print('MA Day %d: %f' % (day, round(yhat,2)))
+    #         history.append(round(yhat, 2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if pred[i] < 0:
+    #             pred[i] = 0
+    #     rmse, mape = self.rmse_mape(pred)
+    #     return rmse, mape, pred
     
-    def ma_final(self):
-        model = ARMA(self.total, order=[0,1])
-        model_fit = model.fit(disp=0)
-        start_index = len(self.total)
-        end_index = start_index + 11
-        forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.total]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            pred.append(round(yhat,2))
-            # print('Day %d: %f' % (day, round(yhat,2)))
-            history.append(round(yhat,2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        return pred
+    # def ma_final(self):
+    #     model = ARMA(self.total, order=[0,1])
+    #     model_fit = model.fit(disp=0)
+    #     start_index = len(self.total)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.total]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         pred.append(round(yhat,2))
+    #         # print('Day %d: %f' % (day, round(yhat,2)))
+    #         history.append(round(yhat,2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if pred[i] < 0:
+    #             pred[i] = 0
+    #     return pred
     
-    def ses_calculate(self):
-        model = SimpleExpSmoothing(self.data)
-        model_fit = model.fit()
-        start_index = len(self.data)
-        end_index = start_index + 11
-        forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.data]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            # inverted = self.inverse_difference(history, yhat, 12)
-            pred.append(round(yhat,2))
-            # print('SES Day %d: %f' % (day, round(yhat,2)))
-            history.append(round(yhat,2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        rmse, mape = self.rmse_mape(pred)
-        return rmse, mape, pred
+    # def ses_calculate(self):
+    #     model = SimpleExpSmoothing(self.data)
+    #     model_fit = model.fit()
+    #     start_index = len(self.data)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.data]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         # inverted = self.inverse_difference(history, yhat, 12)
+    #         pred.append(round(yhat,2))
+    #         # print('SES Day %d: %f' % (day, round(yhat,2)))
+    #         history.append(round(yhat,2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if pred[i] < 0:
+    #             pred[i] = 0
+    #     rmse, mape = self.rmse_mape(pred)
+    #     return rmse, mape, pred
 
-    def ses_final(self):
-        model = SimpleExpSmoothing(self.total)
-        model_fit = model.fit()
-        start_index = len(self.total)
-        end_index = start_index + 11
-        forecast = model_fit.predict(start=start_index, end=end_index)
-        history = [x for x in self.data]
-        day = 1
-        pred = []
-        for yhat in forecast:
-            pred.append(round(yhat,2))
-            # print('Day %d: %f' % (day, round(yhat,2)))
-            history.append(round(yhat,2))
-            day += 1
-        for i in range(0, len(pred)):
-            if pred[i] < 0:
-                pred[i] = 0
-        return pred
+    # def ses_final(self):
+    #     model = SimpleExpSmoothing(self.total)
+    #     model_fit = model.fit()
+    #     start_index = len(self.total)
+    #     end_index = start_index + 11
+    #     forecast = model_fit.predict(start=start_index, end=end_index)
+    #     history = [x for x in self.data]
+    #     day = 1
+    #     pred = []
+    #     for yhat in forecast:
+    #         pred.append(round(yhat,2))
+    #         # print('Day %d: %f' % (day, round(yhat,2)))
+    #         history.append(round(yhat,2))
+    #         day += 1
+    #     for i in range(0, len(pred)):
+    #         if pred[i] < 0:
+    #             pred[i] = 0
+    #     return pred
     
     # def weighted_average(self, series, weights):
     #     result = 0.0
@@ -545,33 +615,37 @@ class Algorithms:
                 predictions[i] = 0
        
         return predictions
+    
+    def get_top_five(self):
+        {k: v for k, v in sorted(self.predictions_rmse.items(), key=lambda item: item[1])}
+        
 
 
     # return the predicted output for the least rmse algorithm given by min_algo
     def getPredictedValues(self, min_algo, params):
-        if min_algo == "ARIMA":
-            return self.arima_final()
-        elif min_algo == "MOVING AVERAGE":
-            return self.ma_final()
-        elif min_algo == "AR":
-            return self.ar_final()
-        elif min_algo == "ARMA":
-            return self.arma_final()
-        elif min_algo == "SARIMA":
-            return self.sarima_final()
-        elif min_algo == "SES":
-            return self.ses_final()
-        elif min_algo == "RNN":
-            return []
-        elif min_algo == "HWES":
+        if min_algo in Constants.SIMILAR_ALGORITHMS:
+            return self.get_predictions_rmse_mape_final(min_algo)
+        # if min_algo == Constants.ARIMA:
+        #     return get_predictions_rmse_mape_final(min_algo)
+        # elif min_algo == Constants.MOVING_AVERAGE:
+        #     return self.ma_final()
+        # elif min_algo == Constants.AR:
+        #     return self.ar_final()
+        # elif min_algo == Constants.ARMA:
+        #     return self.arma_final()
+        # elif min_algo == Constants.SARIMA:
+        #     return self.sarima_final()
+        # elif min_algo == Constants.SES:
+        #     return self.ses_final()
+        elif min_algo == Constants.HWES:
             return self.hwes_final(params)
-        elif min_algo == "croston":
+        elif min_algo == Constants.CROSTON:
             return self.croston_final()
-        elif min_algo == "VARMA":
+        elif min_algo == Constants.VARMA:
             return self.varma_final()
-        elif min_algo == "FNN":
+        elif min_algo == Constants.FNN:
             return FeedForwardNeuralNetwork.fnn_next_year(self.total)
-        elif min_algo == "RNN":
+        elif min_algo == Constants.RNN:
             return lstm.rnn_next_year(self.total)
         else:
             return [0,0,0,0,0,0,0,0,0,0,0,0]

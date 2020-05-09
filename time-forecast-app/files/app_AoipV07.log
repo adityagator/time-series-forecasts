@@ -1,0 +1,10 @@
+django.request - WARNING - Not Found: /favicon.ico
+django.request - WARNING - Not Found: /favicon.ico
+django.request - WARNING - Not Found: /favicon.ico
+django.request - WARNING - Not Found: /favicon.ico
+django.request - WARNING - Not Found: /dashboard/adityagator.github.io
+django.request - WARNING - Not Found: /favicon.ico
+django.request - WARNING - Not Found: /favicon.ico
+django.request - WARNING - Not Found: /favicon.ico
+django.security.DisallowedHost - ERROR - Invalid HTTP_HOST header: '123.125.114.144'. You may need to add '123.125.114.144' to ALLOWED_HOSTS.
+django.request - WARNING - Bad Request: /

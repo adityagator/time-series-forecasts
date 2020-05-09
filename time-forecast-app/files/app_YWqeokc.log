@@ -1,0 +1,539 @@
+django.request - ERROR - Internal Server Error: /process/302
+Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/home/aditya_user/time-forecast-app/processing/views.py", line 15, in processing_view
+    if Process.run(input):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 34, in run
+    dict_data = FileOperations.read_file(file=input_file)
+  File "/home/aditya_user/time-forecast-app/processing/file_operations.py", line 25, in read_file
+    nums[i] = float(nums[i])
+ValueError: could not convert string to float: 'Month 1'
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30026783
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using MOVING AVERAGE on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30026789
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 144, in get_predictions_rmse_mape
+    rmse, mape = self.rmse_mape(forecast)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 94, in rmse_mape
+    return round(math.sqrt(mean_squared_error(self.test, predicted)),2), round(self.mean_absolute_percentage_error(
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/sklearn/metrics/_regression.py", line 252, in mean_squared_error
+    y_true, y_pred, multioutput)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/sklearn/metrics/_regression.py", line 86, in _check_reg_targets
+    y_pred = check_array(y_pred, ensure_2d=False, dtype=dtype)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/sklearn/utils/validation.py", line 578, in check_array
+    allow_nan=force_all_finite == 'allow-nan')
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/sklearn/utils/validation.py", line 60, in _assert_all_finite
+    msg_dtype if msg_dtype is not None else X.dtype)
+ValueError: Input contains NaN, infinity or a value too large for dtype('float64').
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30026789
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30030676
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30030867
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30032431
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30037746
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30037889
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30037920
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30038359
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30038557
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30038564
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30038871
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30038966
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30038968
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30038977
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30039003
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30039085
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using FNN method on ship_pt: ﻿ZTRD, prod_hierarchy: 2 A J E, part_number: 10612512
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/framework/ops.py", line 2326, in get_attr
+    c_api.TF_OperationGetAttrValueProto(self._c_op, name, buf)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Operation 'loss_22/dense_1_loss/weighted_loss/Mul' has no attr named '_XlaCompile'.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/ops/gradients_util.py", line 344, in _MaybeCompile
+    xla_compile = op.get_attr("_XlaCompile")
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/framework/ops.py", line 2330, in get_attr
+    raise ValueError(str(e))
+ValueError: Operation 'loss_22/dense_1_loss/weighted_loss/Mul' has no attr named '_XlaCompile'.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 172, in run
+    rmse_fnn, mape_fnn, pred_fnn = algo_obj.fnn_calculate()
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 527, in fnn_calculate
+    yhat = FeedForwardNeuralNetwork.fnn(self.total, len(self.test))
+  File "/home/aditya_user/time-forecast-app/processing/fnn.py", line 128, in fnn
+    data, n_test, config)
+  File "/home/aditya_user/time-forecast-app/processing/fnn.py", line 80, in walk_forward_validation
+    model = FeedForwardNeuralNetwork.model_fit(train, cfg)
+  File "/home/aditya_user/time-forecast-app/processing/fnn.py", line 61, in model_fit
+    verbose=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training.py", line 643, in fit
+    use_multiprocessing=use_multiprocessing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training_arrays.py", line 664, in fit
+    steps_name='steps_per_epoch')
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training_arrays.py", line 187, in model_iteration
+    f = _make_execution_function(model, mode)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training_arrays.py", line 555, in _make_execution_function
+    return model._make_execution_function(mode)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training.py", line 2031, in _make_execution_function
+    self._make_train_function()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training.py", line 1974, in _make_train_function
+    params=self._collected_trainable_weights, loss=self.total_loss)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/optimizer_v2/optimizer_v2.py", line 491, in get_updates
+    grads = self.get_gradients(loss, params)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/optimizer_v2/optimizer_v2.py", line 391, in get_gradients
+    grads = gradients.gradients(loss, params)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/ops/gradients_impl.py", line 158, in gradients
+    unconnected_gradients)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/ops/gradients_util.py", line 677, in _GradientsHelper
+    lambda: grad_fn(op, *out_grads))
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/ops/gradients_util.py", line 349, in _MaybeCompile
+    return grad_fn()  # Exit early
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/ops/gradients_util.py", line 677, in <lambda>
+    lambda: grad_fn(op, *out_grads))
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/ops/math_grad.py", line 1042, in _MulGrad
+    sx = array_ops.shape(x)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/ops/array_ops.py", line 330, in shape
+    return shape_internal(input, name, optimize=True, out_type=out_type)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/ops/array_ops.py", line 358, in shape_internal
+    return gen_array_ops.shape(input, name=name, out_type=out_type)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/ops/gen_array_ops.py", line 8581, in shape
+    "Shape", input=input, out_type=out_type, name=name)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/framework/op_def_library.py", line 788, in _apply_op_helper
+    op_def=op_def)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/framework/func_graph.py", line 465, in create_op
+    compute_device=compute_device)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/util/deprecation.py", line 507, in new_func
+    return func(*args, **kwargs)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/framework/ops.py", line 3297, in create_op
+    self._create_op_helper(ret, compute_device=compute_device)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/framework/ops.py", line 3336, in _create_op_helper
+    for key, value in self._attr_scope_map.items():
+RuntimeError: dictionary changed size during iteration
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30039086
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using FNN method on ship_pt: ZTRD, prod_hierarchy: 2 A J F, part_number: 10612513
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 172, in run
+    rmse_fnn, mape_fnn, pred_fnn = algo_obj.fnn_calculate()
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 527, in fnn_calculate
+    yhat = FeedForwardNeuralNetwork.fnn(self.total, len(self.test))
+  File "/home/aditya_user/time-forecast-app/processing/fnn.py", line 128, in fnn
+    data, n_test, config)
+  File "/home/aditya_user/time-forecast-app/processing/fnn.py", line 80, in walk_forward_validation
+    model = FeedForwardNeuralNetwork.model_fit(train, cfg)
+  File "/home/aditya_user/time-forecast-app/processing/fnn.py", line 61, in model_fit
+    verbose=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training.py", line 643, in fit
+    use_multiprocessing=use_multiprocessing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training_arrays.py", line 664, in fit
+    steps_name='steps_per_epoch')
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training_arrays.py", line 187, in model_iteration
+    f = _make_execution_function(model, mode)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training_arrays.py", line 555, in _make_execution_function
+    return model._make_execution_function(mode)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training.py", line 2031, in _make_execution_function
+    self._make_train_function()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/engine/training.py", line 1986, in _make_train_function
+    **self._function_kwargs)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/backend.py", line 3544, in function
+    return EagerExecutionFunction(inputs, outputs, updates=updates, name=name)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/keras/backend.py", line 3438, in __init__
+    add_sources=True, handle_captures=True, base_graph=source_graph)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/tensorflow/python/eager/lift_to_graph.py", line 368, in lift_to_graph
+    for s in six.itervalues(captures):
+RuntimeError: OrderedDict mutated during iteration
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30039317
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+
+root - ERROR - Error while using ARMA on ship_pt: ZTRD, prod_hierarchy: 9 Z Z Z, part_number: 30039319
+root - ERROR - Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 62, in run
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/home/aditya_user/time-forecast-app/processing/algorithms.py", line 132, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 986, in fit
+    start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/arima_model.py", line 512, in _fit_start_params_hr
+    mod = ar_select_order(endog, maxlag, trend='n').model
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 2297, in ar_select_order
+    missing=missing)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 184, in __init__
+    self._setup_regressors()
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/statsmodels/tsa/ar_model.py", line 281, in _setup_regressors
+    nobs))
+ValueError: The model specification cannot be estimated. The model contains 7 regressors (0 trend, 0 seasonal, 7 lags) but after adjustment for hold_back and creation of the lags, there are only 5 data points available to estimate parameters.
+

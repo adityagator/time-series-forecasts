@@ -1,0 +1,17 @@
+django.request - ERROR - Internal Server Error: /process/266
+Traceback (most recent call last):
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/aditya_user/time-forecast-app/venv/lib/python3.7/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/home/aditya_user/time-forecast-app/processing/views.py", line 15, in processing_view
+    if Process.run(input):
+  File "/home/aditya_user/time-forecast-app/processing/process.py", line 34, in run
+    dict_data = FileOperations.read_file(file=input_file)
+  File "/home/aditya_user/time-forecast-app/processing/file_operations.py", line 25, in read_file
+    nums[i] = float(nums[i])
+ValueError: could not convert string to float: '75;0;145'

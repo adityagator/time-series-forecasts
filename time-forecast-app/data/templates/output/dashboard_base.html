@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Smart4Kast</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'pages/main.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'data/dashboard.css' %}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic">
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script src="{% static "js/jquery-3.4.1.js" %}"></script>
+        <script src="{% static "js/rango-jquery.js" %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <style>
+          .container {
+              border: none;
+              zoom: 1; /* IE6&7 */
+          }
+              .up{
+                  position: absolute;
+                  width: 3rem;
+                  height: 3rem;
+                  background-color: #D1D3D4;
+                  top: -2.5rem;
+                  right: 5rem;
+                  border-radius: 100%;
+                  display: flex;
+                  animation: pulse 2s infinite;
+                  cursor: pointer;
+              }
+
+              .up i{
+                  color: rgb(0, 0, 255);
+                  font-size: 1.5rem;
+                  margin: auto;
+              }
+              @keyframes pulse{
+                  0%{
+                      box-shadow: 0 0 0 0 rgb(0, 57, 36, 0.99);;
+                  }
+                  70%{
+                      box-shadow: 0 0 0 2rem rgb(214, 57, 36, 0);
+                  }
+                  100%{
+                      box-shadow: 0 0 0 0 rgba(214, 57, 36, 0);
+                  }
+              }
+              .copyright{
+                  width: 100%;
+                  text-align: center;
+                  background-color: #034694;
+                  padding: 1rem 0;
+                  position: relative;
+              }
+        </style>
+    </head>
+
+    <body>
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background: #034694; border-color: #034694;">
+              <div class="container">
+                <a class="navbar-brand mr-4" href="{% url 'home' %}">Smart4Kast</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                  <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+                    <a class="nav-item nav-link" href="{% url 'help' %}">Help</a>
+                    {% if user.is_authenticated %}
+                      <a class="nav-item nav-link" href="{% url 'create' %}">New</a>
+                    {% endif %}
+                  </div>
+                  <!-- Navbar Right Side -->
+                  <div class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" href="#downloads">Downloads</a>
+                      <a class="nav-item nav-link" href="#cluster">Cluster</a>
+                      <a class="nav-item nav-link" href="#forecast">Forecast</a>
+                      <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                      <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                      
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </header>
+        {% block content %}
+            
+        {% endblock %}
+        
+    </body>
+</html>

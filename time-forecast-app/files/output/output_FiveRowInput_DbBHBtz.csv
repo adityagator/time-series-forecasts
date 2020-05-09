@@ -1,0 +1,6 @@
+﻿Ship pt,Product Hierarchy,Part Number,Month 1,Month 2,Month 3,Month 4,Month 5,Month 6,Month 7,Month 8,Month 9,Month 10,Month 11,Month 12,Algorithm,RMSE,MAPE,Volume,Intermittency
+﻿ZTRD,2 B X E,10057034,7.0,7.0,12.0,5.0,7.0,13.0,5.0,13.0,13.0,4.0,7.0,10.0,HWES,3.52,64.41,high,medium
+ZTRD,2 B X F,10057083,5.0,7.0,5.0,7.0,6.0,4.0,7.0,4.0,5.0,4.0,2.0,4.0,HWES,2.63,29.49,medium,high
+ZTRD,2 B Y C,10076001,3.0,0,1.0,5.0,1.0,0,0,0,1.0,0,0.0,0.0,HWES,1.25,49.75,medium,medium
+ZTRD,2 A I E,10612503,5.0,0,2.0,1.0,1.0,1.0,0,3.0,0,0,0,0.0,HWES,2.79,58.12,medium,medium
+ZTRD,2 A I F,10612504,14.0,5.0,12.0,10.0,7.0,13.0,6.0,8.0,9.0,11.0,12.0,13.0,HWES,5.18,47.57,high,high

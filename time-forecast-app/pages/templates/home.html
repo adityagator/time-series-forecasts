@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="text">
+    <span style="color: gray">Welcome to</span> <span class="highlight" style="color: #802BB1;"><b>Smart4Kast</b></span>.<br>
+    <span class="sub-header" style="color: #DBA111;">You tell us the present. We tell you the future.</span><br><br>
+    <a class="get-started" href="/create/">
+        <button class="home-button" style="font-size: medium; background-color: #034694; border: none; color: lightgray;">Get Started</button>
+    </a>
+    <br>
+    <img src="{% static 'img/zlc_t.png' %}" style="height: 20px; width: 40px; opacity: 0.9">
+</div>
+
+<div class="footerCustom" style="background: black; color: lightblue;">
+    <p style="font-size: x-small; padding-bottom: 0px;">Designed and developed by Rohit Kamath, Juan Salazar, Aditya Bharadwaj and Kapish Yadav.</p>
+</div>
+{% endblock %}

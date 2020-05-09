@@ -1,0 +1,3 @@
+django.security.DisallowedHost - ERROR - Invalid HTTP_HOST header: 'django-server:8000'. You may need to add 'django-server' to ALLOWED_HOSTS.
+django.request - WARNING - Bad Request: /
+django.request - WARNING - Not Found: /dashboard/296

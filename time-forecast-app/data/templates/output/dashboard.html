@@ -1,0 +1,650 @@
+{% extends 'output/dashboard_base.html' %}
+{% load split_key %}
+{% block content %}
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+  <section id="downloads" >
+    <div class="container">
+      <h1>Downloads</h1>
+        <ul class="downloads-list">
+    <li data-aos="fade-left" data-aos-delay="200">
+      <a href={{ output_data.output_file }} download="output.csv" class="download-link">
+        <button class="download-button">Download Output File</button>
+      </a>
+    </li>
+    <li data-aos="fade-right" data-aos-delay="200">
+      <a href={{ output_data.log_file }} download="app.log" class="download-link">
+        <button class="download-button">Download Log File</button>
+      </a>
+    </li>
+    </ul>
+    </div>
+  </section>
+  
+  
+
+  {% if cluster_flag %}
+  <section id="cluster">
+    <div class="container" data-aos="fade-in" data-aos-delay="400">
+      <h1>Cluster</h1>
+      <div class="row">
+        <div class="col-lg-4">
+          <canvas id="volume-chart"></canvas>
+        </div>
+        <div class="col-lg-8">
+          <!-- <div class="combine_cluster_pie"> -->
+            <canvas id="combine-cluster-chart"></canvas>
+          </div>
+        <div class="col-lg-4">
+          <canvas id="int-chart"></canvas>
+        </div>
+        
+      </div>
+    </div>
+    <div class="cluster_scatter_graph" data-aos="fade-in" data-aos-delay="300">
+      <canvas id="cluster-scatter-graph"></canvas>
+    </div>
+  </section>
+  
+  {% endif %}
+</section>
+  
+  <section class="forecast_results" id="forecast" name="forecast_results">
+    <div class="container" data-aos="fade-in" data-aos-delay="200">
+      <h1>Forecast</h1>
+    </div>
+    <!-- <label for="ship_pt">Ship_pt</label> -->
+    {% if inputObj.forecast %}
+            <div id="query_dashboard" class="container" style=" display: flex;
+                                                                      flex-direction: row;
+                                                                      justify-content: center;
+                                                                      align-items: center;
+                                                                      text-align: center;
+                                                                      width: auto;
+                                                                      background: none;
+                                                                      border: none;
+                                                                      font-size: small;
+                                                                      " data-aos="fade-in" data-aos-delay="300">
+                  
+                <input type="text" id="textquery" placeholder="Query SKUs" style="border-style: groove; margin-right: 5px; width: fit-content">
+                <input type="submit" value="Submit" id="submit_text" style="margin-right: 20px; padding: 0.25rem; background-color: #6A7AB5; color: white; opacity: 0.7; width: auto;">
+              
+              
+              <select id="key" name="key" style="border-style: groove;" >
+                <option id="empty" value="empty">Select Dropdown</option>
+                {% for key in output_dict %}
+                      <option value={{ key|remove_spaces }}>{{ key|split_key }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+            <p id="info" style="margin-top: 5px; display: flex; color: blue; font-size: small; justify-content: center; align-items: center;"></p>
+        
+          <canvas id="forecast-chart"></canvas>
+        
+  
+        <!-- </div> -->
+    {% else %}
+        <h1>No data to display</h1>
+    {% endif %}
+
+    
+  
+  </section>
+  <footer class="copyright">
+    <div class="up" id="up">
+      <i class="fas fa-chevron-up"></i>
+    </div>
+  </footer>
+<!-- </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script>
+///////////////////////////////////////////////////////////////////////////////
+
+  var configVol = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          // data: {{ data|safe }},
+          backgroundColor: ['rgba(255, 255, 0, 0.5)', 'rgba(255, 165, 0, 0.5)', 'rgba(255, 0, 0, 0.5)'],
+          data: {{ volume_cluster }},
+          label: 'Volume'
+        }],
+        labels: ['low', 'medium', 'high']
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: "Volume Clusters"
+        }
+      }
+    };
+
+    var configInt = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          // data: {{ data|safe }},
+          backgroundColor: ['rgba(255, 255, 0, 0.5)', 'rgba(255, 165, 0, 0.5)', 'rgba(255, 0, 0, 0.5)'],
+          data: {{ int_cluster }},
+          label: 'Intermittency'
+        }],
+        labels: ['low', 'medium', 'high']
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: "Intermittency Clusters"
+        }
+      }
+    };
+
+    var configCombineCluster = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          // data: {{ data|safe }},
+          backgroundColor: ['rgba(255, 0, 0, 1)', 'rgba(255, 0, 0, 0.66)', 'rgba(255, 0, 0, 0.3)', 
+          'rgba(0, 0, 255, 1)', 'rgba(0, 0, 255, 0.66)', 'rgba(0, 0, 255, 0.3)',
+          'rgba(0, 255, 0, 0.3)', 'rgba(0, 255, 0, 0.66)', 'rgba(0, 255, 0, 1)'],
+          data: {{ combine_vol_int }},
+          label: 'Volume and Intermittency'
+        }],
+        labels: ['volume: low, intermittency: high', 'volume: low, intermittency: mid', 'volume: low, intermittency: low',
+        'volume: mid, intermittency: high', 'volume: mid, intermittency: mid', 'volume: mid, intermittency: low',
+        'volume: high, intermittency: high', 'volume: high, intermittency: mid', 'volume: high, intermittency: low']
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: "Volume and Intermittency Clusters",
+          padding: 30
+        },
+        legend: {
+          display: true,
+          position: 'right'
+        }
+      }
+    };
+
+    
+
+///////////////////////////////////////////////////////////////////////////////
+    var output_dict = {{ output_dict|safe }};
+    var input_dict = {{ input_dict|safe }};
+    var volume_cluster = {{ output_data.volume_cluster|safe}};
+    var int_cluster = {{ output_data.int_cluster|safe }};
+    var combine_vol_int = {{ combine_vol_int|safe }};
+    var vol_count = {{ vol_count|safe }};
+    var int_count = {{ int_count|safe }};
+    for(const key in int_count){
+      int_count[key] = Math.round(int_count[key]);
+    }
+    var top5_dict = {{ top5_dict|safe }};
+    
+
+    function getScatterPoints(){
+      var res = [];
+      for(const key in vol_count){
+        var json = {'x': vol_count[key], 'y': int_count[key]};
+        res.push(json);
+      }
+      return res;
+    }
+
+    // scatter graph
+    var configScatterCluster = {
+    type: 'scatter',
+    data: {
+        datasets: [{ label: 'Volume and Intermittency', 
+        data: getScatterPoints(),
+        pointBackgroundColor: 'blue'}]
+    },
+    options: {
+      // backgroundColor: 'black',
+      title: {
+        display: true,
+        text: 'Scatter chart (x-axis: volume (log), y-axis: intermittency)',
+        position: 'top',
+        padding: 50
+      },
+        legend:{
+          display: true,
+          position: 'bottom'
+        },
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom',
+                type: 'logarithmic',
+                ticks: {
+                    min: 0,
+                    max: 1000000,
+                    callback: function (value, index, values) {
+                        if (value === 1000000) return "1M";
+                        if (value === 100000) return "100K";
+                        if (value === 10000) return "10K";
+                        if (value === 1000) return "1K";
+                        if (value === 100) return "100";
+                        if (value === 10) return "10";
+                        if (value === 0) return "0";
+                        return null;
+                    }
+                  }
+            }],
+            yAxes: [{
+              
+            }]
+        }
+    }
+};  
+
+    // var key = $("#key :selected").text();
+    // var key = $("#key :selected").val();
+    // key = key.replace(/@/g, " ")
+    // console.log(key);
+    // var isCluster = {{ cluster_flag|safe }}
+    function getTitle(key){
+      var title = null;
+      if(volume_cluster == {}){
+        title = "Algorithm: ".concat(output_dict[key][0]).concat("          ").concat("RMSE: ").concat(output_dict[key][1]).concat("          ").concat("MAPE: ").concat(output_dict[key][2]);
+      } else{
+        title = "Algorithm: ".concat(output_dict[key][0]).concat("          ").concat("RMSE: ").concat(output_dict[key][1]).concat("          ").concat("MAPE: ")
+        .concat(output_dict[key][2]).concat("          ").concat("Volume: ").concat(volume_cluster[key]).concat("          ").concat("Intermittency: ").concat(int_cluster[key]);
+      }
+      return title;
+    }
+
+    function appendZerostoOutputArr(inputLen, outputArr){
+        var final_arr = [];
+        var count = 0;
+        var countMix = 0;
+        for (i = 0; i < inputLen + outputArr.length; i++){
+        if(i < inputLen && i < (inputLen - output_dict[key][4].length)){
+          final_arr[i] = null;
+        }
+        else if(i < inputLen){
+          final_arr[i] = output_dict[key][4][countMix];
+          countMix++;
+        }
+        else{
+          final_arr[i] = outputArr[count];
+          count++;
+        }
+      }
+      return final_arr;
+      }
+
+      
+    function appendZerosTop5(inputLen, outputArr){
+      var final_arr = [];
+        var count = 0;
+        var countMix = 0;
+        for (i = 0; i < inputLen + outputArr.length; i++){
+        if(i < inputLen && i < (inputLen - output_dict[key][4].length)){
+          final_arr[i] = null;
+        }
+        // else if(i < inputLen){
+        //   final_arr[i] = output_dict[key][4][countMix];
+        //   countMix++;
+        // }
+        else{
+          final_arr[i] = outputArr[count];
+          count++;
+        }
+      }
+      return final_arr;
+    } 
+      // var inputData = {
+      //   label: 'Input Demand',
+      //   data: input_dict[key]
+      // };
+
+      // var outputData = {
+      //   label: 'Predicted Demand',
+      //   data: appendZerostoOutputArr(input_dict[key].length, output_dict[key][3]),
+      //   backgroundColor: 'rgba(255,0,0,0.5)'
+      // };
+
+      // var totalData = {
+      //   labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+      //   datasets: [inputData, outputData]
+      // };
+      // totalData_arr = input_dict[key].concat(output_dict[key][3]);
+    
+    function createLabelTop5(key, rmse){
+      return key.concat(" ").concat("RMSE: ").concat(rmse.toString());
+    }
+
+    $("select#key").change(function(){
+      key = $("#key :selected").val();
+      document.getElementById("textquery").value = "";
+      document.getElementById("info").innerHTML = "";
+      if(key.length != 0){
+        key = key.replace(/@/g, " ")
+        console.log(key);
+        totalData_arr = input_dict[key].concat(output_dict[key][3]);
+        top5_map = top5_dict[key]
+         
+        var top5count = 0;
+        var colorsTop5 = ['red', 'rgba(0, 150, 150, 1)', 'rgba(0, 255, 0, 1)', 'rgba(0,0,0,1)', 'rgba(0, 128, 128, 1)'];
+        var rank = [];
+        for(const keyTop5 in top5_map){
+          rank[top5count] = {
+          label: createLabelTop5(keyTop5, top5_map[keyTop5][0]),
+          data: appendZerosTop5(input_dict[key].length, top5_map[keyTop5][1]),
+          backgroundColor: colorsTop5[top5count],
+          lineWidth: 10,
+          // borderDash: [10,5] ,
+          fill: false,
+          hidden: true
+        }
+        top5count++;
+        }
+        
+
+        var inputData = {
+          label: 'Input Demand',
+          data: input_dict[key],
+          // fill: false
+        };
+
+        var outputData = {
+          label: 'Predicted Demand',
+          data: appendZerostoOutputArr(input_dict[key].length, output_dict[key][3]),
+          backgroundColor: 'rgba(0,0,255,0.3)',
+          // fill: false
+        };
+        if(rank.length >= 5){
+          var totalData = {
+          labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+          datasets: [inputData, outputData, rank[1], rank[2], rank[3], rank[4]]
+        };
+        } else if(rank.length == 4){
+          var totalData = {
+          labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+          datasets: [inputData, outputData, rank[1], rank[2], rank[3]]
+        };
+        } else if(rank.length == 3){
+          var totalData = {
+          labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+          datasets: [inputData, outputData, rank[1], rank[2]]
+        };
+        } else if(rank.length == 2){
+          var totalData = {
+          labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+          datasets: [inputData, outputData, rank[1]]
+        };
+        } else {
+          var totalData = {
+          labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+          datasets: [inputData, outputData]
+        }
+        }
+
+      var config2 = {
+        type: 'line',
+        data: totalData,
+        options: {
+          elements: { point: { hitRadius: 10, hoverRadius: 10 } },
+          responsive: true,
+          title: {
+            display: true,
+            text: getTitle(key)
+        },
+        legend: {
+              display: true,
+              position: 'bottom'
+          }
+      }
+      };
+
+
+        if(currentChart){currentChart.destroy();}
+        var ctx2 = document.getElementById('forecast-chart').getContext('2d');
+        // console.log("ctx2")
+        // console.log(config2)
+        window.myPie = new Chart(ctx2, config2);
+        currentChart = window.myPie;
+        // console.log(key)
+    }});
+
+
+    // var config = {
+    //   type: 'line',
+    //   data: totalData,
+    //   options: {
+    //     elements: { point: { hitRadius: 20, hoverRadius: 20 } },
+    //     responsive: true,
+    //     title: {
+    //       display: true,
+    //       text: getTitle(key)
+    //   },
+    //   legend: {
+    //         display: true,
+    //         position: 'bottom'
+    //     }
+    // }
+    // };
+
+    var currentChart = false;
+
+    
+
+    function updateChart() {
+     if(currentChart){currentChart.destroy();}
+
+     var determineChart = $("#chartType").val();
+
+     var params = dataMap[determineChart]
+     currentChart = new Chart(ctx)[params.method](params.data, {});
+ }
+
+    function makeLabel(num){
+      var label = [];
+      for (i = 1; i <= num; i++){
+        label[i - 1] = "Month".concat(" ").concat(i.toString());
+      }
+      return label;
+    }
+
+    function getBackgroundColor(inputLen, outputLen){
+      bgArr = [];
+      for (i = 0; i < inputLen + outputLen; i++){
+        if(i < inputLen){
+          bgArr[i] = "rgba(0, 0, 0, 0.1)";
+        }
+        else{
+          bgArr[i] = "red";
+        }
+      }
+      return bgArr;
+    }
+
+    window.onload = function() {
+      // var ctx = document.getElementById('forecast-chart').getContext('2d');
+      // window.myPie = new Chart(ctx, config);
+      {% if cluster_flag %}
+      currentChart = window.myPie;
+      var ctxVol = document.getElementById('volume-chart').getContext('2d');
+      window.myBar = new Chart(ctxVol, configVol);
+      var ctxInt = document.getElementById('int-chart').getContext('2d');
+      window.myBar = new Chart(ctxInt, configInt);
+      var ctxCombineVolInt = document.getElementById('combine-cluster-chart').getContext('2d');
+      window.myBar = new Chart(ctxCombineVolInt, configCombineCluster);
+      var ctxScatterCluster = document.getElementById('cluster-scatter-graph').getContext('2d');
+      window.myBar = new Chart(ctxScatterCluster, configScatterCluster);
+      {% endif %}
+    };
+
+
+    $('#submit_text').bind('click',function(){
+      if(currentChart) {
+        currentChart.destroy();
+      }
+      console.log(currentChart)
+      $('#key').val("empty");
+      var result = [];
+      var input_result = [];
+      var text = document.getElementById("textquery").value;
+      var i = 0;
+      for(const key in output_dict){
+        if(key.includes(text)){
+          result[i] = output_dict[key];
+          input_result[i] = input_dict[key];
+          i++;
+        }
+      }
+
+      if(result.length == 0){
+        document.getElementById("info").innerHTML = "Could not find any entries matching query";
+        if(currentChart) {
+        currentChart.destroy();
+      }
+      } else {
+        document.getElementById("info").innerHTML = "Number of entries found: " + result.length;
+        (combine_pred = []).length = result[0][4].length;
+        (combine_output = []).length = result[0][3].length;
+        (combine_input = []).length = input_result[0].length;
+        combine_pred.fill(0);
+        combine_output.fill(0);
+        combine_input.fill(0); 
+        // console.log(result.length);
+        for(i=0; i<result.length; i++){
+          // console.log(result[i][3]);
+          j = 0;
+          while(j < result[0][3].length){
+            console.log(result[i][3][j])
+            combine_output[j] += result[i][3][j];
+            j++;
+          }
+          j = 0;
+          while(j < result[0][4].length){
+            combine_pred[j] += result[i][4][j];
+            j++;
+          }
+        }
+
+        for(i=0; i<input_result.length; i++){
+          j = 0;
+          while(j < input_result[0].length){
+            combine_input[j] += input_result[i][j];
+            j++;
+          }
+        }
+        console.log(combine_input);
+
+        var combine_inputData = {
+        label: 'Input Demand',
+        data: combine_input
+      };
+
+      var combine_outputData = {
+        label: 'Predicted Demand',
+        data: combine_appendZerostoOutputArr(combine_input.length, combine_output, combine_pred),
+        backgroundColor: 'rgba(0,0,255,0.5)'
+      };
+
+      var combine_totalData = {
+        labels: makeLabel(combine_input.length + combine_output.length),
+        datasets: [combine_inputData, combine_outputData]
+      };
+
+      var config_combine = {
+      type: 'line',
+      data: combine_totalData,
+      options: {
+        elements: { point: { hitRadius: 20, hoverRadius: 20 } },
+        responsive: true,
+        title: {
+          display: true,
+          text: "Combined"
+      },
+      legend: {
+            display: true,
+            position: 'bottom'
+        }
+    }
+    };
+
+    console.log(combine_input.length + combine_pred.length + combine_output.length);
+    console.log(combine_totalData.labels.length)
+
+    if(currentChart){currentChart.destroy();}
+      var ctx_combine = document.getElementById('forecast-chart').getContext('2d');
+      window.myPie = new Chart(ctx_combine, config_combine);
+      currentChart = window.myPie;
+
+      }
+    });
+
+
+    function combine_appendZerostoOutputArr(inputLen, outputArr, pred){
+        var final_arr = [];
+        var count = 0;
+        var countMix = 0;
+        for (i = 0; i < inputLen + outputArr.length; i++){
+        if(i < inputLen && i < (inputLen - pred.length)){
+          final_arr[i] = null;
+        }
+        else if(i < inputLen){
+          final_arr[i] = pred[countMix];
+          countMix++;
+        }
+        else{
+          final_arr[i] = outputArr[count];
+          count++;
+        }
+      }
+      return final_arr;
+      }
+
+
+
+    
+
+    ////////////////////////////////////
+    $(document).ready(function () {
+    $('nav a[href*="#"]').on('click', function(){
+        $('html, body').animate({
+            scrollTop: $($(this).attr('href')).offset().top - 100
+        }, 2000);
+    });
+    $('a[href*="#"]').on('click', function(){
+        $('html, body').animate({
+            scrollTop: $($(this).attr('href')).offset().top - 100
+        }, 1500);
+    });
+    $('#up').on('click', function(){
+        $('html, body').animate({
+            scrollTop: 0
+        }, 2000);
+    });
+    AOS.init({
+        easing: "ease",
+        duration: 1800,
+        once: true
+    })
+
+  });
+
+    
+   </script>
+
+{% endblock %}

@@ -1,7 +1,14 @@
 import os
 import json
 
-with open('/etc/config.json') as config_file:
+
+"""
+Change in production
+
+"""
+# with open('/etc/config.json') as config_file:
+#     config = json.load(config_file)
+with open('/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/config.json') as config_file:
     config = json.load(config_file)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -22,7 +29,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'files/')
 MEDIA_URL = '/dashboard/'
 
 # ALLOWED_HOSTS = ['45.33.96.174']
-ALLOWED_HOSTS = ['45.33.96.174', '127.0.0.1:8000']
+ALLOWED_HOSTS = ['45.33.96.174', '127.0.0.1']
 
 STATICFILES_DIRS = [
    #  os.path.join(BASE_DIR, 'static'),
@@ -83,10 +90,16 @@ WSGI_APPLICATION = 'forecast_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+"""
+Change in production
+
+"""
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': '/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/db.sqlite3'
     }
 }
 

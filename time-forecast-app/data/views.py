@@ -10,6 +10,8 @@ import boto3
 import boto3.session
 from django.contrib.auth.decorators import login_required
 from collections import Counter
+from processing.process_demo import process_demo
+import requests
 
 @login_required
 def input_create_view(request):
@@ -123,3 +125,45 @@ def dashboard_view(request, id):
         'int_count': int_count,
     }
     return render(request, "output/dashboard.html", context)
+
+def covid_view(request):
+    response = requests.get("https://api.covidtracking.com/v1/us/daily.csv").text
+    splits = response.splitlines()
+    keys = splits[0]
+    values = splits[1:]
+
+    covid_dict = {}
+
+    date = []
+    hospitalized = []
+    in_icu = []
+    on_ventilator = []
+    death = []
+    positive = []
+
+    for value in values:
+        value_split = value.split(",")
+        if value_split[22] == "" or value_split[20] == "" or value_split[7] == "" or value_split[9] == "" or value_split[19] == "":
+            continue;
+        date.append(value_split[0])
+        positive.append(int(value_split[22]))
+        hospitalized.append(int(value_split[20]))
+        in_icu.append(int(value_split[7]))
+        on_ventilator.append(int(value_split[9]))
+        death.append(int(value_split[19]))
+
+    key_split = keys.split(",")
+    covid_dict[key_split[2]] = positive
+    covid_dict[key_split[5]] = hospitalized
+    covid_dict[key_split[7]] = in_icu
+    covid_dict[key_split[9]] = on_ventilator
+    covid_dict[key_split[12]] = death
+
+    process_demo(covid_dict)
+
+    # print(covid_dict)
+
+    context = {
+
+    }
+    return render(request, "output/covid.html", context)

@@ -1,0 +1,6 @@
+**/env
+**/__pycache__/
+**/config.json
+**/db.sqlite3
+**/files
+**/log

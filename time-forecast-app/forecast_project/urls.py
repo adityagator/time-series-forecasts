@@ -6,13 +6,13 @@ from pages.views import help_view
 from pages.views import contact_view
 from data.views import input_create_view
 from data.views import dashboard_view
+from data.views import covid_view
 from processing.views import processing_view
 from django.conf import settings
 from django.conf.urls.static import static
 from users import views as user_views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth import views as auth_views
-# from pages.templates import home.html as landing_page
 
 urlpatterns = [
     # page paths
@@ -25,7 +25,6 @@ urlpatterns = [
     path('dashboard/<int:id>', dashboard_view),
     # user paths
     path('register/', user_views.register_view, name='register'),
-    # path('profile/', user_views.profile_view, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('password-reset/', auth_views.PasswordResetView.as_view(template_name='password_reset.html'), name='password_reset'),
@@ -40,11 +39,9 @@ urlpatterns = [
              template_name='password_reset_complete.html'
          ),
          name='password_reset_complete'),
-    # path('home/<str:username>', user_views.user_home_view, name='user_home'),
-    # path('home/', user_views.user_home_view, name='user_home'),
-
+    # covid
+    path('covid/', covid_view, name='covid'),
     path('admin/', admin.site.urls),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
-# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += staticfiles_urlpatterns()

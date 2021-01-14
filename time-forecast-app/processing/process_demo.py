@@ -53,19 +53,19 @@ def process_demo(dict_data):
 
 
     # Croston Algorithm
-        try:
-            rmse_cros, mape_cros, pred_cros = algo_obj.croston_calculate()
-            # algo_obj.rmse2[Constants.CROSTON] = rmse_cros
-            # algo_obj.pred[Constants.CROSTON] = pred_cros
-            algo_obj.rmse_pred[Constants.CROSTON] = [rmse_cros, [pred_cros]]
-            if(rmse_cros < min_rmse):
-                min_rmse = rmse_cros
-                min_algo = "croston"
-                min_mape = mape_cros
-                min_pred = pred_cros
-        except Exception as err:
-            logging.error("Error while using %s on %s", algo_name, key)
-            logging.error(traceback.format_exc())
+        # try:
+        #     rmse_cros, mape_cros, pred_cros = algo_obj.croston_calculate()
+        #     # algo_obj.rmse2[Constants.CROSTON] = rmse_cros
+        #     # algo_obj.pred[Constants.CROSTON] = pred_cros
+        #     algo_obj.rmse_pred[Constants.CROSTON] = [rmse_cros, [pred_cros]]
+        #     if(rmse_cros < min_rmse):
+        #         min_rmse = rmse_cros
+        #         min_algo = "croston"
+        #         min_mape = mape_cros
+        #         min_pred = pred_cros
+        # except Exception as err:
+        #     logging.error("Error while using %s on %s", algo_name, key)
+        #     logging.error(traceback.format_exc())
 
     
 

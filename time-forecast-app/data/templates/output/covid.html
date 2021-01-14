@@ -61,6 +61,7 @@
     var input_dict = {{ input_dict|safe }};
 
     var top5_dict = {{ top5_dict|safe }};
+    console.log(top5_dict);
 
     function getTitle(key) {
         var title = null;
@@ -119,11 +120,14 @@
             console.log(key);
             totalData_arr = input_dict[key].concat(output_dict[key][3]);
             top5_map = top5_dict[key]
+            console.log("top5_map")
+            console.log(top5_map)
 
             var top5count = 0;
             var colorsTop5 = ['red', 'rgba(0, 150, 150, 1)', 'rgba(0, 255, 0, 1)', 'rgba(0,0,0,1)', 'rgba(0, 128, 128, 1)'];
             var rank = [];
             for (const keyTop5 in top5_map) {
+                console.log(keyTop5)
                 rank[top5count] = {
                     label: createLabelTop5(keyTop5, top5_map[keyTop5][0]),
                     data: appendZerosTop5(input_dict[key].length, top5_map[keyTop5][1]),

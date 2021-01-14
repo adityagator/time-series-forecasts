@@ -15,11 +15,10 @@ import logging
 import traceback
 import boto3
 from datetime import datetime
+import numpy as np
 warnings.filterwarnings("ignore")
 
 def process_demo(dict_data):
-    print("dict_data")
-    print(dict_data)
     count = 0
     output_dict = {}
     output_obj = OutputData()
@@ -29,13 +28,15 @@ def process_demo(dict_data):
         min_mape = sys.maxsize
         min_algo = ""
         min_pred = []
+        test_num = int(len(value)/5)
+        # algo_obj = Algorithms(value,
+        #                     value[0:-Constants.TESTING_MONTHS],
+        #                     value[-Constants.TESTING_MONTHS:])
         algo_obj = Algorithms(value,
-                            value[0:-Constants.TESTING_MONTHS],
-                            value[-Constants.TESTING_MONTHS:])
+                            value[0:-test_num],
+                            value[-test_num:])
         min_params = []
-        # ship_pt, prod_h, part_no = key.split("^")
         
-
         # Similar Algorithms: found in statsmodels
         for algo_name in Constants.SIMILAR_ALGORITHMS:
             try:
@@ -134,11 +135,15 @@ def process_demo(dict_data):
         # round the predicted values
         for i in range(0, len(predicted_output)):
             predicted_output[i] = round(predicted_output[i])
+        if isinstance(min_pred,(np.ndarray)):
+            min_pred = min_pred.tolist()
+        if isinstance(predicted_output,(np.ndarray)):
+            predicted_output = predicted_output.tolist()
         output_dict[key] = [min_algo, min_rmse, min_mape, predicted_output, min_pred]
         count += 1
         top5 = algo_obj.rankTopAlgorithms(algo_obj.rmse_pred)
         top5_dict[key] = top5
-        print("top5_dict:")
-        print(top5_dict)
-        print(top5)
-        print(count)
+    
+    output_obj.output_dict = output_dict
+    output_obj.top5_dict = top5_dict
+    return output_obj   

@@ -1,4 +1,0 @@
-﻿Ship pt,Product Hierarchy,Part Number,Month 1,Month 2,Month 3,Month 4,Month 5,Month 6,Month 7,Month 8,Month 9,Month 10,Month 11,Month 12,Algorithm,RMSE,MAPE,Volume,Intermittency
-﻿ZTRD10037401,ZTRD,10037401,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,MOVING AVERAGE,0.86,73.21,medium,medium
-ZTRD10037402,ZTRD,10037402,1.0,0.0,2.0,0.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,HWES,0.77,57.83,medium,medium
-ZTRD10037404,ZTRD,10037404,2.0,1.0,3.0,1.0,3.0,1.0,2.0,1.0,1.0,4.0,2.0,1.0,HWES,2.38,42.72,high,high

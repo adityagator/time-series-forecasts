@@ -141,16 +141,16 @@ def covid_view(request):
     death = []
     positive = []
 
-    for value in values:
+    for value in reversed(values):
         value_split = value.split(",")
         if value_split[22] == "" or value_split[20] == "" or value_split[7] == "" or value_split[9] == "" or value_split[19] == "":
             continue;
         date.append(value_split[0])
-        positive.append(int(value_split[22]))
-        hospitalized.append(int(value_split[20]))
+        positive.append(int(value_split[2]))
+        hospitalized.append(int(value_split[5]))
         in_icu.append(int(value_split[7]))
         on_ventilator.append(int(value_split[9]))
-        death.append(int(value_split[19]))
+        death.append(int(value_split[12]))
 
     key_split = keys.split(",")
     covid_dict[key_split[2]] = positive
@@ -159,11 +159,14 @@ def covid_view(request):
     covid_dict[key_split[9]] = on_ventilator
     covid_dict[key_split[12]] = death
 
-    process_demo(covid_dict)
+    output_obj = process_demo(covid_dict)
 
     # print(covid_dict)
 
     context = {
-
+        'date_arr': date,
+        'input_dict': covid_dict,
+        'output_dict': output_obj.output_dict,
+        'top5_dict': output_obj.top5_dict
     }
     return render(request, "output/covid.html", context)

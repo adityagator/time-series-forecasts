@@ -40,9 +40,6 @@ class Algorithms:
         min5RMSE = [] 
         min5Dict = {}
 
-        # print("UNRANKED DICT")
-        # print(unranked_dict)
-        # print()
         if len(unranked_dict) == 0:
             unranked_dict["NOT ENOUGH DATA"] = [0, [0] * len(self.total + Constants.NUMBER_OF_PREDICTIONS)]
             return unranked_dict
@@ -63,7 +60,9 @@ class Algorithms:
             
             for key,values in unranked_dict.items():
                 if(values[0]==min_rmse):
-                    min5Dict[key] = values
+                    if isinstance(values[1], numpy.ndarray):
+                        values[1] = values[1].tolist()
+                    min5Dict[key] = values[1]
                     min5Algorithms.append(key)
                     min5RMSE.append(min_rmse)
                     rmse_list.remove(min_rmse)
@@ -74,7 +73,6 @@ class Algorithms:
         #     min5Dict[alg] = unranked_dict[alg]
         while len(min5Dict) > 5:
             min5Dict.popitem()
-        print(min5Dict)
         return min5Dict
     
     # create a differenced series for ARIMA, AR etc
@@ -325,18 +323,6 @@ class Algorithms:
     def getPredictedValues(self, min_algo, params):
         if min_algo in Constants.SIMILAR_ALGORITHMS:
             return self.get_predictions_rmse_mape_final(min_algo)
-        # if min_algo == Constants.ARIMA:
-        #     return get_predictions_rmse_mape_final(min_algo)
-        # elif min_algo == Constants.MOVING_AVERAGE:
-        #     return self.ma_final()
-        # elif min_algo == Constants.AR:
-        #     return self.ar_final()
-        # elif min_algo == Constants.ARMA:
-        #     return self.arma_final()
-        # elif min_algo == Constants.SARIMA:
-        #     return self.sarima_final()
-        # elif min_algo == Constants.SES:
-        #     return self.ses_final()
         elif min_algo == Constants.HWES:
             return self.hwes_final(params)
         elif min_algo == Constants.CROSTON:

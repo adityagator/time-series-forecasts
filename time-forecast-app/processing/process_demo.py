@@ -74,7 +74,7 @@ def process_demo(dict_data):
             rmse_fnn, mape_fnn, pred_fnn = algo_obj.fnn_calculate()
             if (rmse_fnn < min_rmse):
                 min_rmse = rmse_fnn
-                min_algo = "FNN"
+                min_algo = Constants.FNN
                 min_mape = mape_fnn
                 min_pred = pred_fnn
         except Exception as err:
@@ -143,7 +143,7 @@ def process_demo(dict_data):
         count += 1
         top5 = algo_obj.rankTopAlgorithms(algo_obj.rmse_pred)
         top5_dict[key] = top5
-    
+
     output_obj.output_dict = output_dict
     output_obj.top5_dict = top5_dict
     return output_obj   

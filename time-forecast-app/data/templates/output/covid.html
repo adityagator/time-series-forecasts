@@ -20,16 +20,12 @@
                                                                       font-size: small;
                                                                       " data-aos="fade-in" data-aos-delay="300">
 
-        <input type="text" id="textquery" placeholder="Query SKUs"
-            style="border-style: groove; margin-right: 5px; width: fit-content">
-        <input type="submit" value="Submit" id="submit_text"
-            style="margin-right: 20px; padding: 0.25rem; background-color: #6A7AB5; color: white; opacity: 0.7; width: auto;">
 
 
         <select id="key" name="key" style="border-style: groove;">
             <option id="empty" value="empty">Select Dropdown</option>
             {% for key in output_dict %}
-            <option value={{ key }}>{{ key }}</option>
+            <option value = "{{ key }}"">{{ key }}</option>
             {% endfor %}
         </select>
     </div>
@@ -61,6 +57,7 @@
     var input_dict = {{ input_dict|safe }};
 
     var top5_dict = {{ top5_dict|safe }};
+    var date_arr = {{ date_arr|safe }};
     console.log(top5_dict);
 
     function getTitle(key) {
@@ -92,6 +89,9 @@
 
 
     function appendZerosTop5(inputLen, outputArr) {
+        console.log("appendZerosTop5")
+        console.log(inputLen)
+        console.log(outputArr)
         var final_arr = [];
         var count = 0;
         var countMix = 0;
@@ -113,11 +113,11 @@
 
     $("select#key").change(function () {
         key = $("#key :selected").val();
-        document.getElementById("textquery").value = "";
+        console.log(key);
         document.getElementById("info").innerHTML = "";
         if (key.length != 0) {
             key = key.replace(/@/g, " ")
-            console.log(key);
+            // console.log(key);
             totalData_arr = input_dict[key].concat(output_dict[key][3]);
             top5_map = top5_dict[key]
             console.log("top5_map")
@@ -130,9 +130,9 @@
                 console.log(keyTop5)
                 rank[top5count] = {
                     label: createLabelTop5(keyTop5, top5_map[keyTop5][0]),
-                    data: appendZerosTop5(input_dict[key].length, top5_map[keyTop5][1]),
+                    data: appendZerosTop5(input_dict[key].length, top5_map[keyTop5]),
                     backgroundColor: colorsTop5[top5count],
-                    lineWidth: 10,
+                    // lineWidth: 10,
                     fill: false,
                     hidden: true
                 }
@@ -141,42 +141,44 @@
 
 
             var inputData = {
-                label: 'Input Demand',
+                label: 'Historical Data',
                 data: input_dict[key],
             };
-
+            console.log("rank")
+            console.log(rank)
             var outputData = {
-                label: 'Predicted Demand',
+                label: 'Predicted Data',
                 data: appendZerostoOutputArr(input_dict[key].length, output_dict[key][3]),
                 backgroundColor: 'rgba(0,0,255,0.3)',
             };
             if (rank.length >= 5) {
                 var totalData = {
-                    labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+                    labels: date_arr,
                     datasets: [inputData, outputData, rank[1], rank[2], rank[3], rank[4]]
                 };
             } else if (rank.length == 4) {
                 var totalData = {
-                    labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+                    labels: date_arr,
                     datasets: [inputData, outputData, rank[1], rank[2], rank[3]]
                 };
             } else if (rank.length == 3) {
                 var totalData = {
-                    labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+                    labels: date_arr,
                     datasets: [inputData, outputData, rank[1], rank[2]]
                 };
             } else if (rank.length == 2) {
                 var totalData = {
-                    labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+                    labels: date_arr,
                     datasets: [inputData, outputData, rank[1]]
                 };
             } else {
                 var totalData = {
-                    labels: makeLabel(input_dict[key].length + output_dict[key][3].length),
+                    labels: date_arr,
                     datasets: [inputData, outputData]
                 }
             }
-
+            console.log("TOTAL DATA")
+            console.log(totalData)
             var config2 = {
                 type: 'line',
                 data: totalData,
@@ -214,151 +216,6 @@
         var params = dataMap[determineChart]
         currentChart = new Chart(ctx)[params.method](params.data, {});
     }
-
-    function makeLabel(num) {
-        var label = [];
-        for (i = 1; i <= num; i++) {
-            label[i - 1] = "Month".concat(" ").concat(i.toString());
-        }
-        return label;
-    }
-
-    function getBackgroundColor(inputLen, outputLen) {
-        bgArr = [];
-        for (i = 0; i < inputLen + outputLen; i++) {
-            if (i < inputLen) {
-                bgArr[i] = "rgba(0, 0, 0, 0.1)";
-            }
-            else {
-                bgArr[i] = "red";
-            }
-        }
-        return bgArr;
-    }
-
-    $('#submit_text').bind('click', function () {
-        if (currentChart) {
-            currentChart.destroy();
-        }
-        console.log(currentChart)
-        $('#key').val("empty");
-        var result = [];
-        var input_result = [];
-        var text = document.getElementById("textquery").value;
-        var i = 0;
-        for (const key in output_dict) {
-            if (key.includes(text)) {
-                result[i] = output_dict[key];
-                input_result[i] = input_dict[key];
-                i++;
-            }
-        }
-
-        if (result.length == 0) {
-            document.getElementById("info").innerHTML = "Could not find any entries matching query";
-            if (currentChart) {
-                currentChart.destroy();
-            }
-        } else {
-            document.getElementById("info").innerHTML = "Number of entries found: " + result.length;
-            (combine_pred = []).length = result[0][4].length;
-            (combine_output = []).length = result[0][3].length;
-            (combine_input = []).length = input_result[0].length;
-            combine_pred.fill(0);
-            combine_output.fill(0);
-            combine_input.fill(0);
-            // console.log(result.length);
-            for (i = 0; i < result.length; i++) {
-                // console.log(result[i][3]);
-                j = 0;
-                while (j < result[0][3].length) {
-                    console.log(result[i][3][j])
-                    combine_output[j] += result[i][3][j];
-                    j++;
-                }
-                j = 0;
-                while (j < result[0][4].length) {
-                    combine_pred[j] += result[i][4][j];
-                    j++;
-                }
-            }
-
-            for (i = 0; i < input_result.length; i++) {
-                j = 0;
-                while (j < input_result[0].length) {
-                    combine_input[j] += input_result[i][j];
-                    j++;
-                }
-            }
-            console.log(combine_input);
-
-            var combine_inputData = {
-                label: 'Input Demand',
-                data: combine_input
-            };
-
-            var combine_outputData = {
-                label: 'Predicted Demand',
-                data: combine_appendZerostoOutputArr(combine_input.length, combine_output, combine_pred),
-                backgroundColor: 'rgba(0,0,255,0.5)'
-            };
-
-            var combine_totalData = {
-                labels: makeLabel(combine_input.length + combine_output.length),
-                datasets: [combine_inputData, combine_outputData]
-            };
-
-            var config_combine = {
-                type: 'line',
-                data: combine_totalData,
-                options: {
-                    elements: { point: { hitRadius: 20, hoverRadius: 20 } },
-                    responsive: true,
-                    title: {
-                        display: true,
-                        text: "Combined"
-                    },
-                    legend: {
-                        display: true,
-                        position: 'bottom'
-                    }
-                }
-            };
-
-            console.log(combine_input.length + combine_pred.length + combine_output.length);
-            console.log(combine_totalData.labels.length)
-
-            if (currentChart) { currentChart.destroy(); }
-            var ctx_combine = document.getElementById('forecast-chart').getContext('2d');
-            window.myPie = new Chart(ctx_combine, config_combine);
-            currentChart = window.myPie;
-
-        }
-    });
-
-
-    function combine_appendZerostoOutputArr(inputLen, outputArr, pred) {
-        var final_arr = [];
-        var count = 0;
-        var countMix = 0;
-        for (i = 0; i < inputLen + outputArr.length; i++) {
-            if (i < inputLen && i < (inputLen - pred.length)) {
-                final_arr[i] = null;
-            }
-            else if (i < inputLen) {
-                final_arr[i] = pred[countMix];
-                countMix++;
-            }
-            else {
-                final_arr[i] = outputArr[count];
-                count++;
-            }
-        }
-        return final_arr;
-    }
-
-
-
 
 
     ////////////////////////////////////

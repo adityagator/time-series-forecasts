@@ -26,15 +26,6 @@ class Algorithms:
         self.data = data
         self.test = test
         self.rmse_pred = {}
-        # print("TOTAL DATA")
-        # print(len(self.total))
-        # print(self.total[0])
-        # print("TRAIN DATA")
-        # print(len(self.data))
-        # print(self.data[0])
-        # print("TEST DATA")
-        # print(len(self.test))
-        # print(self.test[0])
 
     # rank algorithms
     def rankTopAlgorithms(self, unranked_dict):

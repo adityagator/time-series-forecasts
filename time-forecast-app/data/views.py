@@ -12,6 +12,9 @@ from django.contrib.auth.decorators import login_required
 from collections import Counter
 from processing.process_demo import process_demo
 import requests
+# from datetime import datetime
+import datetime
+from processing.constants import Constants
 
 @login_required
 def input_create_view(request):
@@ -127,41 +130,33 @@ def dashboard_view(request, id):
     return render(request, "output/dashboard.html", context)
 
 def covid_view(request):
-    response = requests.get("https://api.covidtracking.com/v1/us/daily.csv").text
-    splits = response.splitlines()
-    keys = splits[0]
-    values = splits[1:]
+    response = requests.get("https://api.covidtracking.com/v1/us/daily.json").json()
 
     covid_dict = {}
 
     date = []
     hospitalized = []
-    in_icu = []
-    on_ventilator = []
     death = []
     positive = []
 
-    for value in reversed(values):
-        value_split = value.split(",")
-        if value_split[22] == "" or value_split[20] == "" or value_split[7] == "" or value_split[9] == "" or value_split[19] == "":
+    for value in reversed(response):
+        if value["date"] == None or value["hospitalizedCurrently"] == None or value["deathIncrease"] == None or value["positiveIncrease"] == None:
             continue;
-        date.append(value_split[0])
-        positive.append(int(value_split[2]))
-        hospitalized.append(int(value_split[5]))
-        in_icu.append(int(value_split[7]))
-        on_ventilator.append(int(value_split[9]))
-        death.append(int(value_split[12]))
+        formatted_date = datetime.datetime.strptime(str(value["date"]), '%Y%m%d').strftime('%m/%d/%Y')
+        date.append(formatted_date)
+        positive.append(value["positiveIncrease"])
+        hospitalized.append(value["hospitalizedCurrently"])
+        death.append(value["deathIncrease"])
 
-    key_split = keys.split(",")
-    covid_dict[key_split[2]] = positive
-    covid_dict[key_split[5]] = hospitalized
-    covid_dict[key_split[7]] = in_icu
-    covid_dict[key_split[9]] = on_ventilator
-    covid_dict[key_split[12]] = death
+    last_date =  date[len(date) - 1]   
+    for i in range(1, Constants.NUMBER_OF_PREDICTIONS + 1):
+        new_date = datetime.datetime.strptime(last_date, '%m/%d/%Y') + datetime.timedelta(days=i)
+        date.append(str(new_date.strftime('%m/%d/%Y')))
+    covid_dict["New COVID Positive Cases"] = positive
+    covid_dict["Hospitalized Currently due to COVID"] = hospitalized
+    covid_dict["New Deaths due to COVID"] = death
 
     output_obj = process_demo(covid_dict)
-
-    # print(covid_dict)
 
     context = {
         'date_arr': date,

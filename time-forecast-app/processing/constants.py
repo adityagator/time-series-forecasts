@@ -4,17 +4,17 @@ class Constants:
     TESTING_MONTHS = 12
     NUMBER_OF_PREDICTIONS = 12
 
-    ARIMA = "ARIMA"
-    MOVING_AVERAGE = "MOVING AVERAGE"
-    AR = "AR"
-    ARMA = "ARMA"
-    SARIMA = "SARIMA"
-    SES = "SES"
-    RNN = "RNN"
-    HWES = "HWES"
-    CROSTON = "croston"
+    ARIMA = "Autoregressive Integrated Moving Average"
+    MOVING_AVERAGE = "Moving Average"
+    AR = "Auto Regression"
+    ARMA = "Autoregressive Moving Average"
+    SARIMA = "Seasonal Autoregressive Integrated Moving Average"
+    SES = "Simple Exponential Smoothing"
+    RNN = "Recurrent Neural Networks"
+    HWES = "Holt Winters Exponential Smoothing"
+    CROSTON = "Croston"
     VARMA = "VARMA"
-    FNN = "FNN"
+    FNN = "Feedfoward Neural Network"
 
     SIMILAR_ALGORITHMS = [ARIMA, MOVING_AVERAGE, AR, ARMA, SARIMA, SES]
     

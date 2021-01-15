@@ -192,10 +192,11 @@ button:hover {
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: red;
+    font-family: "Nanum Gothic";
+    background-color: #034694;
     color: white;
     text-align: center;
-    opacity: 0.85;
+    opacity: 0.5;
 }
 /* h1{
     position: absolute;

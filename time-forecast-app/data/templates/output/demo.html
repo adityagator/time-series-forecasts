@@ -1,0 +1,23 @@
+{% extends 'output/dashboard_base.html' %}
+{% block content %}
+<h1>Smart4Kast</h1>
+<h6><b>Should take about a minute</b></h6>
+<h6><b>Page will redirect automatically once results are ready</b></h6>
+
+<h6 style="position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 100%;
+text-align: center;
+z-index: 1;
+font-size: 2rem;
+padding: 1rem;
+-webkit-font-smoothing: antialiased;
+color: red">Quiet please. <br>Neural networks are training</h6>
+
+
+<script>
+    window.location.href="{% url 'covid' %}";
+</script>
+{% endblock %}

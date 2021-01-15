@@ -7,6 +7,7 @@ from pages.views import contact_view
 from data.views import input_create_view
 from data.views import dashboard_view
 from data.views import covid_view
+from data.views import demo_view
 from processing.views import processing_view
 from django.conf import settings
 from django.conf.urls.static import static
@@ -40,6 +41,7 @@ urlpatterns = [
          ),
          name='password_reset_complete'),
     # covid
+    path('demo/', demo_view, name='demo'),
     path('covid/', covid_view, name='covid'),
     path('admin/', admin.site.urls),
 ]

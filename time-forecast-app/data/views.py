@@ -130,6 +130,7 @@ def dashboard_view(request, id):
     return render(request, "output/dashboard.html", context)
 
 def covid_view(request):
+    render(request, "output/demo.html", {})
     response = requests.get("https://api.covidtracking.com/v1/us/daily.json").json()
 
     covid_dict = {}
@@ -165,3 +166,7 @@ def covid_view(request):
         'top5_dict': output_obj.top5_dict
     }
     return render(request, "output/covid.html", context)
+
+def demo_view(request):
+    context = {}
+    return render(request, "output/demo.html", context)

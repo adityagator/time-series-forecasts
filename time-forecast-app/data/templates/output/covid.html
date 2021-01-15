@@ -3,7 +3,7 @@
 {% block content %}
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
-<h1>COVID</h1>
+<h1>COVID-19</h1>
 
 <section class="forecast_results" id="forecast" name="forecast_results">
     <div class="container" data-aos="fade-in" data-aos-delay="200">
@@ -23,7 +23,7 @@
 
 
         <select id="key" name="key" style="border-style: groove;">
-            <option id="empty" value="empty">Select Dropdown</option>
+            <option id="empty" value="empty" selected disabled hidden>Select an option</option>
             {% for key in output_dict %}
             <option value = "{{ key }}"">{{ key }}</option>
             {% endfor %}
@@ -34,20 +34,23 @@
         style="margin-top: 5px; display: flex; color: blue; font-size: small; justify-content: center; align-items: center;">
     </p>
 
-    <canvas id="forecast-chart"></canvas>
+    <canvas id="forecast-chart" style="margin-bottom: 10px;"></canvas>
 
 
     <!-- </div> -->
 
 
 
-</section>
+<!-- </section>
 <footer class="copyright">
     <div class="up" id="up">
         <i class="fas fa-chevron-up"></i>
     </div>
-</footer>
+</footer> -->
 
+<!-- <div class="copyright" style="background-color: #034694;">
+    <p style="font-size: x-small; padding-bottom: 0px;">Developed by Aditya Bharadwaj and Kapish Yadav. Designed by Rohit Kamath and Juan Salazar</p>
+</div> -->
 
 
 
@@ -132,7 +135,7 @@
                     label: createLabelTop5(keyTop5, top5_map[keyTop5][0]),
                     data: appendZerosTop5(input_dict[key].length, top5_map[keyTop5]),
                     backgroundColor: colorsTop5[top5count],
-                    // lineWidth: 10,
+                    lineWidth: 10,
                     fill: false,
                     hidden: true
                 }

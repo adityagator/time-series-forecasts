@@ -346,7 +346,7 @@
         for(const keyTop5 in top5_map){
           rank[top5count] = {
           label: createLabelTop5(keyTop5, top5_map[keyTop5][0]),
-          data: appendZerosTop5(input_dict[key].length, top5_map[keyTop5][1]),
+          data: appendZerosTop5(input_dict[key].length, top5_map[keyTop5]),
           backgroundColor: colorsTop5[top5count],
           lineWidth: 10,
           // borderDash: [10,5] ,
@@ -457,7 +457,7 @@
     function makeLabel(num){
       var label = [];
       for (i = 1; i <= num; i++){
-        label[i - 1] = "Month".concat(" ").concat(i.toString());
+        label[i - 1] = "Data Point ".concat(i.toString());
       }
       return label;
     }

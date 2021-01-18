@@ -205,3 +205,11 @@ button:hover {
     left: 45%;
     text-align: center;
 } */
+
+.covid-section{
+    
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    min-height: 100vh !important;
+}

@@ -2,51 +2,56 @@
 {% load split_key %}
 {% block content %}
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<div class="covid-section" style = "display: flex;
+flex-direction: column;
+justify-content: flex-end;
+min-height: 100vh;">
+    <h1>COVID-19</h1>
 
-<h1>COVID-19</h1>
-
-<section class="forecast_results" id="forecast" name="forecast_results">
-    <div class="container" data-aos="fade-in" data-aos-delay="200">
-        <h1>Forecast</h1>
-    </div>
-    <div id="query_dashboard" class="container" style=" display: flex;
-                                                                      flex-direction: row;
-                                                                      justify-content: center;
-                                                                      align-items: center;
-                                                                      text-align: center;
-                                                                      width: auto;
-                                                                      background: none;
-                                                                      border: none;
-                                                                      font-size: small;
-                                                                      " data-aos="fade-in" data-aos-delay="300">
-
-
-
-        <select id="key" name="key" style="border-style: groove;">
-            <option id="empty" value="empty" selected disabled hidden>Select an option</option>
-            {% for key in output_dict %}
-            <option value = "{{ key }}"">{{ key }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <p id="info"
-        style="margin-top: 5px; display: flex; color: blue; font-size: small; justify-content: center; align-items: center;">
-    </p>
-
-    <canvas id="forecast-chart" style="margin-bottom: 10px;"></canvas>
-
-
-    <!-- </div> -->
+    <section class="forecast_results" id="forecast" name="forecast_results">
+        <div class="container" data-aos="fade-in" data-aos-delay="200">
+            <h1>Forecast</h1>
+        </div>
+        <div id="query_dashboard" class="container" style=" display: flex;
+                                                                        flex-direction: row;
+                                                                        justify-content: center;
+                                                                        align-items: center;
+                                                                        text-align: center;
+                                                                        width: auto;
+                                                                        background: none;
+                                                                        border: none;
+                                                                        font-size: small;
+                                                                        " data-aos="fade-in" data-aos-delay="300">
 
 
 
-<!-- </section>
-<footer class="copyright">
-    <div class="up" id="up">
-        <i class="fas fa-chevron-up"></i>
-    </div>
-</footer> -->
+            <select id="key" name="key" style="border-style: groove;">
+                <option id="empty" value="empty" selected disabled hidden>Select an option</option>
+                {% for key in output_dict %}
+                <option value = "{{ key }}"">{{ key }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <p id="info"
+            style="margin-top: 5px; display: flex; color: blue; font-size: small; justify-content: center; align-items: center;">
+        </p>
+
+        <canvas id="forecast-chart" style="margin-bottom: 10px;"></canvas>
+
+
+        <!-- </div> -->
+
+
+
+    </section>
+    <footer class="copyright">
+        <div class="up" id="up">
+            <i class="fas fa-chevron-up"></i>
+        </div>
+    </footer>
+
+</div>
 
 <!-- <div class="copyright" style="background-color: #034694;">
     <p style="font-size: x-small; padding-bottom: 0px;">Developed by Aditya Bharadwaj and Kapish Yadav. Designed by Rohit Kamath and Juan Salazar</p>

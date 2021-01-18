@@ -14,103 +14,7 @@ ValueError: The computed initial AR coefficients are not stationary
 You should induce stationarity, choose a different model order, or you can
 pass your own start_params.
 
-root - ERROR - Error while using Autoregressive Moving Average on New COVID Positive Cases
-root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 43, in process_demo
-    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 124, in get_predictions_rmse_mape
-    model_fit = model.fit(disp=0)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/statsmodels/tsa/arima_model.py", line 985, in fit
-    start_params = self._fit_start_params((k_ar, k_ma, k), method,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
-    start_params = self._fit_start_params_hr(order, start_ar_lags)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/statsmodels/tsa/arima_model.py", line 555, in _fit_start_params_hr
-    raise ValueError("The computed initial AR coefficients are not "
-ValueError: The computed initial AR coefficients are not stationary
-You should induce stationarity, choose a different model order, or you can
-pass your own start_params.
-
 root - ERROR - Error while using Simple Exponential Smoothing on New COVID Positive Cases
-root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
-    opt = minimize(algo_obj.holt_winters_function, x0=x,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
-    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
-    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
-    f = fun(x, *args)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
-    mape = self.mean_absolute_percentage_error(predictions)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
-    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
-IndexError: index 12 is out of bounds for axis 0 with size 12
-
-root - ERROR - Error while using Simple Exponential Smoothing on New COVID Positive Cases
-root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
-    opt = minimize(algo_obj.holt_winters_function, x0=x,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
-    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
-    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
-    f = fun(x, *args)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
-    mape = self.mean_absolute_percentage_error(predictions)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
-    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
-IndexError: index 12 is out of bounds for axis 0 with size 12
-
-root - ERROR - Error while using Simple Exponential Smoothing on Hospitalized Currently due to COVID
-root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
-    opt = minimize(algo_obj.holt_winters_function, x0=x,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
-    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
-    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
-    f = fun(x, *args)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
-    mape = self.mean_absolute_percentage_error(predictions)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
-    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
-IndexError: index 12 is out of bounds for axis 0 with size 12
-
-root - ERROR - Error while using Simple Exponential Smoothing on Hospitalized Currently due to COVID
-root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
-    opt = minimize(algo_obj.holt_winters_function, x0=x,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
-    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
-    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
-    f = fun(x, *args)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
-    mape = self.mean_absolute_percentage_error(predictions)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
-    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
-IndexError: index 12 is out of bounds for axis 0 with size 12
-
-root - ERROR - Error while using Simple Exponential Smoothing on New Deaths due to COVID
-root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
-    opt = minimize(algo_obj.holt_winters_function, x0=x,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
-    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
-    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
-    f = fun(x, *args)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
-    mape = self.mean_absolute_percentage_error(predictions)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
-    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
-IndexError: index 12 is out of bounds for axis 0 with size 12
-
-root - ERROR - Error while using Simple Exponential Smoothing on New Deaths due to COVID
 root - ERROR - Traceback (most recent call last):
   File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
     opt = minimize(algo_obj.holt_winters_function, x0=x,
@@ -142,7 +46,39 @@ ValueError: The computed initial AR coefficients are not stationary
 You should induce stationarity, choose a different model order, or you can
 pass your own start_params.
 
+root - ERROR - Error while using Simple Exponential Smoothing on Hospitalized Currently due to COVID
+root - ERROR - Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
+    opt = minimize(algo_obj.holt_winters_function, x0=x,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
+    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
+    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
+    f = fun(x, *args)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
+    mape = self.mean_absolute_percentage_error(predictions)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
+    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
+IndexError: index 12 is out of bounds for axis 0 with size 12
+
 root - ERROR - Error while using Simple Exponential Smoothing on New COVID Positive Cases
+root - ERROR - Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
+    opt = minimize(algo_obj.holt_winters_function, x0=x,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
+    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
+    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
+    f = fun(x, *args)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
+    mape = self.mean_absolute_percentage_error(predictions)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
+    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
+IndexError: index 12 is out of bounds for axis 0 with size 12
+
+root - ERROR - Error while using Simple Exponential Smoothing on New Deaths due to COVID
 root - ERROR - Traceback (most recent call last):
   File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
     opt = minimize(algo_obj.holt_winters_function, x0=x,
@@ -190,6 +126,7 @@ root - ERROR - Traceback (most recent call last):
     ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
 IndexError: index 12 is out of bounds for axis 0 with size 12
 
+django.request - WARNING - Not Found: /favicon.ico
 root - ERROR - Error while using Autoregressive Moving Average on New COVID Positive Cases
 root - ERROR - Traceback (most recent call last):
   File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 43, in process_demo
@@ -254,6 +191,135 @@ root - ERROR - Traceback (most recent call last):
     ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
 IndexError: index 12 is out of bounds for axis 0 with size 12
 
+django.request - ERROR - Internal Server Error: /covid/
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 469, in parse
+    compile_func = self.tags[command]
+KeyError: 'endfor'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/data/views.py", line 168, in covid_view
+    return render(request, "output/covid.html", context)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/backends/django.py", line 34, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/engine.py", line 143, in get_template
+    template, origin = self.find_template(template_name)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/engine.py", line 125, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/loaders/base.py", line 29, in get_template
+    return Template(
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 156, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 194, in compile_nodelist
+    return parser.parse()
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/loader_tags.py", line 266, in do_extends
+    nodelist = parser.parse()
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/loader_tags.py", line 209, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/defaulttags.py", line 811, in do_for
+    nodelist_loop = parser.parse(('empty', 'endfor',))
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 477, in parse
+    raise self.error(token, e)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 475, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/defaulttags.py", line 966, in do_if
+    nodelist = parser.parse(('endif',))
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 471, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/django/template/base.py", line 521, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 35: 'endfor', expected 'endif'. Did you forget to register or load this tag?
+root - ERROR - Error while using Autoregressive Moving Average on New COVID Positive Cases
+root - ERROR - Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 43, in process_demo
+    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 124, in get_predictions_rmse_mape
+    model_fit = model.fit(disp=0)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/statsmodels/tsa/arima_model.py", line 985, in fit
+    start_params = self._fit_start_params((k_ar, k_ma, k), method,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
+    start_params = self._fit_start_params_hr(order, start_ar_lags)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/statsmodels/tsa/arima_model.py", line 555, in _fit_start_params_hr
+    raise ValueError("The computed initial AR coefficients are not "
+ValueError: The computed initial AR coefficients are not stationary
+You should induce stationarity, choose a different model order, or you can
+pass your own start_params.
+
+root - ERROR - Error while using Simple Exponential Smoothing on New COVID Positive Cases
+root - ERROR - Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
+    opt = minimize(algo_obj.holt_winters_function, x0=x,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
+    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
+    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
+    f = fun(x, *args)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
+    mape = self.mean_absolute_percentage_error(predictions)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
+    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
+IndexError: index 12 is out of bounds for axis 0 with size 12
+
+root - ERROR - Error while using Simple Exponential Smoothing on Hospitalized Currently due to COVID
+root - ERROR - Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
+    opt = minimize(algo_obj.holt_winters_function, x0=x,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
+    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
+    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
+    f = fun(x, *args)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
+    mape = self.mean_absolute_percentage_error(predictions)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
+    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
+IndexError: index 12 is out of bounds for axis 0 with size 12
+
+root - ERROR - Error while using Simple Exponential Smoothing on New Deaths due to COVID
+root - ERROR - Traceback (most recent call last):
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
+    opt = minimize(algo_obj.holt_winters_function, x0=x,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
+    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
+    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
+    f = fun(x, *args)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
+    mape = self.mean_absolute_percentage_error(predictions)
+  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
+    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
+IndexError: index 12 is out of bounds for axis 0 with size 12
+
+django.request - WARNING - Not Found: /favicon.ico
 root - ERROR - Error while using Autoregressive Moving Average on New COVID Positive Cases
 root - ERROR - Traceback (most recent call last):
   File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 43, in process_demo
@@ -382,23 +448,6 @@ root - ERROR - Traceback (most recent call last):
     ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
 IndexError: index 12 is out of bounds for axis 0 with size 12
 
-django.request - WARNING - Not Found: /create/adityagator.github.io
-root - ERROR - Error while using Autoregressive Moving Average on New COVID Positive Cases
-root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 43, in process_demo
-    rmse, mape, pred = algo_obj.get_predictions_rmse_mape(algo_name)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 124, in get_predictions_rmse_mape
-    model_fit = model.fit(disp=0)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/statsmodels/tsa/arima_model.py", line 985, in fit
-    start_params = self._fit_start_params((k_ar, k_ma, k), method,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/statsmodels/tsa/arima_model.py", line 577, in _fit_start_params
-    start_params = self._fit_start_params_hr(order, start_ar_lags)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/statsmodels/tsa/arima_model.py", line 555, in _fit_start_params_hr
-    raise ValueError("The computed initial AR coefficients are not "
-ValueError: The computed initial AR coefficients are not stationary
-You should induce stationarity, choose a different model order, or you can
-pass your own start_params.
-
 root - ERROR - Error while using Autoregressive Moving Average on New COVID Positive Cases
 root - ERROR - Traceback (most recent call last):
   File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 43, in process_demo
@@ -431,56 +480,7 @@ root - ERROR - Traceback (most recent call last):
     ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
 IndexError: index 12 is out of bounds for axis 0 with size 12
 
-root - ERROR - Error while using Simple Exponential Smoothing on New COVID Positive Cases
-root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
-    opt = minimize(algo_obj.holt_winters_function, x0=x,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
-    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
-    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
-    f = fun(x, *args)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
-    mape = self.mean_absolute_percentage_error(predictions)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
-    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
-IndexError: index 12 is out of bounds for axis 0 with size 12
-
-tensorflow - WARNING - 5 out of the last 124 calls to <function Model.make_predict_function.<locals>.predict_function at 0x7f90d8f6e670> triggered tf.function retracing. Tracing is expensive and the excessive number of tracings could be due to (1) creating @tf.function repeatedly in a loop, (2) passing tensors with different shapes, (3) passing Python objects instead of tensors. For (1), please define your @tf.function outside of the loop. For (2), @tf.function has experimental_relax_shapes=True option that relaxes argument shapes that can avoid unnecessary retracing. For (3), please refer to https://www.tensorflow.org/guide/function#controlling_retracing and https://www.tensorflow.org/api_docs/python/tf/function for  more details.
 root - ERROR - Error while using Simple Exponential Smoothing on Hospitalized Currently due to COVID
-root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
-    opt = minimize(algo_obj.holt_winters_function, x0=x,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
-    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
-    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
-    f = fun(x, *args)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
-    mape = self.mean_absolute_percentage_error(predictions)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
-    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
-IndexError: index 12 is out of bounds for axis 0 with size 12
-
-root - ERROR - Error while using Simple Exponential Smoothing on Hospitalized Currently due to COVID
-root - ERROR - Traceback (most recent call last):
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
-    opt = minimize(algo_obj.holt_winters_function, x0=x,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/_minimize.py", line 612, in minimize
-    return _minimize_tnc(fun, x0, args, jac, bounds, callback=callback,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 406, in _minimize_tnc
-    rc, nf, nit, x = moduleTNC.minimize(func_and_grad, x0, low, up, scale,
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/env/lib/python3.8/site-packages/scipy/optimize/tnc.py", line 366, in func_and_grad
-    f = fun(x, *args)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 220, in holt_winters_function
-    mape = self.mean_absolute_percentage_error(predictions)
-  File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/algorithms.py", line 92, in mean_absolute_percentage_error
-    ans = abs((y_true[i] - y_pred[i]) / y_true[i]) * 100
-IndexError: index 12 is out of bounds for axis 0 with size 12
-
-root - ERROR - Error while using Simple Exponential Smoothing on New Deaths due to COVID
 root - ERROR - Traceback (most recent call last):
   File "/Users/adityabharadwaj/Documents/smart4kast2/time-series-forecasts/time-forecast-app/processing/process_demo.py", line 96, in process_demo
     opt = minimize(algo_obj.holt_winters_function, x0=x,
